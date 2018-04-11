@@ -1,8 +1,5 @@
-/services/
-<<<<<<< HEAD
 /contracts/
-/exceptions/
-=======
-/implementation/
->>>>>>> branch 'master' of https://github.com/CharafLachachi/CPSProject.git
 /decorators/
+/exceptions/
+/implementation/
+/services/

@@ -7,6 +7,7 @@ public interface EnvironnementService extends /*include*/ MapService{
 	//Obeservators
 	 
 	public Optional<MobService> getCellContent(int x, int y);
+	//public Content getCellContent(int x, int y);
 	public MobService getMob(int x, int y);
 	
 	

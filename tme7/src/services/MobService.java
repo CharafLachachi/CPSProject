@@ -131,6 +131,7 @@ public interface MobService {
 					// getRow() = getRow()@pre and getCol() = getCol()@pre
 	public void backward();
 	
+	/**TODO pour la suite du projet*/
 	public void turnL();
 	public void turnR();
 	public void strafeL();
