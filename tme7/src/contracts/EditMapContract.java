@@ -63,7 +63,7 @@ public class EditMapContract extends MapContract implements EditMapService {
 	@Override
 	public void setNature(int x, int y, Cell Na) {
 		// pre 0 <= x < getWidth() and 0 <= y < getHeight()
-		if(!((x>=0 && x < getWidth())&& (y>=0 && y >getHeight()))) {
+		if(!((x>=0 && x < getWidth()) && (y>=0 && y <getHeight()))) {
 			throw new PreconditionError("EditMapService", "setNature", "0 <= x < getWidth() and 0 <= y < getHeight()");
 		}
 		// capture

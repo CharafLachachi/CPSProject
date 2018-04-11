@@ -37,7 +37,7 @@ public class MapContract extends MapDecorateur {
 	@Override
 	public void openDoor(int x, int y) {
 		// pre getCellNature(x,y) in {DNC, DWC}
-		if (!(getCellNature(x, y) == Cell.DNC || getCellNature(x, y) == Cell.DNO)) {
+		if (!(getCellNature(x, y) == Cell.DNC || getCellNature(x, y) == Cell.DWC)) {
 			throw new PreconditionError("MapService", "openDoor", "getCellNature(x,y) in {DNC, DWC}");
 		}
 		// capture
@@ -56,7 +56,7 @@ public class MapContract extends MapDecorateur {
 
 		// post getCellNature(x,y)@pre = DWC \implies getCellNature(x,y) = DWO
 		if (cellNature_atPre == Cell.DWC) {
-			if ((getCellNature(x, y) == Cell.DWO)) {
+			if (!(getCellNature(x, y) == Cell.DWO)) {
 				throw new PostconditionError("MapService", "openDoor",
 						"getCellNature(x,y)@pre = DWC \\implies getCellNature(x,y) = DWO");
 			}
@@ -64,7 +64,7 @@ public class MapContract extends MapDecorateur {
 
 		// post getCellNature(x,y)@pre = DNC \implies getCellNature(x,y) = DNO
 		if (cellNature_atPre == Cell.DNC) {
-			if ((getCellNature(x, y) == Cell.DNO)) {
+			if (!(getCellNature(x, y) == Cell.DNO)) {
 				throw new PostconditionError("MapService", "openDoor",
 						"getCellNature(x,y)@pre = DNC \\implies getCellNature(x,y) = DNO");
 			}
@@ -107,7 +107,7 @@ public class MapContract extends MapDecorateur {
 
 		// post getCellNature(x,y)@pre = DWO \implies getCellNature(x,y) = DWC
 		if (cellNature_atPre == Cell.DWO) {
-			if ((getCellNature(x, y) == Cell.DWC)) {
+			if (!(getCellNature(x, y) == Cell.DWC)) {
 				throw new PostconditionError("MapService", "closeDoor",
 						"getCellNature(x,y)@pre = DWO \\implies getCellNature(x,y) = DWC");
 			}
@@ -115,7 +115,7 @@ public class MapContract extends MapDecorateur {
 
 		// post getCellNature(x,y)@pre = DNO \implies getCellNature(x,y) = DNC
 		if (cellNature_atPre == Cell.DNO) {
-			if ((getCellNature(x, y) == Cell.DNC)) {
+			if (!(getCellNature(x, y) == Cell.DNC)) {
 				throw new PostconditionError("MapService", "closeDoor",
 						"getCellNature(x,y)@pre = DNO \\implies getCellNature(x,y) = DNC");
 			}

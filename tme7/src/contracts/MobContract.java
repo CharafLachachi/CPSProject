@@ -91,6 +91,24 @@ public class MobContract extends MobDecorateur implements MobService {
 				}
 			}
 		}
+		//if(getFace() == Dir.N) then 
+		//	if getEnv().getCellNature(getCol(), getRow()+1) != Cell.EMP or Cell.DWO or 
+		// getRow() + 1 < getEnv().getHeight() or  
+		// getEnv().getCellContent(getCol(), getRow() + 1) != Option.No then
+		// getRow() = getRow()@pre and getCol() = getCol()@pre
+		if (face_atPre == Dir.N) {
+			if ((getEnv().getCellNature(col_atPre, row_atPre+1) != Cell.EMP ||
+					getEnv().getCellNature(col_atPre, row_atPre+1) != Cell.DWO) ||
+					row_atPre + 1 < getEnv().getHeight() ||
+					(Optional.ofNullable(getEnv().getMob(col_atPre, row_atPre)).isPresent() == true)) {
+				if (!(getRow() == row_atPre && getCol() == col_atPre)) {
+					throw new PostconditionError("MobService", "forward", "Face nord et le joueur a avance malgre l'insatifaction des conditions");
+				}
+			}
+		}
+		
+		/**TODO les invariants restant*/
+		
 		
 	}
 
