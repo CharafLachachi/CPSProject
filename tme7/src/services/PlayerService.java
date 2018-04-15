@@ -2,7 +2,7 @@ package services;
 
 import java.util.Optional;
 
-public interface Player extends /* include */ EntityService {
+public interface PlayerService extends /* include */ EntityService {
 
 	// observators
 
@@ -31,7 +31,7 @@ public interface Player extends /* include */ EntityService {
 	 * @return pre -1 <= x <= 1 and -1 <= y <= 3
 	 */
 
-	public Cell viewable(int x, int y);
+	public boolean viewable(int x, int y);
 
 	/**
 	 * post LastCom(P)=FF implies step(P) = Forward(P)
