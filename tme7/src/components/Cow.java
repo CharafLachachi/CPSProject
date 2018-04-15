@@ -1,0 +1,43 @@
+package components;
+
+import services.CowService;
+import services.Dir;
+import services.EnvironnementService;
+
+public class Cow extends Entity implements CowService {
+
+	@Override
+	public void init(EnvironnementService env, int x, int y, Dir d, int h) {
+		if (h >= 3 && h <= 4) {
+			setEnv(env);
+			setCol(x);
+			setRow(y);
+			setFace(d);
+			setHp(h);
+		}
+	}
+
+	@Override
+	public void step() {
+
+		int rand = (int) (Math.random() * 3 + 1);
+
+		switch (rand) {
+		case 1:
+				forward();
+			break;
+		case 2:
+				backward();
+			break;
+		case 3:
+				strafeL();
+			break;
+		case 4:
+				strafeR();
+			break;
+
+		}
+
+	}
+
+}
