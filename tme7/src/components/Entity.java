@@ -52,17 +52,19 @@ public class Entity implements EntityService{
 	public void forward() {
 
 		switch (face) {
-		case N:
-			if (row + 1 < env.getHeight()
+		case E:
+			System.err.println(env.getCellNature(col, row + 1));
+			if (row + 1 < env.getWidth()
 					&& (env.getCellNature(col, row + 1).equals(Cell.EMP)
 							|| env.getCellNature(col, row + 1).equals(Cell.DWO))
 					&& env.getCellContent(col, row + 1).equals(Optional.empty())) {
-
 				row += 1;
 			}
 			break;
-		case S:
-			if (row - 1 > 0
+		case W:
+			System.err.println(env.getCellNature(col, row - 1));
+
+			if (row - 1 >= 0
 					&& (env.getCellNature(col, row - 1).equals(Cell.EMP)
 							|| env.getCellNature(col, row - 1).equals(Cell.DWO))
 					&& env.getCellContent(col, row - 1).equals(Optional.empty())) {
@@ -71,8 +73,9 @@ public class Entity implements EntityService{
 			}
 
 			break;
-		case E:
-			if (col + 1 < env.getWidth()
+		case S:
+			System.out.println(env.getCellNature(col + 1, row));
+			if (col + 1 < env.getHeight()
 					&& (env.getCellNature(col + 1, row).equals(Cell.EMP)
 							|| env.getCellNature(col + 1, row).equals(Cell.DNO))
 					&& env.getCellContent(col + 1, row).equals(Optional.empty())) {
@@ -80,13 +83,14 @@ public class Entity implements EntityService{
 				col += 1;
 			}
 			break;
-		case W:
-			if (col - 1 > 0
+		case N:
+			System.out.println(env.getCellNature(col - 1, row));
+			if (col - 1 >= 0
 					&& (env.getCellNature(col - 1, row).equals(Cell.EMP)
 							|| env.getCellNature(col - 1, row).equals(Cell.DNO))
 					&& env.getCellContent(col - 1, row).equals(Optional.empty())) {
 
-				row -= 1;
+				col -= 1;
 			}
 			break;
 
@@ -98,7 +102,7 @@ public class Entity implements EntityService{
 	@Override
 	public void backward() {
 		switch (face) {
-		case S:
+		case W:
 			if (row + 1 < env.getHeight()
 					&& (env.getCellNature(col, row + 1).equals(Cell.EMP)
 							|| env.getCellNature(col, row + 1).equals(Cell.DWO))
@@ -107,8 +111,8 @@ public class Entity implements EntityService{
 				row += 1;
 			}
 			break;
-		case N:
-			if (row - 1 > 0
+		case E:
+			if (row - 1 >= 0
 					&& (env.getCellNature(col, row - 1).equals(Cell.EMP)
 							|| env.getCellNature(col, row - 1).equals(Cell.DWO))
 					&& env.getCellContent(col, row - 1).equals(Optional.empty())) {
@@ -117,7 +121,7 @@ public class Entity implements EntityService{
 			}
 
 			break;
-		case W:
+		case N:
 			if (col + 1 < env.getWidth()
 					&& (env.getCellNature(col + 1, row).equals(Cell.EMP)
 							|| env.getCellNature(col + 1, row).equals(Cell.DNO))
@@ -126,13 +130,13 @@ public class Entity implements EntityService{
 				col += 1;
 			}
 			break;
-		case E:
-			if (col - 1 > 0
+		case S:
+			if (col - 1 >= 0
 					&& (env.getCellNature(col - 1, row).equals(Cell.EMP)
 							|| env.getCellNature(col - 1, row).equals(Cell.DNO))
 					&& env.getCellContent(col - 1, row).equals(Optional.empty())) {
 
-				row -= 1;
+				col -= 1;
 			}
 			break;
 
@@ -146,16 +150,16 @@ public class Entity implements EntityService{
 	public void turnL() {
 		switch (face) {
 		case N:
-			face = Dir.E;
-			break;
-		case S:
 			face = Dir.W;
 			break;
+		case S:
+			face = Dir.E;
+			break;
 		case E:
-			face = Dir.S;
+			face = Dir.N;
 			break;
 		case W:
-			face = Dir.N;
+			face = Dir.S;
 			break;
 
 		default:
@@ -167,16 +171,16 @@ public class Entity implements EntityService{
 	public void turnR() {
 		switch (face) {
 		case S:
-			face = Dir.E;
-			break;
-		case N:
 			face = Dir.W;
 			break;
+		case N:
+			face = Dir.E;
+			break;
 		case W:
-			face = Dir.S;
+			face = Dir.N;
 			break;
 		case E:
-			face = Dir.N;
+			face = Dir.S;
 			break;
 
 		default:

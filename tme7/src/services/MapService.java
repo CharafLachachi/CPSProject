@@ -7,6 +7,7 @@ public interface MapService {
 	
 	public int getHeight();
 	public int getWidth();
+	public Cell[][] getCells();
 	// pre 0 <= x < getWidth() and 0 <= y < getHeight(M)
 	public Cell getCellNature(int x, int y);
 	
@@ -34,6 +35,7 @@ public interface MapService {
 	// post \Forall 0<= u <= (getWidth() -1) \Forall 0<= v <= (getHeight() -1)
 	// {u != x || v != y} \implies getCellNature(u,v) = getCellNature(u,v)@pre
 	public void closeDoor(int x, int y);
+	
 	
 
 	

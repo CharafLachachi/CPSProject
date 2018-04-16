@@ -1,5 +1,7 @@
 package components;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import services.Cell;
 import services.EditMapService;
 
@@ -26,9 +28,12 @@ public class EditMap implements EditMapService {
 
 	@Override
 	public void init(int w, int h) {
+		System.err.println(w);
+		System.err.println(h);
 		this.width = w;
 		this.height = h;
 		this.cells = new Cell[w][h];
+		initCells();
 
 	}
 
@@ -59,8 +64,8 @@ public class EditMap implements EditMapService {
 	@Override
 	public boolean isReady() {
 		TestRechabel tr = new TestRechabel(cells);
-		int countIn = 0 , xIn =0, yIn =0;
-		int countOut = 0, xOut =0, yOut =0;
+		int countIn = 0, xIn = 0, yIn = 0;
+		int countOut = 0, xOut = 0, yOut = 0;
 		for (int i = 0; i < this.getWidth(); i++) {
 			for (int j = 0; j < this.getHeight(); j++) {
 				if (cells[i][j] == Cell.IN) {
@@ -68,7 +73,7 @@ public class EditMap implements EditMapService {
 					xIn = i;
 					yIn = j;
 				}
-				if (cells[i][j]  == Cell.OUT) {
+				if (cells[i][j] == Cell.OUT) {
 					countOut++;
 					xOut = i;
 					yOut = j;
@@ -76,23 +81,28 @@ public class EditMap implements EditMapService {
 			}
 		}
 		// Test si plus d'une entre ou plus d'une sortie
-		if (countIn > 1 || countOut > 1) return false; 
-		if (tr.isReachable(xIn, yIn, xOut, yOut) == false)  return false;
-		for ( int i =0 ; i < this.getWidth(); i++) {
-						for ( int j= 0 ; j<this.getHeight(); j++) {
-							if ( cells[i][j] == Cell.DNC || cells[i][j] == Cell.DNO ) {
-								if ( ! (getCellNature(i+1,j) == Cell.EMP && getCellNature(i-1, j)== Cell.EMP) ) return false;
-								if ( ! (getCellNature(i,j-1) == Cell.WLL && getCellNature(i, j+1)== Cell.WLL) ) return false;
-							}
-							if (cells[i][j] == Cell.DWC || cells[i][j] == Cell.DWO) {
-								if ( ! (getCellNature(i+1,j) == Cell.WLL && getCellNature(i-1, j)== Cell.WLL) ) return false;
-								if ( ! (getCellNature(i,j-1) == Cell.EMP && getCellNature(i, j+1)== Cell.EMP) ) return false;
-							}
-							}
-						}
-					
-					
-					return true;
+		if (countIn > 1 || countOut > 1)
+			return false;
+		if (tr.isReachable(xIn, yIn, xOut, yOut) == false)
+			return false;
+		for (int i = 0; i < this.getWidth(); i++) {
+			for (int j = 0; j < this.getHeight(); j++) {
+				if (cells[i][j] == Cell.DNC || cells[i][j] == Cell.DNO) {
+					if (!(getCellNature(i + 1, j) == Cell.EMP && getCellNature(i - 1, j) == Cell.EMP))
+						return false;
+					if (!(getCellNature(i, j - 1) == Cell.WLL && getCellNature(i, j + 1) == Cell.WLL))
+						return false;
+				}
+				if (cells[i][j] == Cell.DWC || cells[i][j] == Cell.DWO) {
+					if (!(getCellNature(i + 1, j) == Cell.WLL && getCellNature(i - 1, j) == Cell.WLL))
+						return false;
+					if (!(getCellNature(i, j - 1) == Cell.EMP && getCellNature(i, j + 1) == Cell.EMP))
+						return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override
@@ -100,4 +110,43 @@ public class EditMap implements EditMapService {
 		cells[x][y] = Na;
 	}
 
+	@Override
+	public Cell[][] getCells() {
+		return cells;
+	}
+
+	public void initCells() {
+		for (int i = 0; i < this.getWidth(); i++) {
+			for (int j = 0; j < this.getHeight(); j++) {
+				int randomNum = ThreadLocalRandom.current().nextInt(1, 3);
+				switch (randomNum) {
+				case 1:
+					cells[i][j] = Cell.WLL;
+					break;
+				case 2:
+					cells[i][j] = Cell.EMP;
+					break;
+
+				case 3:
+					cells[i][j] = Cell.IN;
+					break;
+
+				default:
+					cells[i][j] = Cell.DNO;
+					break;
+				}
+
+			}
+		}
+	}
+	public void initCellsEmp() {
+		for (int i = 0; i < this.getWidth(); i++) {
+			for (int j = 0; j < this.getHeight(); j++) {
+				
+					cells[i][j] = Cell.EMP;
+			
+
+			}
+		}
+	}
 }

@@ -45,4 +45,9 @@ private final MapService delegate;
 	protected MapService getDelegate() {
 		return delegate;
 	}
+
+	@Override
+	public Cell[][] getCells() {
+		return delegate.getCells();
+	}
 }
