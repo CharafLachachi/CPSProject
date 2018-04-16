@@ -6,10 +6,16 @@ import services.MobService;
 
 public class MobDecorateur implements MobService {
 
-	private final MobDecorateur delegate;
+	private MobService delegate;
 
-	public MobDecorateur(MobDecorateur delegate) {
+	
+
+	public MobDecorateur(MobService delegate) {
 		this.delegate = delegate;
+	}
+	
+	public MobService getDelegate() {
+		return delegate;
 	}
 	
 	@Override
