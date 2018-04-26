@@ -1,5 +1,6 @@
 package components;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 import services.Cell;
@@ -10,7 +11,7 @@ public class EditMap implements EditMapService {
 	private int width;
 	private int height;
 	private Cell[][] cells;
-
+	private static Random h = new Random();
 	@Override
 	public int getHeight() {
 		return height;
@@ -33,8 +34,10 @@ public class EditMap implements EditMapService {
 		this.width = w;
 		this.height = h;
 		this.cells = new Cell[w][h];
-		initCells();
-
+		//initCells();
+	//	while(!isReady()) {
+			initCellsEmp();
+	//	}
 	}
 
 	@Override
@@ -116,8 +119,10 @@ public class EditMap implements EditMapService {
 	}
 
 	public void initCells() {
-		for (int i = 0; i < this.getWidth(); i++) {
-			for (int j = 0; j < this.getHeight(); j++) {
+		//cells[0][0] = Cell.IN;
+		cells[this.getWidth()-1][this.getHeight() -1] = Cell.OUT;
+		for (int i = 0; i < this.getWidth()-1; i++) {
+			for (int j = 0; j < this.getHeight() -1; j++) {
 				int randomNum = ThreadLocalRandom.current().nextInt(1, 3);
 				switch (randomNum) {
 				case 1:
@@ -125,10 +130,6 @@ public class EditMap implements EditMapService {
 					break;
 				case 2:
 					cells[i][j] = Cell.EMP;
-					break;
-
-				case 3:
-					cells[i][j] = Cell.IN;
 					break;
 
 				default:

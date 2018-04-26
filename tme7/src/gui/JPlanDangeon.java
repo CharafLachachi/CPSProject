@@ -77,11 +77,47 @@ public class JPlanDangeon extends JComponent{
 		g.setColor(PLAYER);
 		g.fillPolygon(p);
 	}
+	private void paintCow(Graphics g) {
+		EntityService cow = labyrinthe.getEntity(1);
+		int vl = cow.getCol();
+		int vc = cow.getRow();
+		Polygon p = new Polygon();
+		if (cow.getFace() == Dir.N) {
+			p.addPoint(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4);
+			p.addPoint(w0 + vc * lc + lc / 4, h0 + vl * lc + 3 * lc / 4);
+			p.addPoint(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
+			p.addPoint(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + 3 * lc / 4);
+		}
+		if (cow.getFace() == Dir.W) {
+			p.addPoint(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2);
+			p.addPoint(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 4);
+			p.addPoint(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
+			p.addPoint(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + 3 * lc / 4);
+		}
+		if (cow.getFace() == Dir.S) {
+			p.addPoint(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4);
+			p.addPoint(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 4);
+			p.addPoint(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
+			p.addPoint(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 4);
+		}
+		if (cow.getFace() == Dir.E) {
+			p.addPoint(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2);
+			p.addPoint(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 4);
+			p.addPoint(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
+			p.addPoint(w0 + vc * lc + lc / 4, h0 + vl * lc + 3 * lc / 4);
+		}
+		g.setColor(CROIX);
+		g.fillPolygon(p);
+	}
 	
 	private void paintCase(Graphics g, int ll, int cc) {
 		Cell maCase = labyrinthe.getEnv().getCellNature(ll, cc);
 		if (maCase == Cell.WLL) {
 			g.setColor(BORD);
+			g.fillRect(w0 + cc * lc + 2, h0 + ll * lc + 2, lc - 2, lc - 2);
+		}
+		if (maCase == Cell.IN) {
+			g.setColor(SORTIE);
 			g.fillRect(w0 + cc * lc + 2, h0 + ll * lc + 2, lc - 2, lc - 2);
 		}
 	}
@@ -92,6 +128,7 @@ public class JPlanDangeon extends JComponent{
 				paintCase(g, ll, cc);
 			}
 		paintPalyer(g);
+		paintCow(g);
 		g.setColor(BORD);
 		g.drawRect(w0, h0, c * lc + 1, l * lc + 1);
 	}

@@ -63,15 +63,13 @@ public class Entity implements EntityService{
 			break;
 		case W:
 			System.err.println(env.getCellNature(col, row - 1));
-
 			if (row - 1 >= 0
 					&& (env.getCellNature(col, row - 1).equals(Cell.EMP)
 							|| env.getCellNature(col, row - 1).equals(Cell.DWO))
 					&& env.getCellContent(col, row - 1).equals(Optional.empty())) {
-
+				if(row > 0)
 				row -= 1;
 			}
-
 			break;
 		case S:
 			System.out.println(env.getCellNature(col + 1, row));

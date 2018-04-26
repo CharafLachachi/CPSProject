@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -19,6 +21,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import components.Cow;
 import components.Engine;
 import components.Environement;
 import components.Player;
@@ -27,11 +30,8 @@ import services.EngineService;
 import services.EntityService;
 import services.EnvironnementService;
 
-/**
- * @author Jacques Duma
- * @version 9 février 2006
- */
-public class Labyrinthe extends JApplet implements ActionListener {
+
+public class Labyrinthe extends JApplet implements KeyListener {
 
 	private static final long serialVersionUID = -5413967253672451073L;
 
@@ -87,10 +87,10 @@ public class Labyrinthe extends JApplet implements ActionListener {
 		gauche.setBorderPainted(false);
 		droite.setBorderPainted(false);
 		reculer.setBorderPainted(false);
-		gauche.addActionListener(this);
-		avancer.addActionListener(this);
-		droite.addActionListener(this);
-		reculer.addActionListener(this);
+	//	gauche.addActionListener(this);
+	//	avancer.addActionListener(this);
+	//	droite.addActionListener(this);
+	//	reculer.addActionListener(this);
 		JPanel p = new JPanel();
 		JPanel m = new JPanel(new GridLayout(2, 1));
 		m.add(avancer);
@@ -108,14 +108,17 @@ public class Labyrinthe extends JApplet implements ActionListener {
 
 
 	public void init() {
+		EntityService cow = new Cow();
 		EntityService player = new Player();
 		EnvironnementService env = new Environement();
 		env.init(500, 500);
 		
-		
-		player.init(env, 1, 1, Dir.N);
+		cow.init(env, 3, 3, Dir.N,4);
+		player.init(env, 0, 0, Dir.N);
 		labyrinthe.init(env);
 		labyrinthe.addEntity(player);
+		labyrinthe.addEntity(cow);
+		cow.step();
 		
 		
 		vent[0] = createImageIcon(I_nord);
@@ -152,6 +155,7 @@ public class Labyrinthe extends JApplet implements ActionListener {
 		frame.setLocationRelativeTo(null);
 		frame.setResizable(true);
 		frame.setVisible(true);
+		
 	}
 //
 	public void actionPerformed(ActionEvent e) {
@@ -169,9 +173,29 @@ public class Labyrinthe extends JApplet implements ActionListener {
 	}
 
 
-
 	private void actualiserBoutons() {
 		planLabyrinthe.repaint();
 
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		System.out.println("je click");
+		System.err.println(e.getKeyCode());
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		System.out.println("je click");
+
+		System.err.println(e.getKeyCode());
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		System.err.println(e.getKeyCode());
+		
 	}
 }
