@@ -36,7 +36,7 @@ public class EditMap implements EditMapService {
 		this.cells = new Cell[w][h];
 		//initCells();
 	//	while(!isReady()) {
-			initCellsEmp();
+			initCells();
 	//	}
 	}
 
@@ -119,10 +119,8 @@ public class EditMap implements EditMapService {
 	}
 
 	public void initCells() {
-		//cells[0][0] = Cell.IN;
-		cells[this.getWidth()-1][this.getHeight() -1] = Cell.OUT;
-		for (int i = 0; i < this.getWidth()-1; i++) {
-			for (int j = 0; j < this.getHeight() -1; j++) {
+		for (int i = 0; i < this.getWidth(); i++) {
+			for (int j = 0; j < this.getHeight() ; j++) {
 				int randomNum = ThreadLocalRandom.current().nextInt(1, 3);
 				switch (randomNum) {
 				case 1:
@@ -139,6 +137,8 @@ public class EditMap implements EditMapService {
 
 			}
 		}
+		cells[0][0] = Cell.IN;
+		cells[this.getWidth()-1][this.getHeight() -1] = Cell.OUT;
 	}
 	public void initCellsEmp() {
 		for (int i = 0; i < this.getWidth(); i++) {

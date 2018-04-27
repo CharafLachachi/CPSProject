@@ -45,7 +45,7 @@ public class MainController {
 		EntityService cow = new Cow();
 		player = new Player();
 		EnvironnementService env = new Environement();
-		env.init(500, 500);
+		env.init(25, 25);
 
 		cow.init(env, 3, 3, Dir.S, 4);
 		player.init(env, 0, 0, Dir.N);
@@ -54,8 +54,8 @@ public class MainController {
 		labyrinthe.addEntity(cow);
 		cow.step();
 
-		l = 25;
-		c = 25;
+		l = 1;
+		c = 1;
 		Insets in = mapGrid.getInsets();
 		w = labyrinthe.getEnv().getWidth();
 		h = labyrinthe.getEnv().getHeight();
@@ -70,17 +70,18 @@ public class MainController {
 			}
 		paintPlayer();
 		paintCow();
-		Platform.runLater(() -> new Thread(() -> {
-			while (cow.getHp() > 0) {
-				cow.step();
-				paintCow();
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start());
+		// lancer dans un thread le mouvement de la vache
+//		Platform.runLater(() -> new Thread(() -> {
+//			while (cow.getHp() > 0) {
+//				cow.step();
+//				paintCow();
+//				try {
+//					Thread.sleep(2000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}).start());
 	}
 
 	public void paintCase(int col, int row) {
@@ -107,8 +108,8 @@ public class MainController {
 		mapGrid.getChildren().addAll(rect);
 	}
 
+	// methode pour dessiner le joueur au debut et a l'appel des fonction de direction
 	private void paintPlayer() {
-
 		EntityService voyageur = labyrinthe.getEntity(0);
 		int vl = voyageur.getCol();
 		int vc = voyageur.getRow();
@@ -151,7 +152,7 @@ public class MainController {
 		}
 
 	}
-
+	// methode pour dessiner le joueur au debut et a l'appel des fonction de direction
 	private void paintCow() {
 		EntityService voyageur = labyrinthe.getEntity(1);
 		int vl = voyageur.getCol();
@@ -195,6 +196,7 @@ public class MainController {
 		}
 	}
 
+	//Listner pour les direction sur le clavier permettant le deplcaement du joueur
 	public void movePlayer(KeyEvent e) {
 		if (e.getCode().equals(KeyCode.UP)) {
 			System.out.println("je suis dans up");

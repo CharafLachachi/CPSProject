@@ -53,7 +53,7 @@ public class Entity implements EntityService{
 
 		switch (face) {
 		case E:
-			System.err.println(env.getCellNature(col, row + 1));
+			System.err.println("EST "+env.getCellNature(col, row + 1));
 			if (row + 1 < env.getWidth()
 					&& (env.getCellNature(col, row + 1).equals(Cell.EMP)
 							|| env.getCellNature(col, row + 1).equals(Cell.DWO))
@@ -67,7 +67,6 @@ public class Entity implements EntityService{
 					&& (env.getCellNature(col, row - 1).equals(Cell.EMP)
 							|| env.getCellNature(col, row - 1).equals(Cell.DWO))
 					&& env.getCellContent(col, row - 1).equals(Optional.empty())) {
-				if(row > 0)
 				row -= 1;
 			}
 			break;
@@ -87,7 +86,6 @@ public class Entity implements EntityService{
 					&& (env.getCellNature(col - 1, row).equals(Cell.EMP)
 							|| env.getCellNature(col - 1, row).equals(Cell.DNO))
 					&& env.getCellContent(col - 1, row).equals(Optional.empty())) {
-
 				col -= 1;
 			}
 			break;
