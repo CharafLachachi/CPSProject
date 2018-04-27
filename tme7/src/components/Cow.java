@@ -1,5 +1,7 @@
 package components;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import services.CowService;
 import services.Dir;
 import services.EnvironnementService;
@@ -20,7 +22,7 @@ public class Cow extends Entity implements CowService {
 	@Override
 	public void step() {
 
-		int rand = (int) (Math.random() * 3 + 1);
+		int rand = ThreadLocalRandom.current().nextInt(1, 4);
 
 		switch (rand) {
 		case 1:
@@ -30,10 +32,10 @@ public class Cow extends Entity implements CowService {
 				backward();
 			break;
 		case 3:
-				strafeL();
+				turnL();
 			break;
 		case 4:
-				strafeR();
+				turnR();
 			break;
 
 		}

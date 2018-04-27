@@ -1,16 +1,19 @@
 package application;
 
+import java.util.Arrays;
+import java.util.List;
+
 import components.Cow;
 import components.Engine;
 import components.Environement;
 import components.Player;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import services.Cell;
@@ -27,22 +30,29 @@ public class MainController {
 	private double l, c, lc, w, w0, h, h0;
 
 	private EngineService labyrinthe = new Engine();
-	private Circle p;
+	private Polygon polygon;
+	private Polygon polygonCow;
+
 	private EntityService player;
 
 	public void init() {
-		p = new Circle(12.5);
+		polygon = new Polygon();
+		polygon.setFill(Color.BLUE);
+
+		polygonCow = new Polygon();
+		polygonCow.setFill(Color.RED);
+
 		EntityService cow = new Cow();
 		player = new Player();
 		EnvironnementService env = new Environement();
 		env.init(500, 500);
 
-		// cow.init(env, 3, 3, Dir.N, 4);
-		player.init(env, 0, 0, Dir.S);
+		cow.init(env, 3, 3, Dir.S, 4);
+		player.init(env, 0, 0, Dir.N);
 		labyrinthe.init(env);
 		labyrinthe.addEntity(player);
-		// labyrinthe.addEntity(cow);
-		// cow.step();
+		labyrinthe.addEntity(cow);
+		cow.step();
 
 		l = 25;
 		c = 25;
@@ -59,7 +69,18 @@ public class MainController {
 				paintCase(ll, cc);
 			}
 		paintPlayer();
-		// paintCow();
+		paintCow();
+		Platform.runLater(() -> new Thread(() -> {
+			while (cow.getHp() > 0) {
+				cow.step();
+				paintCow();
+				try {
+					Thread.sleep(2000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start());
 	}
 
 	public void paintCase(int col, int row) {
@@ -87,42 +108,46 @@ public class MainController {
 	}
 
 	private void paintPlayer() {
+
 		EntityService voyageur = labyrinthe.getEntity(0);
 		int vl = voyageur.getCol();
 		int vc = voyageur.getRow();
-		
-		System.out.println("row "+vl);
-	//	if (voyageur.getFace() == Dir.N) {
+		System.out.println("row " + vl);
 
-//			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + 3 * lc / 4);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-//			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + 3 * lc / 4);
-	//	}
-//		if (voyageur.getFace() == Dir.W) {
-//			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2);
-//			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 4);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-//			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + 3 * lc / 4);
-//		}
-//		if (voyageur.getFace() == Dir.S) {
-//			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 4);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-//			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 4);
-//		}
-//		if (voyageur.getFace() == Dir.E) {
-//			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 4);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-//			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + 3 * lc / 4);
-//		}
+		if (voyageur.getFace() == Dir.N) {
+			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + 3 * lc / 4);
+			polygon.getPoints().clear();
+			polygon.getPoints().addAll(list);
+		}
+		if (voyageur.getFace() == Dir.W) {
+			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + 3 * lc / 4);
+			polygon.getPoints().clear();
+			polygon.getPoints().addAll(list);
+		}
+		if (voyageur.getFace() == Dir.S) {
+			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + lc / 4);
 
-		p.setFill(Color.BLUE);
-		GridPane.setColumnIndex(p, vc);
-		GridPane.setRowIndex(p, vl);
-		if (!mapGrid.getChildren().contains(p)) {
-			mapGrid.getChildren().addAll(p);
+			polygon.getPoints().clear();
+			polygon.getPoints().addAll(list);
+		}
+		if (voyageur.getFace() == Dir.E) {
+			List<Double> list = Arrays.asList(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + 3 * lc / 4);
+			polygon.getPoints().clear();
+			polygon.getPoints().addAll(list);
+		}
+
+		GridPane.setColumnIndex(polygon, vc);
+		GridPane.setRowIndex(polygon, vl);
+		if (!mapGrid.getChildren().contains(polygon)) {
+			mapGrid.getChildren().addAll(polygon);
 		}
 
 	}
@@ -131,39 +156,43 @@ public class MainController {
 		EntityService voyageur = labyrinthe.getEntity(1);
 		int vl = voyageur.getCol();
 		int vc = voyageur.getRow();
-		Polygon p = new Polygon();
+		System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {
-
-			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4);
-			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + 3 * lc / 4);
-			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + 3 * lc / 4);
+			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + 3 * lc / 4);
+			polygonCow.getPoints().clear();
+			polygonCow.getPoints().addAll(list);
 		}
 		if (voyageur.getFace() == Dir.W) {
-			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2);
-			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 4);
-			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + 3 * lc / 4);
+			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + 3 * lc / 4);
+			polygonCow.getPoints().clear();
+			polygonCow.getPoints().addAll(list);
 		}
 		if (voyageur.getFace() == Dir.S) {
-			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4);
-			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 4);
-			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 4);
+			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+					h0 + vl * lc + lc / 4);
+
+			polygonCow.getPoints().clear();
+			polygonCow.getPoints().addAll(list);
 		}
 		if (voyageur.getFace() == Dir.E) {
-			p.getPoints().addAll(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2);
-			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 4);
-			p.getPoints().addAll(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2);
-			p.getPoints().addAll(w0 + vc * lc + lc / 4, h0 + vl * lc + 3 * lc / 4);
+			List<Double> list = Arrays.asList(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
+					h0 + vl * lc + 3 * lc / 4);
+			polygonCow.getPoints().clear();
+			polygonCow.getPoints().addAll(list);
 		}
-		p.setFill(Color.RED);
-		GridPane.setColumnIndex(p, 10);
-		GridPane.setRowIndex(p, 10);
-		mapGrid.getChildren().addAll(p);
-		// g.setColor(PLAYER);
-		// g.fillPolygon(p);
+
+		GridPane.setColumnIndex(polygonCow, vc);
+		GridPane.setRowIndex(polygonCow, vl);
+		if (!mapGrid.getChildren().contains(polygonCow)) {
+			mapGrid.getChildren().addAll(polygonCow);
+		}
 	}
 
 	public void movePlayer(KeyEvent e) {
@@ -180,11 +209,13 @@ public class MainController {
 		}
 		if (e.getCode().equals(KeyCode.LEFT)) {
 			labyrinthe.getEntity(0).turnL();
+			// polygon.setRotate(polygon.getRotate()-90);
 			paintPlayer();
 
 		}
 		if (e.getCode().equals(KeyCode.RIGHT)) {
 			labyrinthe.getEntity(0).turnR();
+			// polygon.setRotate(polygon.getRotate()+90);
 			paintPlayer();
 
 		}
