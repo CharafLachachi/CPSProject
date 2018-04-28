@@ -12,6 +12,7 @@ public class EditMap implements EditMapService {
 	private int height;
 	private Cell[][] cells;
 	private static Random h = new Random();
+
 	@Override
 	public int getHeight() {
 		return height;
@@ -33,11 +34,13 @@ public class EditMap implements EditMapService {
 		System.err.println(h);
 		this.width = w;
 		this.height = h;
-		this.cells = new Cell[w][h];
-		//initCells();
-	//	while(!isReady()) {
+		this.cells = new Cell[h][w];
+		initCells();
+		while (!isReady()) {
 			initCells();
-	//	}
+		}
+		 initDoors();
+		printCells();
 	}
 
 	@Override
@@ -119,8 +122,8 @@ public class EditMap implements EditMapService {
 	}
 
 	public void initCells() {
-		for (int i = 0; i < this.getWidth(); i++) {
-			for (int j = 0; j < this.getHeight() ; j++) {
+		for (int i = 0; i < this.getHeight(); i++) {
+			for (int j = 0; j < this.getWidth(); j++) {
 				int randomNum = ThreadLocalRandom.current().nextInt(1, 3);
 				switch (randomNum) {
 				case 1:
@@ -129,25 +132,75 @@ public class EditMap implements EditMapService {
 				case 2:
 					cells[i][j] = Cell.EMP;
 					break;
-
-				default:
-					cells[i][j] = Cell.DNO;
-					break;
 				}
-
 			}
 		}
 		cells[0][0] = Cell.IN;
-		cells[this.getWidth()-1][this.getHeight() -1] = Cell.OUT;
+		cells[this.getWidth() - 1][this.getHeight() - 1] = Cell.OUT;
 	}
+
+	public void initDoors() {
+
+		for (int x = 0; x < 1000; x++) {
+			int randomNum = ThreadLocalRandom.current().nextInt(1, 5);
+			int i = ThreadLocalRandom.current().nextInt(1, getHeight() - 1);
+			int j = ThreadLocalRandom.current().nextInt(1, getWidth() - 1);
+			switch (randomNum) {
+			case 1:
+				if (j > 1 && j < getWidth() - 1 && cells[i][j - 1].equals(Cell.WLL)
+						&& cells[i][j + 1].equals(Cell.WLL)) {
+					
+					if(isReachable(0,0 , i, j))
+					cells[i][j] = Cell.DWO;
+				}
+				break;
+
+			case 2:
+				if (i > 1 && i < getHeight() - 1 && cells[i - 1][j].equals(Cell.WLL)
+						&& cells[i + 1][j].equals(Cell.WLL)) {
+					
+					if(isReachable(0,0 , i, j))
+					cells[i][j] = Cell.DNO;
+				}
+			case 3 :
+				if (i > 1 && i < getHeight() - 1 && cells[i - 1][j].equals(Cell.WLL)
+						&& cells[i + 1][j].equals(Cell.WLL)) {
+					
+					if(isReachable(0,0 , i, j))
+					cells[i][j] = Cell.DNC;
+				}
+			case 4: 
+				if (j > 1 && j < getWidth() - 1 && cells[i][j - 1].equals(Cell.WLL)
+						&& cells[i][j + 1].equals(Cell.WLL)) {
+					
+					if(isReachable(0,0 , i, j))
+					cells[i][j] = Cell.DWC;
+				}
+			default:
+				break;
+			}
+		}
+	}
+
 	public void initCellsEmp() {
-		for (int i = 0; i < this.getWidth(); i++) {
-			for (int j = 0; j < this.getHeight(); j++) {
-				
-					cells[i][j] = Cell.EMP;
-			
+		for (int i = 0; i < this.getHeight(); i++) {
+			for (int j = 0; j < this.getWidth(); j++) {
+
+				cells[i][j] = Cell.EMP;
 
 			}
 		}
+	}
+
+	public void printCells() {
+		StringBuilder string = new StringBuilder();
+		for (int i = 0; i < this.getHeight(); i++) {
+			string.append("\n");
+			for (int j = 0; j < this.getWidth(); j++) {
+				string.append("row " + i + " col " + j + " " + cells[i][j] + " | ");
+
+			}
+		}
+		System.out.println(string.toString());
 	}
 }

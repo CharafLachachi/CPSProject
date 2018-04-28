@@ -23,16 +23,16 @@ public class Player extends Entity implements PlayerService {
 
 		switch (getFace()) {
 		case N:
-			opt = getEnv().getCellContent(getCol() + x, getRow() + y);
+			opt = getEnv().getCellContent(getRow() + x, getCol() + y);
 			break;
 		case S:
-			opt = getEnv().getCellContent(getCol() - x, getRow() - y);
+			opt = getEnv().getCellContent(getRow() - x, getCol()  - y);
 			break;
 		case E:
-			opt = getEnv().getCellContent(getCol() + y, getRow() - x);
+			opt = getEnv().getCellContent(getRow() + y, getCol()  - x);
 			break;
 		case W:
-			opt = getEnv().getCellContent(getCol() - y, getRow() + x);
+			opt = getEnv().getCellContent(getRow() - y, getCol() + x);
 			break;
 
 		}

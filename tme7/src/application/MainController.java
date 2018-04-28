@@ -14,6 +14,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import services.Cell;
@@ -71,17 +72,17 @@ public class MainController {
 		paintPlayer();
 		paintCow();
 		// lancer dans un thread le mouvement de la vache
-//		Platform.runLater(() -> new Thread(() -> {
-//			while (cow.getHp() > 0) {
-//				cow.step();
-//				paintCow();
-//				try {
-//					Thread.sleep(2000);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		}).start());
+		Platform.runLater(() -> new Thread(() -> {
+			while (cow.getHp() > 0) {
+				cow.step();
+				paintCow();
+				try {
+					Thread.sleep(500);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start());
 	}
 
 	public void paintCase(int col, int row) {
@@ -92,27 +93,65 @@ public class MainController {
 
 		if (maCase == Cell.WLL) {
 			rect.setFill(Color.BLACK);
+			GridPane.setColumnIndex(rect, row);
+			GridPane.setRowIndex(rect, col);
+			mapGrid.getChildren().addAll(rect);
 
 		}
 		if (maCase == Cell.IN) {
 			rect.setFill(Color.RED);
+			GridPane.setColumnIndex(rect, row);
+			GridPane.setRowIndex(rect, col);
+			mapGrid.getChildren().addAll(rect);
 		}
 		if (maCase == Cell.OUT) {
 			rect.setFill(Color.GREEN);
+			GridPane.setColumnIndex(rect, row);
+			GridPane.setRowIndex(rect, col);
+			mapGrid.getChildren().addAll(rect);
 		}
 		if (maCase == Cell.EMP) {
 			rect.setFill(Color.WHITE);
+			GridPane.setColumnIndex(rect, row);
+			GridPane.setRowIndex(rect, col);
+			mapGrid.getChildren().addAll(rect);
 		}
-		GridPane.setColumnIndex(rect, col);
-		GridPane.setRowIndex(rect, row);
-		mapGrid.getChildren().addAll(rect);
+		if (maCase == Cell.DNO) {
+			Line door = new Line(0.0f,0.0f,25.0f,25.0f);
+			door.setStroke(Color.BROWN);
+			GridPane.setColumnIndex(door, row);
+			GridPane.setRowIndex(door, col);
+			mapGrid.getChildren().addAll(door);
+		}
+		if (maCase == Cell.DWO) {
+			Line door = new Line(0.0f,0.0f,25.0f,25.0f);
+			door.setStroke(Color.AQUA);
+			GridPane.setColumnIndex(door, row);
+			GridPane.setRowIndex(door, col);
+			mapGrid.getChildren().addAll(door);
+		}
+		if (maCase == Cell.DWC) {
+			Line door = new Line(0.0f,0.0f,25.0f,0.0f);
+			door.setStroke(Color.AQUA);
+			GridPane.setColumnIndex(door, row);
+			GridPane.setRowIndex(door, col);
+			mapGrid.getChildren().addAll(door);
+		}
+		if (maCase == Cell.DNC) {
+			Line door = new Line(0.0f,0.0f,0.0f,25.0f);
+			door.setStroke(Color.AQUA);
+			GridPane.setColumnIndex(door, row);
+			GridPane.setRowIndex(door, col);
+			mapGrid.getChildren().addAll(door);
+		}
+		
 	}
 
 	// methode pour dessiner le joueur au debut et a l'appel des fonction de direction
 	private void paintPlayer() {
 		EntityService voyageur = labyrinthe.getEntity(0);
-		int vl = voyageur.getCol();
-		int vc = voyageur.getRow();
+		int vl = voyageur.getRow();
+		int vc = voyageur.getCol();
 		System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {
@@ -155,8 +194,8 @@ public class MainController {
 	// methode pour dessiner le joueur au debut et a l'appel des fonction de direction
 	private void paintCow() {
 		EntityService voyageur = labyrinthe.getEntity(1);
-		int vl = voyageur.getCol();
-		int vc = voyageur.getRow();
+		int vl = voyageur.getRow();
+		int vc = voyageur.getCol();
 		System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {

@@ -50,42 +50,42 @@ public class Entity implements EntityService{
 
 	@Override
 	public void forward() {
-
+		System.out.println("Forward "+face);
 		switch (face) {
-		case E:
-			System.err.println("EST "+env.getCellNature(col, row + 1));
-			if (row + 1 < env.getWidth()
-					&& (env.getCellNature(col, row + 1).equals(Cell.EMP)
-							|| env.getCellNature(col, row + 1).equals(Cell.DWO))
-					&& env.getCellContent(col, row + 1).equals(Optional.empty())) {
+		case S:
+			//System.err.println("EST "+env.getCellNature(row + 1, col));
+			if (row + 1 < env.getHeight()
+					&& (env.getCellNature(row + 1, col).equals(Cell.EMP)
+							|| env.getCellNature(row + 1, col).equals(Cell.DWO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row + 1, col).equals(Optional.empty())) {
 				row += 1;
 			}
 			break;
-		case W:
-			System.err.println(env.getCellNature(col, row - 1));
+		case N:
+			
 			if (row - 1 >= 0
-					&& (env.getCellNature(col, row - 1).equals(Cell.EMP)
-							|| env.getCellNature(col, row - 1).equals(Cell.DWO))
-					&& env.getCellContent(col, row - 1).equals(Optional.empty())) {
+					&& (env.getCellNature(row - 1, col).equals(Cell.EMP)
+							|| env.getCellNature(row - 1, col).equals(Cell.DWO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row - 1, col).equals(Optional.empty())) {
 				row -= 1;
 			}
 			break;
-		case S:
-			System.out.println(env.getCellNature(col + 1, row));
-			if (col + 1 < env.getHeight()
-					&& (env.getCellNature(col + 1, row).equals(Cell.EMP)
-							|| env.getCellNature(col + 1, row).equals(Cell.DNO))
-					&& env.getCellContent(col + 1, row).equals(Optional.empty())) {
+		case E:
+			
+			if (col + 1 < env.getWidth()
+					&& (env.getCellNature(row, col + 1).equals(Cell.EMP)
+							|| env.getCellNature(row, col + 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row, col + 1).equals(Optional.empty())) {
 
 				col += 1;
 			}
 			break;
-		case N:
-			System.out.println(env.getCellNature(col - 1, row));
+		case W:
+			
 			if (col - 1 >= 0
-					&& (env.getCellNature(col - 1, row).equals(Cell.EMP)
-							|| env.getCellNature(col - 1, row).equals(Cell.DNO))
-					&& env.getCellContent(col - 1, row).equals(Optional.empty())) {
+					&& (env.getCellNature(row ,col - 1).equals(Cell.EMP)
+							|| env.getCellNature(row ,col - 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row ,col - 1).equals(Optional.empty())) {
 				col -= 1;
 			}
 			break;
@@ -97,41 +97,42 @@ public class Entity implements EntityService{
 
 	@Override
 	public void backward() {
+		
 		switch (face) {
-		case W:
+		case N:
 			if (row + 1 < env.getHeight()
-					&& (env.getCellNature(col, row + 1).equals(Cell.EMP)
-							|| env.getCellNature(col, row + 1).equals(Cell.DWO))
-					&& env.getCellContent(col, row + 1).equals(Optional.empty())) {
+					&& (env.getCellNature(row + 1, col).equals(Cell.EMP)
+							|| env.getCellNature(row + 1, col).equals(Cell.DWO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row + 1, col).equals(Optional.empty())) {
 
 				row += 1;
 			}
 			break;
-		case E:
+		case S:
 			if (row - 1 >= 0
-					&& (env.getCellNature(col, row - 1).equals(Cell.EMP)
-							|| env.getCellNature(col, row - 1).equals(Cell.DWO))
-					&& env.getCellContent(col, row - 1).equals(Optional.empty())) {
-
+					&& (env.getCellNature(row - 1, col).equals(Cell.EMP)
+							|| env.getCellNature(row - 1, col).equals(Cell.DWO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row - 1, col).equals(Optional.empty())) {
+				System.out.println(face);
 				row -= 1;
 			}
 
 			break;
-		case N:
+		case W:
 			if (col + 1 < env.getWidth()
-					&& (env.getCellNature(col + 1, row).equals(Cell.EMP)
-							|| env.getCellNature(col + 1, row).equals(Cell.DNO))
-					&& env.getCellContent(col + 1, row).equals(Optional.empty())) {
-
+					&& (env.getCellNature(row, col + 1).equals(Cell.EMP)
+							|| env.getCellNature(row, col + 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row, col + 1).equals(Optional.empty())) {
+				System.out.println(face);
 				col += 1;
 			}
 			break;
-		case S:
+		case E:
 			if (col - 1 >= 0
-					&& (env.getCellNature(col - 1, row).equals(Cell.EMP)
-							|| env.getCellNature(col - 1, row).equals(Cell.DNO))
-					&& env.getCellContent(col - 1, row).equals(Optional.empty())) {
-
+					&& (env.getCellNature(row, col - 1).equals(Cell.EMP)
+							|| env.getCellNature(row ,col - 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+					&& env.getCellContent(row ,col - 1).equals(Optional.empty())) {
+				System.out.println(face);
 				col -= 1;
 			}
 			break;
@@ -187,17 +188,17 @@ public class Entity implements EntityService{
 	@Override
 	public void strafeL() {
 		if( col + 1 < env.getWidth() && (face.equals(Dir.N) || face.equals(Dir.S)) && 
-				(env.getCellNature(col + 1, row).equals(Cell.EMP)
-						|| env.getCellNature(col + 1, row).equals(Cell.DNO))
-				&& env.getCellContent(col + 1, row).equals(Optional.empty()))
+				(env.getCellNature(row, col + 1).equals(Cell.EMP)
+						|| env.getCellNature(row, col + 1).equals(Cell.DNO))
+				&& env.getCellContent(row, col + 1).equals(Optional.empty()))
 		{
 			
 			col += 1;
 		}
 		
 		if( row + 1 < env.getHeight() && (face.equals(Dir.E) || face.equals(Dir.W)) 
-				&& (env.getCellNature(col, row + 1).equals(Cell.EMP) || env.getCellNature(col, row + 1).equals(Cell.DNO))
-		&& env.getCellContent(col, row + 1).equals(Optional.empty()))
+				&& (env.getCellNature(row + 1, col).equals(Cell.EMP) || env.getCellNature(row + 1, col).equals(Cell.DNO))
+		&& env.getCellContent(row + 1, col).equals(Optional.empty()))
 		{
 			row += 1;
 		}
@@ -207,17 +208,17 @@ public class Entity implements EntityService{
 	@Override
 	public void strafeR() {
 		if( col - 1 > 0 && (face.equals(Dir.N) || face.equals(Dir.S)) && 
-				(env.getCellNature(col - 1, row).equals(Cell.EMP)
-						|| env.getCellNature(col - 1, row).equals(Cell.DNO))
-				&& env.getCellContent(col - 1, row).equals(Optional.empty()))
+				(env.getCellNature(row ,col - 1).equals(Cell.EMP)
+						|| env.getCellNature(row ,col - 1).equals(Cell.DNO))
+				&& env.getCellContent(row ,col - 1).equals(Optional.empty()))
 		{
 			
 			col -= 1;
 		}
 		
 		if( row - 1 > 0 && (face.equals(Dir.E) || face.equals(Dir.W)) 
-				&& (env.getCellNature(col, row - 1).equals(Cell.EMP) || env.getCellNature(col, row - 1).equals(Cell.DNO))
-		&& env.getCellContent(col, row - 1).equals(Optional.empty()))
+				&& (env.getCellNature(row - 1, col).equals(Cell.EMP) || env.getCellNature(row - 1, col).equals(Cell.DNO))
+		&& env.getCellContent(row - 1, col).equals(Optional.empty()))
 		{
 			row -= 1;
 		}
