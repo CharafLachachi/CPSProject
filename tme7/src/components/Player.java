@@ -26,13 +26,13 @@ public class Player extends Entity implements PlayerService {
 			opt = getEnv().getCellContent(getRow() + x, getCol() + y);
 			break;
 		case S:
-			opt = getEnv().getCellContent(getRow() - x, getCol()  - y);
+			opt = getEnv().getCellContent(getRow() - y, getCol()  - x);
 			break;
 		case E:
-			opt = getEnv().getCellContent(getRow() + y, getCol()  - x);
+			opt = getEnv().getCellContent(getRow() - x, getCol()  + y );
 			break;
 		case W:
-			opt = getEnv().getCellContent(getRow() - y, getCol() + x);
+			opt = getEnv().getCellContent(getRow() + x, getCol() - y);
 			break;
 
 		}
@@ -44,16 +44,16 @@ public class Player extends Entity implements PlayerService {
 		Cell cell = null;
 		switch (getFace()) {
 		case N:
-			cell = getEnv().getCellNature(getCol() + x, getRow() + y);
+			cell = getEnv().getCellNature(getRow() + y, getCol() + x);
 			break;
 		case S:
-			cell = getEnv().getCellNature(getCol() - x, getRow() - y);
+			cell = getEnv().getCellNature( getRow() - y, getCol() - x);
 			break;
 		case E:
-			cell = getEnv().getCellNature(getCol() + y, getRow() - x);
+			cell = getEnv().getCellNature(getRow() - x, getCol() + y);
 			break;
 		case W:
-			cell = getEnv().getCellNature(getCol() - y, getRow() + x);
+			cell = getEnv().getCellNature(getRow() + x, getCol() - y);
 			break;
 
 		}

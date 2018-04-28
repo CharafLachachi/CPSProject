@@ -12,8 +12,8 @@ public class Cow extends Entity implements CowService {
 	public void init(EnvironnementService env, int x, int y, Dir d, int h) {
 		if (h >= 3 && h <= 4) {
 			setEnv(env);
-			setCol(x);
-			setRow(y);
+			setCol(y);
+			setRow(x);
 			setFace(d);
 			setHp(h);
 		}

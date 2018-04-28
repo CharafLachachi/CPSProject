@@ -39,7 +39,7 @@ public class EditMap implements EditMapService {
 		while (!isReady()) {
 			initCells();
 		}
-		 initDoors();
+	//	 initDoors();
 		printCells();
 	}
 

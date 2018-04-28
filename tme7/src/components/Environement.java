@@ -1,7 +1,7 @@
 package components;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -10,7 +10,7 @@ import services.MobService;
 
 public class Environement extends EditMap implements EnvironnementService {
 
-	private Map<String,MobService> mobs = new HashMap<>();
+	private List<MobService> mobs = new ArrayList<>();
 	
 	@Override
 	public Optional<MobService> getCellContent(int x, int y) {
@@ -32,12 +32,18 @@ public class Environement extends EditMap implements EnvironnementService {
 
 	@Override
 	public MobService getMob(int x, int y) {
-		return mobs.get(x+","+y);
+		for (MobService mob : mobs)
+		{
+			if (mob.getRow() == x && mob.getCol() == y) {
+				return mob;
+			}
+		}
+		return null;
 	}
 
 	@Override
 	public void addMob(MobService mob) {
-		mobs.put(mob.getRow()+","+mob.getCol(), mob);
+		mobs.add(mob);
 		
 	}
 

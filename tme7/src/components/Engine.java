@@ -49,6 +49,7 @@ public class Engine implements EngineService{
 	public void addEntity(EntityService e) {
 		
 		entities.add(entities.size(), e);
+		getEnv().addMob(e);
 	}
 
 	@Override
