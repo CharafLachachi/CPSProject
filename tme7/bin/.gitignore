@@ -1,4 +1,8 @@
-/services/
-/test/
 /application/
 /components/
+/contracts/
+/decorators/
+/exceptions/
+/gui/
+/services/
+/test/
