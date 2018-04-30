@@ -24,7 +24,7 @@ public class PlayerContract extends EntityContract implements PlayerService {
 				switch (getFace()) {
 
 				case N:
-
+ 
 					if (!(content(u, v) == getEnv().getCellContent(getCol() + u, getRow() + v)))
 						throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
 					if (!(nature(u, v) == getEnv().getCellNature(getCol() + u, getRow() + v)))
