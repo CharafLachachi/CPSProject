@@ -19,100 +19,98 @@ public class PlayerContract extends EntityContract implements PlayerService {
 
 	public void checkInv() {
 		// TODO : a verifier
-		switch (getFace()) {
-		case N:
-			for(int u = 0; u < getRow(); u++)
-			{
-			if (!(content(u, 0) == getEnv().getCellContent(getRow() - u, getCol() )))
-				throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
-			if (!(nature(u, 0) == getEnv().getCellNature(getRow() - u, getCol() )))
-				throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
+		for (int u = -1; u < 1; u++)
+			for (int v = -1; v < 3; u++) {
+				switch (getFace()) {
+
+				case N:
+
+					if (!(content(u, v) == getEnv().getCellContent(getCol() + u, getRow() + v)))
+						throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
+					if (!(nature(u, v) == getEnv().getCellNature(getCol() + u, getRow() + v)))
+						throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
+
+					break;
+				case S:
+
+					if (!(content(u, v) == getEnv().getCellContent(getCol() - u, getRow() - v)))
+						throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
+					if (!(nature(u, v) == getEnv().getCellNature( getCol() - u, getRow() - v)))
+						throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
+
+					break;
+				case E:
+
+					if (!(content(u, v) == getEnv().getCellContent( getCol() + v, getRow() - u)))
+						throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
+					if (!(nature(u, v) == getEnv().getCellNature(getCol() + v, getRow() - u)))
+						throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
+
+					break;
+				case W:
+
+					if (!(content(u, v) == getEnv().getCellContent(getCol() - v, getRow() + u)))
+						throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
+					if (!(nature(u, v) == getEnv().getCellNature( getCol() - v, getRow() + u)))
+						throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
+
+					break;
+				}
 			}
-			break;
-		case S:
-			for(int u = getEnv().getHeight();  u >= getRow();  u--)
-			{
-			if (!(content(u, 0) == getEnv().getCellContent(getRow() + u, getCol())))
-				throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
-			if (!(nature(u, 0) == getEnv().getCellNature(getRow() + u, getCol())))
-				throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
-			}
-			break;
-		case E:
-			for(int u = getCol(); u < getEnv().getWidth(); u++)
-			{
-			if (!(content(0, u) == getEnv().getCellContent(getRow(), getCol() + u)))
-				throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
-			if (!(nature(0, u) == getEnv().getCellNature(getRow(), getCol() + u)))
-				throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
-			}
-			break;
-		case W:
-			for(int u = 0 ;  u >= getCol();  u++)
-			{
-			if (!(content(0, u) == getEnv().getCellContent(getRow(), getCol() - u)))
-				throw new InvariantError("playerService", "checkInv", "content diffirent of cell content");
-			if (!(nature(0, u) == getEnv().getCellNature(getRow(), getCol() - u)))
-				throw new InvariantError("playerService", "checkInv", "nature diffirent of cell nature");
-			}
-			break;
-		}
-		
 		for (int u = -1; u <= 1; u++)
-			for(int v = -1; v <= 1; v++)
-			{
-				if(!(viewable(u, v) == false))
+			for (int v = -1; v <= 1; v++) {
+				if (!(viewable(u, v) == false))
 					throw new InvariantError("PlayerService", "checkInv", "viewable");
 			}
-		
-		if(viewable(-1, 2))
-			if(!(nature(-1, 1).equals(Cell.WLL) || nature(-1, 1).equals(Cell.DWC) || nature(-1, 1).equals(Cell.DNC)))
+
+		if (viewable(-1, 2))
+			if (!(nature(-1, 1).equals(Cell.WLL) || nature(-1, 1).equals(Cell.DWC) || nature(-1, 1).equals(Cell.DNC)))
 				throw new InvariantError("PlayerService", "checkInv", "viewable(-1,2)");
-		
-		if(viewable(0, 2))
-			if(!(!nature(0, 1).equals(Cell.WLL) || !nature(0, 1).equals(Cell.DWC) || !nature(0, 1).equals(Cell.DNC)))
+
+		if (viewable(0, 2))
+			if (!(!nature(0, 1).equals(Cell.WLL) || !nature(0, 1).equals(Cell.DWC) || !nature(0, 1).equals(Cell.DNC)))
 				throw new InvariantError("PlayerService", "checkInv", "viewable(0,2)");
-		
-		if(viewable(1, 2))
-			if(!(!nature(1, 1).equals(Cell.WLL) || !nature(1, 1).equals(Cell.DWC) || !nature(1, 1).equals(Cell.DNC)))
+
+		if (viewable(1, 2))
+			if (!(!nature(1, 1).equals(Cell.WLL) || !nature(1, 1).equals(Cell.DWC) || !nature(1, 1).equals(Cell.DNC)))
 				throw new InvariantError("PlayerService", "checkInv", "viewable(1,2)");
-		
-		if(viewable(-1, 3))
-			if(!(!nature(-1, 2).equals(Cell.WLL) || !nature(-1, 2).equals(Cell.DWC) || !nature(-1, 2).equals(Cell.DNC) && viewable(-1, 2)))
+
+		if (viewable(-1, 3))
+			if (!(!nature(-1, 2).equals(Cell.WLL) || !nature(-1, 2).equals(Cell.DWC)
+					|| !nature(-1, 2).equals(Cell.DNC) && viewable(-1, 2)))
 				throw new InvariantError("PlayerService", "checkInv", "viewable(-1,3)");
-		
-		if(viewable(0, 3))
-			if(!(!nature(0, 2).equals(Cell.WLL) || !nature(0, 2).equals(Cell.DWC) || !nature(0, 2).equals(Cell.DNC) && viewable(0, 2)))
+
+		if (viewable(0, 3))
+			if (!(!nature(0, 2).equals(Cell.WLL) || !nature(0, 2).equals(Cell.DWC)
+					|| !nature(0, 2).equals(Cell.DNC) && viewable(0, 2)))
 				throw new InvariantError("PlayerService", "checkInv", "viewable(0,3)");
-		
-		if(viewable(1, 3))
-			if(!(!nature(1, 2).equals(Cell.WLL) || !nature(1, 2).equals(Cell.DWC) || !nature(1, 2).equals(Cell.DNC) && viewable(1, 2)))
+
+		if (viewable(1, 3))
+			if (!(!nature(1, 2).equals(Cell.WLL) || !nature(1, 2).equals(Cell.DWC)
+					|| !nature(1, 2).equals(Cell.DNC) && viewable(1, 2)))
 				throw new InvariantError("PlayerService", "checkInv", "viewable(1,3)");
-		
+
 	}
-
-
 
 	@Override
 	public void step() {
-		switch(lastCom().get())
-		{
-		case FF :
+		switch (lastCom().get()) {
+		case FF:
 			this.forward();
 			break;
-		case BB :
+		case BB:
 			this.backward();
 			break;
-		case LL :
+		case LL:
 			this.strafeL();
 			break;
-		case RR : 
+		case RR:
 			this.strafeR();
 			break;
-		case TL :
+		case TL:
 			this.turnL();
 			break;
-		case TR :
+		case TR:
 			this.turnR();
 			break;
 		}
@@ -142,9 +140,5 @@ public class PlayerContract extends EntityContract implements PlayerService {
 		// TODO Auto-generated method stub
 		return ((PlayerService) getDelegate()).viewable(x, y);
 	}
-
-	
-
-	
 
 }
