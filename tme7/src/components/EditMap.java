@@ -71,8 +71,8 @@ public class EditMap implements EditMapService {
 		TestRechabel tr = new TestRechabel(cells);
 		int countIn = 0, xIn = 0, yIn = 0;
 		int countOut = 0, xOut = 0, yOut = 0;
-		for (int i = 0; i < this.getWidth(); i++) {
-			for (int j = 0; j < this.getHeight(); j++) {
+		for (int i = 0; i < this.getHeight(); i++) {
+			for (int j = 0; j < this.getWidth(); j++) {
 				if (cells[i][j] == Cell.IN) {
 					countIn++;
 					xIn = i;

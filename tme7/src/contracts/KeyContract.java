@@ -39,7 +39,7 @@ public class KeyContract extends RessourcesContract implements KeyService {
 	@Override
 	public void init(EnvironnementService env, int x, int y, int xdoor, int ydoor) {
 
-		if (!(x > 0 && y > 0 && xdoor > 0 && ydoor > 0))
+		if (!(x >= 0 && y >= 0 && xdoor >= 0 && ydoor >=0))
 			throw new PreconditionError("KeyService", "init", "x <= 0 || y <= 0 || xdoor <= 0 || ydoor <=0");
 		((KeyService) getDelegate()).init(env, x, y, xdoor, ydoor);
 		checkInvariants();

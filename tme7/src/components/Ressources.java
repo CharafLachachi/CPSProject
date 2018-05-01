@@ -30,4 +30,14 @@ public class Ressources implements RessourcesService{
 		this.col = x;
 		this.row = y;	
 	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	
 }

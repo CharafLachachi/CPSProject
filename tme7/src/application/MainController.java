@@ -6,14 +6,18 @@ import java.util.List;
 import components.Cow;
 import components.Engine;
 import components.Environement;
+import components.Key;
 import components.Player;
 import contracts.CowContract;
 import contracts.EngineContract;
 import contracts.EnvironnementContract;
+import contracts.KeyContract;
 import contracts.PlayerContract;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
@@ -26,6 +30,7 @@ import services.Dir;
 import services.EngineService;
 import services.EntityService;
 import services.EnvironnementService;
+import services.KeyService;
 
 public class MainController {
 
@@ -37,6 +42,7 @@ public class MainController {
 	private EngineService labyrinthe = new EngineContract(new Engine());
 	private Polygon polygon;
 	private Polygon polygonCow;
+	private Image key;
 
 	private EntityService player;
 
@@ -51,6 +57,8 @@ public class MainController {
 		player = new PlayerContract(new Player());
 		EnvironnementService env = new EnvironnementContract(new  Environement());
 		env.init(25, 25);
+		
+		key = new Image(getClass().getResource("key.png").toExternalForm());
 
 		
 		
@@ -61,6 +69,11 @@ public class MainController {
 		labyrinthe.addEntity(player);
 		labyrinthe.addEntity(cow);
 		cow.step();
+
+		KeyService keyService = new Key();
+		
+		// les valeurs son misent dans init de Key
+		keyService.init(env, 0, 0, 0, 0);
 
 		l = 1;
 		c = 1;
@@ -90,6 +103,8 @@ public class MainController {
 				}
 			}
 		}).start());
+		// afficher une cle
+		paintKey(keyService.getRow(), keyService.getRow());
 	}
 
 	public void paintCase(int col, int row) {
@@ -268,6 +283,12 @@ public class MainController {
 
 		}
 
+	}
+	public void paintKey(int row, int col) {
+		ImageView keyView = new ImageView(key);
+		GridPane.setColumnIndex(keyView, row);
+		GridPane.setRowIndex(keyView, col);
+		mapGrid.getChildren().addAll(keyView);
 	}
 
 }
