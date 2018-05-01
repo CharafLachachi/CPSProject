@@ -49,7 +49,7 @@ public class Mob implements MobService {
 
 	@Override
 	public void forward() {
-		System.out.println("Forward "+face);
+	//	System.out.println("Forward "+face);
 		switch (face) {
 		case S:
 			//System.err.println("EST "+env.getCellNature(row + 1, col));
@@ -64,7 +64,7 @@ public class Mob implements MobService {
 			
 			if (row - 1 >= 0
 					&& (env.getCellNature(row - 1, col).equals(Cell.EMP)
-							|| env.getCellNature(row - 1, col).equals(Cell.DWO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+							|| env.getCellNature(row - 1, col).equals(Cell.DWO) || env.getCellNature(row - 1, col).equals(Cell.OUT))
 					&& env.getCellContent(row - 1, col).equals(Optional.empty())) {
 				row -= 1;
 			}
@@ -73,7 +73,7 @@ public class Mob implements MobService {
 			
 			if (col + 1 < env.getWidth()
 					&& (env.getCellNature(row, col + 1).equals(Cell.EMP)
-							|| env.getCellNature(row, col + 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+							|| env.getCellNature(row, col + 1).equals(Cell.DNO) || env.getCellNature(row , col + 1).equals(Cell.OUT))
 					&& env.getCellContent(row, col + 1).equals(Optional.empty())) {
 
 				col += 1;
@@ -83,7 +83,7 @@ public class Mob implements MobService {
 			
 			if (col - 1 >= 0
 					&& (env.getCellNature(row ,col - 1).equals(Cell.EMP)
-							|| env.getCellNature(row ,col - 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+							|| env.getCellNature(row ,col - 1).equals(Cell.DNO) || env.getCellNature(row, col - 1).equals(Cell.OUT))
 					&& env.getCellContent(row ,col - 1).equals(Optional.empty())) {
 				col -= 1;
 			}
@@ -110,9 +110,9 @@ public class Mob implements MobService {
 		case S:
 			if (row - 1 >= 0
 					&& (env.getCellNature(row - 1, col).equals(Cell.EMP)
-							|| env.getCellNature(row - 1, col).equals(Cell.DWO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+							|| env.getCellNature(row - 1, col).equals(Cell.DWO) || env.getCellNature(row - 1, col).equals(Cell.OUT))
 					&& env.getCellContent(row - 1, col).equals(Optional.empty())) {
-				System.out.println(face);
+			//	System.out.println(face);
 				row -= 1;
 			}
 
@@ -120,18 +120,18 @@ public class Mob implements MobService {
 		case W:
 			if (col + 1 < env.getWidth()
 					&& (env.getCellNature(row, col + 1).equals(Cell.EMP)
-							|| env.getCellNature(row, col + 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+							|| env.getCellNature(row, col + 1).equals(Cell.DNO) || env.getCellNature(row , col + 1).equals(Cell.OUT))
 					&& env.getCellContent(row, col + 1).equals(Optional.empty())) {
-				System.out.println(face);
+			//	System.out.println(face);
 				col += 1;
 			}
 			break;
 		case E:
 			if (col - 1 >= 0
 					&& (env.getCellNature(row, col - 1).equals(Cell.EMP)
-							|| env.getCellNature(row ,col - 1).equals(Cell.DNO) || env.getCellNature(row + 1, col).equals(Cell.OUT))
+							|| env.getCellNature(row ,col - 1).equals(Cell.DNO) || env.getCellNature(row , col - 1).equals(Cell.OUT))
 					&& env.getCellContent(row ,col - 1).equals(Optional.empty())) {
-				System.out.println(face);
+			//	System.out.println(face);
 				col -= 1;
 			}
 			break;

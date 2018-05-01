@@ -40,6 +40,7 @@ public interface PlayerService extends /* include */ EntityService {
 	 * post LastCom(P)=RR implies step(P) = StrafeRight(P) 
 	 * post LastCom(P)=TL implies step(P) = TurnLeft(P)
 	 * post LastCom(P)=TR implies step(P) = TurnRight(P)
+	 * post LastCom(P)=C implies step(P) = Battle(P)
 	 */
 
 	public void step();

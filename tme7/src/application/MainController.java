@@ -7,6 +7,10 @@ import components.Cow;
 import components.Engine;
 import components.Environement;
 import components.Player;
+import contracts.CowContract;
+import contracts.EngineContract;
+import contracts.EnvironnementContract;
+import contracts.PlayerContract;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -30,7 +34,7 @@ public class MainController {
 
 	private double l, c, lc, w, w0, h, h0;
 
-	private EngineService labyrinthe = new Engine();
+	private EngineService labyrinthe = new EngineContract(new Engine());
 	private Polygon polygon;
 	private Polygon polygonCow;
 
@@ -43,14 +47,17 @@ public class MainController {
 		polygonCow = new Polygon();
 		polygonCow.setFill(Color.RED);
 
-		EntityService cow = new Cow();
-		player = new Player();
-		EnvironnementService env = new Environement();
+		EntityService cow = new CowContract(new Cow());
+		player = new PlayerContract(new Player());
+		EnvironnementService env = new EnvironnementContract(new  Environement());
 		env.init(25, 25);
 
+		
+		
+		labyrinthe.init(env);
 		cow.init(env, 3, 3, Dir.S, 4);
 		player.init(env, 0, 0, Dir.N);
-		labyrinthe.init(env);
+		
 		labyrinthe.addEntity(player);
 		labyrinthe.addEntity(cow);
 		cow.step();
@@ -152,7 +159,7 @@ public class MainController {
 		EntityService voyageur = labyrinthe.getEntity(0);
 		int vl = voyageur.getRow();
 		int vc = voyageur.getCol();
-		System.out.println("row " + vl);
+	//	System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {
 			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
@@ -196,7 +203,7 @@ public class MainController {
 		EntityService voyageur = labyrinthe.getEntity(1);
 		int vl = voyageur.getRow();
 		int vc = voyageur.getCol();
-		System.out.println("row " + vl);
+	//	System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {
 			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
@@ -238,7 +245,7 @@ public class MainController {
 	//Listner pour les direction sur le clavier permettant le deplcaement du joueur
 	public void movePlayer(KeyEvent e) {
 		if (e.getCode().equals(KeyCode.UP)) {
-			System.out.println("je suis dans up");
+		//	System.out.println("je suis dans up");
 			labyrinthe.getEntity(0).forward();
 			paintPlayer();
 

@@ -29,7 +29,7 @@ public class TestRechabel {
 
 	public boolean isReachable(int x1, int y1, int x2, int y2) {
 
-		System.out.println(x1 + ", " + y1 + ", " + x2 + ", " + y2);
+	
 		if (cells[x1][y1].equals(Cell.WLL) || cells[x2][y2].equals(Cell.WLL))
 			return false;
 		if (x1 == x2 && y1 == y2)

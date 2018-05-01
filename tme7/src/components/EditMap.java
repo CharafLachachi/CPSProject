@@ -30,8 +30,7 @@ public class EditMap implements EditMapService {
 
 	@Override
 	public void init(int w, int h) {
-		System.err.println(w);
-		System.err.println(h);
+		
 		this.width = w;
 		this.height = h;
 		this.cells = new Cell[h][w];

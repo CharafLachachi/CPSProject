@@ -59,6 +59,8 @@ public class Player extends Entity implements PlayerService {
 		}
 		return cell;
 	}
+	
+	
 
 	@Override
 	public boolean viewable(int x, int y) {
@@ -110,6 +112,9 @@ public class Player extends Entity implements PlayerService {
 			break;
 		case TR:
 			turnR();
+			break;
+		case C:
+		//	battle();
 			break;
 
 		default:

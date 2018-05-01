@@ -1,0 +1,3 @@
+Mob:
+	PostCond_of forward/backward:
+		Env.cellContent(x,y) != empty car l'entity occupe cette case
