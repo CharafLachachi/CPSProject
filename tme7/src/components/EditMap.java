@@ -38,7 +38,7 @@ public class EditMap implements EditMapService {
 		while (!isReady()) {
 			initCells();
 		}
-	//	 initDoors();
+        initDoors();
 		printCells();
 	}
 
@@ -140,16 +140,17 @@ public class EditMap implements EditMapService {
 
 	public void initDoors() {
 
-		for (int x = 0; x < 1000; x++) {
+		for (int x = 0; x < 5000; x++) {
 			int randomNum = ThreadLocalRandom.current().nextInt(1, 5);
-			int i = ThreadLocalRandom.current().nextInt(1, getHeight() - 1);
-			int j = ThreadLocalRandom.current().nextInt(1, getWidth() - 1);
+			int i = ThreadLocalRandom.current().nextInt(2, getHeight() - 1);
+			int j = ThreadLocalRandom.current().nextInt(2, getWidth() - 1);
 			switch (randomNum) {
 			case 1:
 				if (j > 1 && j < getWidth() - 1 && cells[i][j - 1].equals(Cell.WLL)
 						&& cells[i][j + 1].equals(Cell.WLL)) {
 					
 					if(isReachable(0,0 , i, j))
+						// TODO mettre en DWO
 					cells[i][j] = Cell.DWO;
 				}
 				break;
