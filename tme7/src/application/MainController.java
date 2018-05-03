@@ -11,7 +11,6 @@ import components.Player;
 import contracts.CowContract;
 import contracts.EngineContract;
 import contracts.EnvironnementContract;
-import contracts.KeyContract;
 import contracts.PlayerContract;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -43,6 +42,8 @@ public class MainController {
 	private Polygon polygon;
 	private Polygon polygonCow;
 	private Image key;
+	private Image playerImg;
+	private ImageView playerView;
 
 	private EntityService player;
 
@@ -58,8 +59,8 @@ public class MainController {
 		EnvironnementService env = new EnvironnementContract(new  Environement());
 		env.init(25, 25);
 		
-		key = new Image(getClass().getResource("key.png").toExternalForm());
-
+		key = new Image(getClass().getResource("images/key.png").toExternalForm());
+		playerView = new ImageView();
 		
 		
 		labyrinthe.init(env);
@@ -110,8 +111,8 @@ public class MainController {
 	public void paintCase(int col, int row) {
 		Cell maCase = labyrinthe.getEnv().getCellNature(col, row);
 		Rectangle rect = new Rectangle();
-		rect.setHeight(25);
-		rect.setWidth(25);
+		rect.setHeight(40);
+		rect.setWidth(40);
 
 		if (maCase == Cell.WLL) {
 			rect.setFill(Color.BLACK);
@@ -177,39 +178,67 @@ public class MainController {
 	//	System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {
-			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
-					h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-					h0 + vl * lc + 3 * lc / 4);
-			polygon.getPoints().clear();
-			polygon.getPoints().addAll(list);
+//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
+//					h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+//					h0 + vl * lc + 3 * lc / 4);
+//			polygon.getPoints().clear();
+//			polygon.getPoints().addAll(list);
+			AnimatedImage ufo = new AnimatedImage();
+			Image[] imageArray = new Image[3];
+			for (int i = 0; i < 3; i++)
+			    imageArray[i] = new Image(getClass().getResource("images/up" + i + ".png").toExternalForm());
+			ufo.frames = imageArray;
+			ufo.duration = 2000;
+			playerView.setImage(ufo.getFrame(1));
+			
+//			playerView.setImage(new Image(getClass().getResource("images/up0.png").toExternalForm()));
+//			playerView.setImage(new Image(getClass().getResource("images/up1.png").toExternalForm()));
+//			playerView.setImage(new Image(getClass().getResource("images/up2.png").toExternalForm()));
+
 		}
 		if (voyageur.getFace() == Dir.W) {
-			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-					h0 + vl * lc + 3 * lc / 4);
-			polygon.getPoints().clear();
-			polygon.getPoints().addAll(list);
+//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+//					h0 + vl * lc + 3 * lc / 4);
+//			polygon.getPoints().clear();
+//			polygon.getPoints().addAll(list);
+			playerView.setImage(new Image(getClass().getResource("images/left1.png").toExternalForm()));
+			playerView.setImage(new Image(getClass().getResource("images/left1.png").toExternalForm()));
+			playerView.setImage(new Image(getClass().getResource("images/left2.png").toExternalForm()));
 		}
 		if (voyageur.getFace() == Dir.S) {
-			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 4,
-					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-					h0 + vl * lc + lc / 4);
+//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 4,
+//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
+//					h0 + vl * lc + lc / 4);
+//
+//			polygon.getPoints().clear();
+//			polygon.getPoints().addAll(list);
+			playerView.setImage(new Image(getClass().getResource("images/down0.png").toExternalForm()));
+			playerView.setImage(new Image(getClass().getResource("images/down1.png").toExternalForm()));
+			playerView.setImage(new Image(getClass().getResource("images/down2.png").toExternalForm()));
 
-			polygon.getPoints().clear();
-			polygon.getPoints().addAll(list);
 		}
 		if (voyageur.getFace() == Dir.E) {
-			List<Double> list = Arrays.asList(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
-					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
-					h0 + vl * lc + 3 * lc / 4);
-			polygon.getPoints().clear();
-			polygon.getPoints().addAll(list);
+//			List<Double> list = Arrays.asList(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
+//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
+//					h0 + vl * lc + 3 * lc / 4);
+//			polygon.getPoints().clear();
+//			polygon.getPoints().addAll(list);
+			playerView.setImage(new Image(getClass().getResource("images/right0.png").toExternalForm()));
+			playerView.setImage(new Image(getClass().getResource("images/right1.png").toExternalForm()));
+			playerView.setImage(new Image(getClass().getResource("images/right2.png").toExternalForm()));
+
 		}
 
-		GridPane.setColumnIndex(polygon, vc);
-		GridPane.setRowIndex(polygon, vl);
-		if (!mapGrid.getChildren().contains(polygon)) {
-			mapGrid.getChildren().addAll(polygon);
+//		GridPane.setColumnIndex(polygon, vc);
+//		GridPane.setRowIndex(polygon, vl);
+//		if (!mapGrid.getChildren().contains(polygon)) {
+//			mapGrid.getChildren().addAll(polygon);
+//		}
+		GridPane.setColumnIndex(playerView, vc);
+		GridPane.setRowIndex(playerView, vl);
+		if (!mapGrid.getChildren().contains(playerView)) {
+			mapGrid.getChildren().addAll(playerView);
 		}
 
 	}
