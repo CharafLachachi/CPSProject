@@ -147,7 +147,7 @@ public class EditMap implements EditMapService {
 			switch (randomNum) {
 			case 1:
 				if (j > 1 && j < getWidth() - 1 && cells[i][j - 1].equals(Cell.WLL)
-						&& cells[i][j + 1].equals(Cell.WLL)) {
+						&& cells[i][j + 1].equals(Cell.WLL) && cells[i][j] == Cell.EMP) {
 					
 					if(isReachable(0,0 , i, j))
 						// TODO mettre en DWO
@@ -157,21 +157,22 @@ public class EditMap implements EditMapService {
 
 			case 2:
 				if (i > 1 && i < getHeight() - 1 && cells[i - 1][j].equals(Cell.WLL)
-						&& cells[i + 1][j].equals(Cell.WLL)) {
+						&& cells[i + 1][j].equals(Cell.WLL) && cells[i][j] == Cell.EMP) {
 					
-					if(isReachable(0,0 , i, j))
+					if(isReachable(0,0 , i, j)) {
 					cells[i][j] = Cell.DNO;
+					}
 				}
 			case 3 :
 				if (i > 1 && i < getHeight() - 1 && cells[i - 1][j].equals(Cell.WLL)
-						&& cells[i + 1][j].equals(Cell.WLL)) {
+						&& cells[i + 1][j].equals(Cell.WLL) && cells[i][j] == Cell.EMP) {
 					
 					if(isReachable(0,0 , i, j))
 					cells[i][j] = Cell.DNC;
 				}
 			case 4: 
 				if (j > 1 && j < getWidth() - 1 && cells[i][j - 1].equals(Cell.WLL)
-						&& cells[i][j + 1].equals(Cell.WLL)) {
+						&& cells[i][j + 1].equals(Cell.WLL) && cells[i][j] == Cell.EMP) {
 					
 					if(isReachable(0,0 , i, j))
 					cells[i][j] = Cell.DWC;

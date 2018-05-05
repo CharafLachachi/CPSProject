@@ -38,7 +38,7 @@ public class AnimatedImage {
 
 		animation = new SpriteAnimation(imageView, Duration.millis(500), COUNT, COLUMNS, OFFSET_X,
 				0, WIDTH, HEIGHT);
-		animation.setCycleCount(Animation.INDEFINITE);
+		animation.setCycleCount(50);
 
 	}
 	

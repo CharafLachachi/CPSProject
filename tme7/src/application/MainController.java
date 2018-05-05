@@ -108,8 +108,8 @@ public class MainController {
 	public void paintCase(int col, int row) {
 		Cell maCase = labyrinthe.getEnv().getCellNature(col, row);
 		Rectangle rect = new Rectangle();
-		rect.setHeight(60);
-		rect.setWidth(60);
+		rect.setHeight(61);
+		rect.setWidth(61);
 
 		if (maCase == Cell.WLL) {
 			Image wall = new Image(getClass().getResource("images/wall1.png").toExternalForm());
@@ -120,10 +120,15 @@ public class MainController {
 
 		}
 		if (maCase == Cell.IN) {
-			rect.setFill(Color.GRAY);
-			GridPane.setColumnIndex(rect, row);
-			GridPane.setRowIndex(rect, col);
-			mapGrid.getChildren().addAll(rect);
+//			rect.setFill(Color.GRAY);
+//			GridPane.setColumnIndex(rect, row);
+//			GridPane.setRowIndex(rect, col);
+//			mapGrid.getChildren().addAll(rect);
+			Image wall = new Image(getClass().getResource("images/start.jpg").toExternalForm());
+		    ImageView iv = new ImageView(wall);
+		    GridPane.setColumnIndex(iv, row);
+			GridPane.setRowIndex(iv, col);
+			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.OUT) {
 			Image wall = new Image(getClass().getResource("images/finish.png").toExternalForm());
@@ -140,15 +145,16 @@ public class MainController {
 			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.DNO) {
-			Line door = new Line(0.0f,0.0f,57.0f,57.0f);
-			door.setStroke(Color.BLACK);
-			door.setStrokeWidth(6);
-			GridPane.setColumnIndex(door, row);
-			GridPane.setRowIndex(door, col);
-			mapGrid.getChildren().addAll(door);
+			System.out.println("DNO");
+
+			Image door = new Image(getClass().getResource("images/doorDNO.png").toExternalForm());
+		    ImageView iv = new ImageView(door);
+		    GridPane.setColumnIndex(iv, row);
+			GridPane.setRowIndex(iv, col);
+			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.DWO) {
-			  Image door = new Image(getClass().getResource("images/doorDWO.png").toExternalForm());
+				Image door = new Image(getClass().getResource("images/doorDWO.png").toExternalForm());
 			    ImageView iv = new ImageView(door);
 			    GridPane.setColumnIndex(iv, row);
 				GridPane.setRowIndex(iv, col);
@@ -162,12 +168,11 @@ public class MainController {
 			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.DNC) {
-			Line door = new Line(0.0f,0.0f,0.0f,57.0f);
-			door.setStroke(Color.BLACK);
-			door.setStrokeWidth(6);
-			GridPane.setColumnIndex(door, row);
-			GridPane.setRowIndex(door, col);
-			mapGrid.getChildren().addAll(door);
+			Image door = new Image(getClass().getResource("images/doorDNC.png").toExternalForm());
+		    ImageView iv = new ImageView(door);
+		    GridPane.setColumnIndex(iv, row);
+			GridPane.setRowIndex(iv, col);
+			mapGrid.getChildren().addAll(iv);
 		}
 		
 	}
