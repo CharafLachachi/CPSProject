@@ -1,14 +1,10 @@
 package application;
 
-import java.util.Arrays;
-import java.util.List;
-
 import components.Cow;
 import components.Engine;
 import components.Environement;
 import components.Key;
 import components.Player;
-import contracts.CowContract;
 import contracts.EngineContract;
 import contracts.EnvironnementContract;
 import contracts.PlayerContract;
@@ -42,12 +38,12 @@ public class MainController {
 	private Polygon polygon;
 	private Polygon polygonCow;
 	private Image key;
-	private Image playerImg;
-	private ImageView playerView;
-	private Image cowImg;
-	private ImageView iv;
 	private EntityService player;
-
+	private AnimatedImage comImg;
+	private AnimatedImage playerImg;
+	
+	
+    
 	public void init() {
 		polygon = new Polygon();
 		polygon.setFill(Color.BLUE);
@@ -62,9 +58,6 @@ public class MainController {
 		env.init(15, 15);
 		
 		key = new Image(getClass().getResource("images/key.png").toExternalForm());
-		playerView = new ImageView();
-		cowImg = new Image(getClass().getResource("images/monsterUP.png").toExternalForm());
-	    iv = new ImageView(cowImg);
 		labyrinthe.init(env);
 		cow.init(env, 3, 3, Dir.S, 4);
 		player.init(env, 0, 0, Dir.N);
@@ -72,7 +65,9 @@ public class MainController {
 		labyrinthe.addEntity(player);
 		labyrinthe.addEntity(cow);
 		cow.step();
-
+		
+		playerImg = new AnimatedImage( new Image("/application/images/heros1.png"), 3, 3, 0, 48, 35, 48);
+		comImg = new AnimatedImage(new Image("/application/images/test.png"), 3, 3, 12, 58, 55, 58);
 		KeyService keyService = new Key();
 		
 		// les valeurs son misent dans init de Key
@@ -113,14 +108,10 @@ public class MainController {
 	public void paintCase(int col, int row) {
 		Cell maCase = labyrinthe.getEnv().getCellNature(col, row);
 		Rectangle rect = new Rectangle();
-		rect.setHeight(57);
-		rect.setWidth(57);
+		rect.setHeight(60);
+		rect.setWidth(60);
 
 		if (maCase == Cell.WLL) {
-//			rect.setFill(Color.BLACK);
-//			GridPane.setColumnIndex(rect, row);
-//			GridPane.setRowIndex(rect, col);
-//			mapGrid.getChildren().addAll(rect);
 			Image wall = new Image(getClass().getResource("images/wall1.png").toExternalForm());
 		    ImageView iv = new ImageView(wall);
 		    GridPane.setColumnIndex(iv, row);
@@ -135,10 +126,6 @@ public class MainController {
 			mapGrid.getChildren().addAll(rect);
 		}
 		if (maCase == Cell.OUT) {
-//			rect.setFill(Color.GREEN);
-//			GridPane.setColumnIndex(rect, row);
-//			GridPane.setRowIndex(rect, col);
-//			mapGrid.getChildren().addAll(rect);
 			Image wall = new Image(getClass().getResource("images/finish.png").toExternalForm());
 		    ImageView iv = new ImageView(wall);
 		    GridPane.setColumnIndex(iv, row);
@@ -146,11 +133,6 @@ public class MainController {
 			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.EMP) {
-//			rect.setFill(Color.WHITE);
-//			GridPane.setColumnIndex(rect, row);
-//			GridPane.setRowIndex(rect, col);
-//			mapGrid.getChildren().addAll(rect);
-			
 			Image wall = new Image(getClass().getResource("images/grass.png").toExternalForm());
 		    ImageView iv = new ImageView(wall);
 		    GridPane.setColumnIndex(iv, row);
@@ -173,9 +155,6 @@ public class MainController {
 				mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.DWC) {
-//			Line door = new Line(0.0f,0.0f,25.0f,0.0f);
-//			door.setStroke(Color.AQUA);
-			
 		    Image door = new Image(getClass().getResource("images/door.png").toExternalForm());
 		    ImageView iv = new ImageView(door);
 		    GridPane.setColumnIndex(iv, row);
@@ -201,67 +180,24 @@ public class MainController {
 	//	System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + 3 * lc / 4);
-//			polygon.getPoints().clear();
-//			polygon.getPoints().addAll(list);
-			AnimatedImage ufo = new AnimatedImage();
-			Image[] imageArray = new Image[3];
-			for (int i = 0; i < 3; i++)
-			    imageArray[i] = new Image(getClass().getResource("images/up" + i + ".png").toExternalForm());
-			ufo.frames = imageArray;
-			ufo.duration = 2000;
-			playerView.setImage(ufo.getFrame(1));
-			
-//			playerView.setImage(new Image(getClass().getResource("images/up0.png").toExternalForm()));
-//			playerView.setImage(new Image(getClass().getResource("images/up1.png").toExternalForm()));
-//			playerView.setImage(new Image(getClass().getResource("images/up2.png").toExternalForm()));
-
+			playerImg.setOffsetY(0);
 		}
 		if (voyageur.getFace() == Dir.W) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + 3 * lc / 4);
-//			polygon.getPoints().clear();
-//			polygon.getPoints().addAll(list);
-			playerView.setImage(new Image(getClass().getResource("images/left1.png").toExternalForm()));
-			playerView.setImage(new Image(getClass().getResource("images/left1.png").toExternalForm()));
-			playerView.setImage(new Image(getClass().getResource("images/left2.png").toExternalForm()));
+			 playerImg.setOffsetY(48 * 3);
+
 		}
 		if (voyageur.getFace() == Dir.S) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + lc / 4);
-//
-//			polygon.getPoints().clear();
-//			polygon.getPoints().addAll(list);
-			playerView.setImage(new Image(getClass().getResource("images/down0.png").toExternalForm()));
-			playerView.setImage(new Image(getClass().getResource("images/down1.png").toExternalForm()));
-			playerView.setImage(new Image(getClass().getResource("images/down2.png").toExternalForm()));
+			playerImg.setOffsetY(48 * 2);
 
 		}
 		if (voyageur.getFace() == Dir.E) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + 3 * lc / 4);
-//			polygon.getPoints().clear();
-//			polygon.getPoints().addAll(list);
-			playerView.setImage(new Image(getClass().getResource("images/right0.png").toExternalForm()));
-			playerView.setImage(new Image(getClass().getResource("images/right1.png").toExternalForm()));
-			playerView.setImage(new Image(getClass().getResource("images/right2.png").toExternalForm()));
-
+			 playerImg.setOffsetY(48);
 		}
 
-//		GridPane.setColumnIndex(polygon, vc);
-//		GridPane.setRowIndex(polygon, vl);
-//		if (!mapGrid.getChildren().contains(polygon)) {
-//			mapGrid.getChildren().addAll(polygon);
-//		}
-		GridPane.setColumnIndex(playerView, vc);
-		GridPane.setRowIndex(playerView, vl);
-		if (!mapGrid.getChildren().contains(playerView)) {
-			mapGrid.getChildren().addAll(playerView);
+		GridPane.setColumnIndex(playerImg.getImageView(), vc);
+		GridPane.setRowIndex(playerImg.getImageView(), vl);
+		if (!mapGrid.getChildren().contains(playerImg.getImageView())) {
+			mapGrid.getChildren().addAll(playerImg.getImageView());
 		}
 
 	}
@@ -274,54 +210,28 @@ public class MainController {
 
 		try {
 			if (voyageur.getFace() == Dir.N) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + 3 * lc / 4);
-//			polygonCow.getPoints().clear();
-//			polygonCow.getPoints().addAll(list);
-				iv.setImage(new Image(getClass().getResource("images/monsterUP.png").toExternalForm()));
+                comImg.play();
+
 			}
 			if (voyageur.getFace() == Dir.W) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + 3 * lc / 4);
-//			polygonCow.getPoints().clear();
-//			polygonCow.getPoints().addAll(list);
-				iv.setImage(new Image(getClass().getResource("images/monsterLeft.png").toExternalForm()));
+                comImg.play();
 
 			}
 			if (voyageur.getFace() == Dir.S) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + lc / 2, h0 + vl * lc + 3 * lc / 4, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + 3 * lc / 4,
-//					h0 + vl * lc + lc / 4);
-//
-//			polygonCow.getPoints().clear();
-//			polygonCow.getPoints().addAll(list);
-				iv.setImage(new Image(getClass().getResource("images/monsterDown.png").toExternalForm()));
+                comImg.play();
 
 			}
 			if (voyageur.getFace() == Dir.E) {
-//			List<Double> list = Arrays.asList(w0 + vc * lc + 3 * lc / 4, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + lc / 4, w0 + vc * lc + lc / 2, h0 + vl * lc + lc / 2, w0 + vc * lc + lc / 4,
-//					h0 + vl * lc + 3 * lc / 4);
-//			polygonCow.getPoints().clear();
-//			polygonCow.getPoints().addAll(list);
-				iv.setImage(new Image(getClass().getResource("images/monsterRight.png").toExternalForm()));
+                comImg.setOffsetY(58 * 2);
+                comImg.play();
 
 			}
 
-//		GridPane.setColumnIndex(polygonCow, vc);
-//		GridPane.setRowIndex(polygonCow, vl);
-//		if (!mapGrid.getChildren().contains(polygonCow)) {
-//			mapGrid.getChildren().addAll(polygonCow);
-//		}
-			    GridPane.setColumnIndex(iv, vc);
-				GridPane.setRowIndex(iv, vl);
-				if (!mapGrid.getChildren().contains(iv)) {
-				mapGrid.getChildren().addAll(iv);
+				GridPane.setRowIndex(comImg.getImageView(), vl);
+				if (!mapGrid.getChildren().contains(comImg.getImageView())) {
+				mapGrid.getChildren().addAll(comImg.getImageView());
 				}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -332,26 +242,32 @@ public class MainController {
 		//	System.out.println("je suis dans up");
 			labyrinthe.getEntity(0).forward();
 			paintPlayer();
+			playerImg.play();
 
 		}
 		if (e.getCode().equals(KeyCode.DOWN)) {
 			labyrinthe.getEntity(0).backward();
 			paintPlayer();
+			playerImg.play();
 
 		}
 		if (e.getCode().equals(KeyCode.LEFT)) {
 			labyrinthe.getEntity(0).turnL();
 			// polygon.setRotate(polygon.getRotate()-90);
 			paintPlayer();
+			playerImg.play();
 
 		}
 		if (e.getCode().equals(KeyCode.RIGHT)) {
 			labyrinthe.getEntity(0).turnR();
 			// polygon.setRotate(polygon.getRotate()+90);
 			paintPlayer();
-
+			playerImg.play();
 		}
-
+	}
+	
+	public void stopPlayer() {
+		playerImg.stop();
 	}
 	public void paintKey(int row, int col) {
 		ImageView keyView = new ImageView(key);
