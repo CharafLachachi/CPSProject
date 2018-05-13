@@ -78,7 +78,7 @@ public interface MobService {
 				// getRow() = getRow()@pre and getCol() = getCol()@pre
 	public void forward();
 	
-	// Cas nord et peur reculer
+	// Cas nord et peut reculer
 	// post if(getFace() == Dir.N) then 
 		//	if getEnv().getCellNature(getCol(), getRow()-1) == Cell.EMP || Cell.DWO && 
 		// getRow() - 1 >= 0 &&  
@@ -130,6 +130,35 @@ public interface MobService {
 					// getEnv().getCellContent(getCol() + 1, getRow()) == Option.Yes then
 					// getRow() = getRow()@pre and getCol() = getCol()@pre
 	public void backward();
+	
+	
+	
+	/**
+	 * post if(getFace() == Dir.N) then
+	 * 			if(getEnv().getCellContent(getCol(), getRow()-1) = Option.YES) then
+	 * 				getEnv().getCellContent(getCol(), getRow()-1).getHp() -= 1
+	 * 				for i <> getCol(),j<> getRow()-1 in N², getEnv().getMob(i,j).getHp() = getEnv().getMob(i,j).getHp()@pre
+	 */
+	/**
+	 * post if(getFace() == Dir.S) then
+	 * 			if(getEnv().getCellContent(getCol(), getRow()+1) = Option.YES) then
+	 * 				getEnv().getCellContent(getCol(), getRow()+1).getHp() -= 1
+	 * 				for i <> getCol(),j<> getRow()+1 in N², getEnv().getMob(i,j).getHp() = getEnv().getMob(i,j).getHp()@pre
+	 */
+	/**
+	 * post if(getFace() == Dir.E) then
+	 * 			if(getEnv().getCellContent(getCol()+1, getRow()) = Option.YES) then
+	 * 				getEnv().getCellContent(getCol()+1, getRow()).getHp() -= 1
+	 * 				for i <> getCol()+1,j<> getRow() in N², getEnv().getMob(i,j).getHp() = getEnv().getMob(i,j).getHp()@pre
+	 */
+	/**
+	 * post if(getFace() == Dir.W) then
+	 * 			if(getEnv().getCellContent(getCol()-1, getRow()) = Option.YES) then
+	 * 				getEnv().getCellContent(getCol()-1, getRow()).getHp() -= 1
+	 * 				for i <> getCol()-1,j<> getRow() in N², getEnv().getMob(i,j).getHp() = getEnv().getMob(i,j).getHp()@pre
+	 */
+	
+	public void attack();
 	
 	/**TODO pour la suite du projet*/
 	public void turnL();
