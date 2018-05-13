@@ -141,4 +141,10 @@ public class PlayerContract extends EntityContract implements PlayerService {
 		return ((PlayerService) getDelegate()).viewable(x, y);
 	}
 
+	@Override
+	public void setCommand(Command c) {
+		
+		((PlayerService) getDelegate()).setCommand(c);
+	}
+
 }

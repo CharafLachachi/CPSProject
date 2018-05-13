@@ -21,11 +21,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import services.Cell;
+import services.Command;
 import services.Dir;
 import services.EngineService;
 import services.EntityService;
 import services.EnvironnementService;
 import services.KeyService;
+import services.PlayerService;
 
 public class MainController {
 
@@ -243,20 +245,50 @@ public class MainController {
 
 	//Listner pour les direction sur le clavier permettant le deplcaement du joueur
 	public void movePlayer(KeyEvent e) {
+		
+		switch(e.getCode())
+		{
+		case UP:
+			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.FF);
+			break;
+		
+		case DOWN:
+			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.BB);
+			break;
+		case LEFT:
+			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TL);
+			break;
+		case RIGHT:
+			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TR);
+			break;
+		case A : 
+			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.C);
+		default:
+			break;
+		}
+		
+		player.step();
+		paintPlayer();
+		playerImg.play();
+		
+		/**
 		if (e.getCode().equals(KeyCode.UP)) {
 		//	System.out.println("je suis dans up");
+			
 			labyrinthe.getEntity(0).forward();
 			paintPlayer();
 			playerImg.play();
 
 		}
 		if (e.getCode().equals(KeyCode.DOWN)) {
+			
 			labyrinthe.getEntity(0).backward();
 			paintPlayer();
 			playerImg.play();
 
 		}
 		if (e.getCode().equals(KeyCode.LEFT)) {
+			
 			labyrinthe.getEntity(0).turnL();
 			// polygon.setRotate(polygon.getRotate()-90);
 			paintPlayer();
@@ -264,11 +296,14 @@ public class MainController {
 
 		}
 		if (e.getCode().equals(KeyCode.RIGHT)) {
-			labyrinthe.getEntity(0).turnR();
+			
+			 labyrinthe.getEntity(0).turnR();
 			// polygon.setRotate(polygon.getRotate()+90);
-			paintPlayer();
-			playerImg.play();
+			 paintPlayer();
+			 playerImg.play();
 		}
+		*/
+		
 	}
 	
 	public void stopPlayer() {

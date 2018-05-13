@@ -115,11 +115,17 @@ public class Player extends Entity implements PlayerService {
 			break;
 		case C:
 		//	battle();
+			attack();
 			break;
 
 		default:
 			break;
 		}
+	}
+	
+	public void setCommand(Command c)
+	{
+		this.command = c;
 	}
 
 }

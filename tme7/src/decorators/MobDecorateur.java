@@ -73,4 +73,10 @@ public class MobDecorateur implements MobService {
 		delegate.strafeR();
 	}
 
+	@Override
+	public void attack() {
+		delegate.attack();
+		
+	}
+
 }

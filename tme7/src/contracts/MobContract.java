@@ -1,13 +1,18 @@
 package contracts;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
+import components.Entity;
+import components.Environement;
 import decorators.MobDecorateur;
 import exceptions.InvariantError;
 import exceptions.PostconditionError;
 import exceptions.PreconditionError;
 import services.Cell;
 import services.Dir;
+import services.EntityService;
 import services.EnvironnementService;
 import services.MobService;
 
@@ -362,6 +367,71 @@ public class MobContract extends MobDecorateur implements MobService {
 			if (!(getRow() == row_atPre - 1))
 				throw new PostconditionError("MobService", "strafL", "");
 		}
+	}
+
+
+	@Override
+	public void attack() {
+		
+		checkInvariants();
+		// capture
+		List<MobService> mobs = new ArrayList<>(((Environement)getEnv()).mobs);
+		List<Integer> lifes = new ArrayList<>();
+	
+		int row = 0;
+		int col = 0;
+		
+		
+		switch(getFace()) {
+		case N:
+			if (getRow() - 1  > 0) {
+				row = getRow() - 1;
+				col = getCol();
+			}
+			break;
+		case E:
+			if (getCol() + 1 < getEnv().getWidth() ) {
+				row = getRow();
+				col = getCol()  + 1;
+			}
+			break;
+		case S:
+			if (getRow() + 1 < getEnv().getHeight()) {
+				row = getRow() + 1;
+				col = getCol();
+			}
+			break;
+		case W:
+			if (getCol() - 1 > 0) {
+				row = getRow() - 1;
+				col = getCol() - 1;
+			}
+			break;
+		}
+		Optional<MobService> cow = getEnv().getCellContent(row, col);
+		if(row != 0 && col != 0 && !cow.equals(Optional.empty()))
+		{
+			int hp = ((Entity) cow.get()).getHp();
+			mobs.remove(cow.get());
+			
+			for (MobService mob : mobs)
+				lifes.add(((Entity) mob).getHp());
+			
+			super.attack();
+			
+			checkInvariants();
+			
+			if(((Entity) cow.get()).getHp() != hp - 1)
+				throw new PostconditionError("MobService", "attack", "cow is hit but life is same");
+			
+			for (int i = 0; i < mobs.size(); i++)
+				if(((Entity) mobs.get(i)).getHp() != lifes.get(i))
+					throw new PostconditionError("MobService", "attack", "others is attacked");
+		}
+		
+		
+		
+		
 	}
 
 }

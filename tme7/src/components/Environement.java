@@ -10,7 +10,7 @@ import services.MobService;
 
 public class Environement extends EditMap implements EnvironnementService {
 
-	private List<MobService> mobs = new ArrayList<>();
+	public List<MobService> mobs = new ArrayList<>();
 	
 	@Override
 	public Optional<MobService> getCellContent(int x, int y) {

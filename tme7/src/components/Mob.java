@@ -3,7 +3,9 @@ package components;
 import java.util.Optional;
 
 import services.Cell;
+import services.CowService;
 import services.Dir;
+import services.EntityService;
 import services.EnvironnementService;
 import services.MobService;
 
@@ -239,6 +241,57 @@ public class Mob implements MobService {
 
 	public void setFace(Dir face) {
 		this.face = face;
+	}
+
+	
+	@Override
+	public void attack() {
+		switch(face) {
+		case N:
+			if (row - 1  > 0
+					&& !env.getCellContent(row - 1, col).equals(Optional.empty())) {
+				if (env.getCellContent(row - 1, col).get() instanceof EntityService) {
+					EntityService entity = (EntityService) env.getCellContent(row - 1, col).get();
+					((Entity) entity).setHp(entity.getHp() - 1);
+					System.out.println("point de vie reduit" + entity.getHp());
+				}
+				
+			}
+			break;
+		case E:
+			if (col + 1 < env.getWidth()
+					&& !env.getCellContent(row , col + 1).equals(Optional.empty())) {
+				if (env.getCellContent(row, col + 1).get() instanceof EntityService) {
+					EntityService entity = (EntityService) env.getCellContent(row, col + 1).get();
+					((Entity) entity).setHp(entity.getHp() - 1);
+					System.out.println("point de vie reduit" + entity.getHp());
+				}
+			}
+			break;
+		case S:
+			if (row + 1 < env.getHeight()
+					&& !env.getCellContent(row + 1, col).equals(Optional.empty())) {
+				if (env.getCellContent(row + 1, col).get() instanceof EntityService) {
+					EntityService entity = (EntityService) env.getCellContent(row + 1, col).get();
+					((Entity) entity).setHp(entity.getHp() - 1);
+					System.out.println("point de vie reduit" + entity.getHp());
+				}
+			}
+			break;
+		case W:
+			if (col - 1 > 0
+					&& !env.getCellContent(row , col - 1).equals(Optional.empty())) {
+				if (env.getCellContent(row, col - 1).get() instanceof EntityService) {
+					EntityService entity = (EntityService) env.getCellContent(row, col - 1).get();
+					((Entity) entity).setHp(entity.getHp() - 1);
+					System.out.println("point de vie reduit" + entity.getHp());
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		
 	}
 
 }
