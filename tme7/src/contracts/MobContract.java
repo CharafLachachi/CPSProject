@@ -12,7 +12,6 @@ import exceptions.PostconditionError;
 import exceptions.PreconditionError;
 import services.Cell;
 import services.Dir;
-import services.EntityService;
 import services.EnvironnementService;
 import services.MobService;
 

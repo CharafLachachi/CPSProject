@@ -1,5 +1,6 @@
 package contracts;
 
+
 import exceptions.PostconditionError;
 import exceptions.PreconditionError;
 import services.Cell;

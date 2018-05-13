@@ -2,12 +2,9 @@ package contracts;
 
 import java.util.Optional;
 
-import decorators.PlayerDecorator;
 import exceptions.InvariantError;
 import services.Cell;
 import services.Command;
-import services.Dir;
-import services.EnvironnementService;
 import services.MobService;
 import services.PlayerService;
 

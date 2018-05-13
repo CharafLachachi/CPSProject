@@ -4,7 +4,6 @@ import exceptions.PostconditionError;
 import exceptions.PreconditionError;
 import services.EnvironnementService;
 import services.FoodService;
-import services.FoodService;
 
 public class FoodContract extends RessourcesContract implements FoodService{
 

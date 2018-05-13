@@ -3,7 +3,6 @@ package components;
 import java.util.Optional;
 
 import services.Cell;
-import services.CowService;
 import services.Dir;
 import services.EntityService;
 import services.EnvironnementService;

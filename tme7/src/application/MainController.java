@@ -1,5 +1,6 @@
 package application;
 
+
 import components.Cow;
 import components.Engine;
 import components.Environement;
@@ -13,11 +14,9 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import services.Cell;
@@ -28,6 +27,7 @@ import services.EntityService;
 import services.EnvironnementService;
 import services.KeyService;
 import services.PlayerService;
+
 
 public class MainController {
 
