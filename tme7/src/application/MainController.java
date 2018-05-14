@@ -1,6 +1,5 @@
 package application;
 
-
 import java.util.Optional;
 
 import components.Cow;
@@ -30,7 +29,6 @@ import services.EnvironnementService;
 import services.KeyService;
 import services.PlayerService;
 
-
 public class MainController {
 
 	@FXML
@@ -45,9 +43,9 @@ public class MainController {
 	private EntityService player;
 	private AnimatedImage comImg;
 	private AnimatedImage playerImg;
-	
-	
-    
+	private ImageView keyView;
+	private KeyService keyService;
+
 	public void init() {
 		polygon = new Polygon();
 		polygon.setFill(Color.BLUE);
@@ -55,25 +53,25 @@ public class MainController {
 		polygonCow = new Polygon();
 		polygonCow.setFill(Color.RED);
 
-		//EntityService cow = new CowContract(new Cow());
+		// EntityService cow = new CowContract(new Cow());
 		EntityService cow = new Cow();
 		player = new PlayerContract(new Player());
-		EnvironnementService env = new EnvironnementContract(new  Environement());
+		EnvironnementService env = new EnvironnementContract(new Environement());
 		env.init(15, 15);
-		
+
 		key = new Image(getClass().getResource("images/key.png").toExternalForm());
 		labyrinthe.init(env);
 		cow.init(env, 3, 3, Dir.S, 4);
 		player.init(env, 0, 0, Dir.N);
-		
+
 		labyrinthe.addEntity(player);
 		labyrinthe.addEntity(cow);
 		cow.step();
-		
-		playerImg = new AnimatedImage( new Image("/application/images/heros1.png"), 3, 3, 0, 48, 35, 48);
+
+		playerImg = new AnimatedImage(new Image("/application/images/heros1.png"), 3, 3, 0, 48, 35, 48);
 		comImg = new AnimatedImage(new Image("/application/images/test.png"), 3, 3, 12, 58, 55, 58);
-		KeyService keyService = new Key();
-		
+		keyService = new Key();
+
 		// les valeurs son misent dans init de Key
 		keyService.init(env, 0, 0);
 
@@ -98,7 +96,7 @@ public class MainController {
 			while (cow.getHp() > 0) {
 				cow.step();
 				paintCow();
-				
+
 				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e) {
@@ -107,6 +105,7 @@ public class MainController {
 			}
 		}).start());
 		// afficher une cle
+		keyView = new ImageView(key);
 		paintKey(keyService.getRow(), keyService.getCol());
 	}
 
@@ -118,34 +117,34 @@ public class MainController {
 
 		if (maCase == Cell.WLL) {
 			Image wall = new Image(getClass().getResource("images/wall1.png").toExternalForm());
-		    ImageView iv = new ImageView(wall);
-		    GridPane.setColumnIndex(iv, row);
+			ImageView iv = new ImageView(wall);
+			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
 
 		}
 		if (maCase == Cell.IN) {
-//			rect.setFill(Color.GRAY);
-//			GridPane.setColumnIndex(rect, row);
-//			GridPane.setRowIndex(rect, col);
-//			mapGrid.getChildren().addAll(rect);
+			// rect.setFill(Color.GRAY);
+			// GridPane.setColumnIndex(rect, row);
+			// GridPane.setRowIndex(rect, col);
+			// mapGrid.getChildren().addAll(rect);
 			Image wall = new Image(getClass().getResource("images/start.jpg").toExternalForm());
-		    ImageView iv = new ImageView(wall);
-		    GridPane.setColumnIndex(iv, row);
+			ImageView iv = new ImageView(wall);
+			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.OUT) {
 			Image wall = new Image(getClass().getResource("images/finish.png").toExternalForm());
-		    ImageView iv = new ImageView(wall);
-		    GridPane.setColumnIndex(iv, row);
+			ImageView iv = new ImageView(wall);
+			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.EMP) {
 			Image wall = new Image(getClass().getResource("images/grass.png").toExternalForm());
-		    ImageView iv = new ImageView(wall);
-		    GridPane.setColumnIndex(iv, row);
+			ImageView iv = new ImageView(wall);
+			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
 		}
@@ -153,47 +152,48 @@ public class MainController {
 			System.out.println("DNO");
 
 			Image door = new Image(getClass().getResource("images/doorDNO.png").toExternalForm());
-		    ImageView iv = new ImageView(door);
-		    GridPane.setColumnIndex(iv, row);
+			ImageView iv = new ImageView(door);
+			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.DWO) {
-				Image door = new Image(getClass().getResource("images/doorDWO.png").toExternalForm());
-			    ImageView iv = new ImageView(door);
-			    GridPane.setColumnIndex(iv, row);
-				GridPane.setRowIndex(iv, col);
-				mapGrid.getChildren().addAll(iv);
+			Image door = new Image(getClass().getResource("images/doorDWO.png").toExternalForm());
+			ImageView iv = new ImageView(door);
+			GridPane.setColumnIndex(iv, row);
+			GridPane.setRowIndex(iv, col);
+			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.DWC) {
-		    Image door = new Image(getClass().getResource("images/door.png").toExternalForm());
-		    ImageView iv = new ImageView(door);
-		    GridPane.setColumnIndex(iv, row);
+			Image door = new Image(getClass().getResource("images/door.png").toExternalForm());
+			ImageView iv = new ImageView(door);
+			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
 		}
 		if (maCase == Cell.DNC) {
 			Image door = new Image(getClass().getResource("images/doorDNC.png").toExternalForm());
-		    ImageView iv = new ImageView(door);
-		    GridPane.setColumnIndex(iv, row);
+			ImageView iv = new ImageView(door);
+			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
 		}
-		
+
 	}
 
-	// methode pour dessiner le joueur au debut et a l'appel des fonction de direction
+	// methode pour dessiner le joueur au debut et a l'appel des fonction de
+	// direction
 	private void paintPlayer() {
 		EntityService voyageur = labyrinthe.getEntity(0);
 		int vl = voyageur.getRow();
 		int vc = voyageur.getCol();
-	//	System.out.println("row " + vl);
+		// System.out.println("row " + vl);
 
 		if (voyageur.getFace() == Dir.N) {
 			playerImg.setOffsetY(0);
 		}
 		if (voyageur.getFace() == Dir.W) {
-			 playerImg.setOffsetY(48 * 3);
+			playerImg.setOffsetY(48 * 3);
 
 		}
 		if (voyageur.getFace() == Dir.S) {
@@ -201,7 +201,7 @@ public class MainController {
 
 		}
 		if (voyageur.getFace() == Dir.E) {
-			 playerImg.setOffsetY(48);
+			playerImg.setOffsetY(48);
 		}
 
 		GridPane.setColumnIndex(playerImg.getImageView(), vc);
@@ -211,120 +211,123 @@ public class MainController {
 		}
 
 	}
-	// methode pour dessiner le joueur au debut et a l'appel des fonction de direction
+
+	// methode pour dessiner le joueur au debut et a l'appel des fonction de
+	// direction
 	private void paintCow() {
 		EntityService voyageur = labyrinthe.getEntity(1);
 		int vl = voyageur.getRow();
 		int vc = voyageur.getCol();
-	//	System.out.println("row " + vl);
+		// System.out.println("row " + vl);
 
 		try {
 			if (voyageur.getFace() == Dir.N) {
-                comImg.play();
+				comImg.play();
 
 			}
 			if (voyageur.getFace() == Dir.W) {
-                comImg.play();
+				comImg.play();
 
 			}
 			if (voyageur.getFace() == Dir.S) {
-                comImg.play();
+				comImg.play();
 
 			}
 			if (voyageur.getFace() == Dir.E) {
-                comImg.setOffsetY(58 * 2);
-                comImg.play();
+				comImg.setOffsetY(58 * 2);
+				comImg.play();
 
 			}
 
-				GridPane.setRowIndex(comImg.getImageView(), vl);
-				if (!mapGrid.getChildren().contains(comImg.getImageView())) {
+			GridPane.setRowIndex(comImg.getImageView(), vl);
+			if (!mapGrid.getChildren().contains(comImg.getImageView())) {
 				mapGrid.getChildren().addAll(comImg.getImageView());
-				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	//Listner pour les direction sur le clavier permettant le deplcaement du joueur
+	// Listner pour les direction sur le clavier permettant le deplcaement du joueur
 	public void movePlayer(KeyEvent e) {
-		
-		switch(e.getCode())
-		{
+
+		switch (e.getCode()) {
 		case UP:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.FF);
+			if (labyrinthe.getEnv()
+					.getCellRessources(keyService.getRow(),keyService.getCol())
+					.equals(Optional.empty())) {
+				mapGrid.getChildren().removeAll(keyView);
+			}
 			break;
-		
+
 		case DOWN:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.BB);
+			if (labyrinthe.getEnv()
+					.getCellRessources(keyService.getRow(),keyService.getCol())
+					.equals(Optional.empty())) {
+				mapGrid.getChildren().removeAll(keyView);
+			}
 			break;
 		case LEFT:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TL);
+			if (labyrinthe.getEnv()
+					.getCellRessources(keyService.getRow(),keyService.getCol())
+					.equals(Optional.empty())) {
+				mapGrid.getChildren().removeAll(keyView);
+			}
 			break;
 		case RIGHT:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TR);
+			if (labyrinthe.getEnv()
+					.getCellRessources(keyService.getRow(),keyService.getCol())
+					.equals(Optional.empty())) {
+				mapGrid.getChildren().removeAll(keyView);
+			}
 			break;
-		case A : 
+		case A:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.C);
 		default:
 			break;
 		}
-		
+
 		player.step();
 		paintPlayer();
 		playerImg.play();
-		
+
 		/**
-		if (e.getCode().equals(KeyCode.UP)) {
-		//	System.out.println("je suis dans up");
-			
-			labyrinthe.getEntity(0).forward();
-			paintPlayer();
-			playerImg.play();
+		 * if (e.getCode().equals(KeyCode.UP)) { // System.out.println("je suis dans
+		 * up");
+		 * 
+		 * labyrinthe.getEntity(0).forward(); paintPlayer(); playerImg.play();
+		 * 
+		 * } if (e.getCode().equals(KeyCode.DOWN)) {
+		 * 
+		 * labyrinthe.getEntity(0).backward(); paintPlayer(); playerImg.play();
+		 * 
+		 * } if (e.getCode().equals(KeyCode.LEFT)) {
+		 * 
+		 * labyrinthe.getEntity(0).turnL(); //
+		 * polygon.setRotate(polygon.getRotate()-90); paintPlayer(); playerImg.play();
+		 * 
+		 * } if (e.getCode().equals(KeyCode.RIGHT)) {
+		 * 
+		 * labyrinthe.getEntity(0).turnR(); //
+		 * polygon.setRotate(polygon.getRotate()+90); paintPlayer(); playerImg.play(); }
+		 */
 
-		}
-		if (e.getCode().equals(KeyCode.DOWN)) {
-			
-			labyrinthe.getEntity(0).backward();
-			paintPlayer();
-			playerImg.play();
-
-		}
-		if (e.getCode().equals(KeyCode.LEFT)) {
-			
-			labyrinthe.getEntity(0).turnL();
-			// polygon.setRotate(polygon.getRotate()-90);
-			paintPlayer();
-			playerImg.play();
-
-		}
-		if (e.getCode().equals(KeyCode.RIGHT)) {
-			
-			 labyrinthe.getEntity(0).turnR();
-			// polygon.setRotate(polygon.getRotate()+90);
-			 paintPlayer();
-			 playerImg.play();
-		}
-		*/
-		
 	}
-	
+
 	public void stopPlayer() {
 		playerImg.stop();
 	}
+
 	public void paintKey(int row, int col) {
-		ImageView keyView = new ImageView(key);
-		if(!labyrinthe.getEnv().getCellRessources(row, col).equals(Optional.empty()))
-		{
-			GridPane.setColumnIndex(keyView, col);
-			GridPane.setRowIndex(keyView, row);
-			mapGrid.getChildren().addAll(keyView);
-		}
-		else
-		{	
-			mapGrid.getChildren().removeAll(keyView);
-		}
-		
+
+		GridPane.setColumnIndex(keyView, col);
+		GridPane.setRowIndex(keyView, row);
+		mapGrid.getChildren().addAll(keyView);
+
 	}
 
 }
