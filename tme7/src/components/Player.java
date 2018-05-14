@@ -4,13 +4,14 @@ import java.util.Optional;
 
 import services.Cell;
 import services.Command;
+import services.KeyService;
 import services.MobService;
 import services.PlayerService;
 
 public class Player extends Entity implements PlayerService {
 
 	private Command command;
-
+	private KeyService key = null;
 	@Override
 	public Optional<Command> lastCom() {
 		return Optional.ofNullable(command);
@@ -121,11 +122,25 @@ public class Player extends Entity implements PlayerService {
 		default:
 			break;
 		}
+		
+		System.out.println("player position : " + getRow() + "," + getCol());
+		if(((this instanceof PlayerService) && 
+				!getEnv().getCellRessources(getRow(), getCol()).equals(Optional.empty())))
+		{
+			this.key = ((KeyService) getEnv().getCellRessources(getRow(), getCol()).get());
+			getEnv().removeRessource(key);
+			if(key == null)
+				System.out.println("Key NULL");
+			else
+				System.out.println("yep j'ai la clé");
+			
+		}
 	}
+	
 	
 	public void setCommand(Command c)
 	{
 		this.command = c;
 	}
-
+	
 }

@@ -1,6 +1,8 @@
 package application;
 
 
+import java.util.Optional;
+
 import components.Cow;
 import components.Engine;
 import components.Environement;
@@ -73,7 +75,7 @@ public class MainController {
 		KeyService keyService = new Key();
 		
 		// les valeurs son misent dans init de Key
-		keyService.init(env, 0, 0, 0, 0);
+		keyService.init(env, 0, 0);
 
 		l = 1;
 		c = 1;
@@ -96,15 +98,16 @@ public class MainController {
 			while (cow.getHp() > 0) {
 				cow.step();
 				paintCow();
+				
 				try {
-					Thread.sleep(500);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
 			}
 		}).start());
 		// afficher une cle
-		paintKey(keyService.getRow(), keyService.getRow());
+		paintKey(keyService.getRow(), keyService.getCol());
 	}
 
 	public void paintCase(int col, int row) {
@@ -311,9 +314,17 @@ public class MainController {
 	}
 	public void paintKey(int row, int col) {
 		ImageView keyView = new ImageView(key);
-		GridPane.setColumnIndex(keyView, row);
-		GridPane.setRowIndex(keyView, col);
-		mapGrid.getChildren().addAll(keyView);
+		if(!labyrinthe.getEnv().getCellRessources(row, col).equals(Optional.empty()))
+		{
+			GridPane.setColumnIndex(keyView, col);
+			GridPane.setRowIndex(keyView, row);
+			mapGrid.getChildren().addAll(keyView);
+		}
+		else
+		{	
+			mapGrid.getChildren().removeAll(keyView);
+		}
+		
 	}
 
 }

@@ -15,7 +15,8 @@ public class EntityContract extends MobContract implements EntityService{
 		super(delegate);
 		
 	}
-
+   
+	
 	
 
 	@Override

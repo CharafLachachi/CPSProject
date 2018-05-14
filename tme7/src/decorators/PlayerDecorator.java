@@ -133,7 +133,7 @@ public class PlayerDecorator implements PlayerService{
 	}
 	@Override
 	public void setCommand(Command c) {
-		// TODO Auto-generated method stub
+		delegate.setCommand(c);
 		
 	}
 

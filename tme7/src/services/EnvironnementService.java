@@ -7,8 +7,10 @@ public interface EnvironnementService extends /*include*/ MapService{
 	//Obeservators
 	 
 	public Optional<MobService> getCellContent(int x, int y);
+	public Optional<RessourcesService> getCellRessources(int x, int y);
 	//public Content getCellContent(int x, int y);
 	public MobService getMob(int x, int y);
+	public RessourcesService getRessource(int x, int y);
 	
 	
 	//Operators
@@ -27,5 +29,9 @@ public interface EnvironnementService extends /*include*/ MapService{
 	 */
 	
 	public void addMob(MobService mob);
+	public void addRessource(RessourcesService ressource);
+	
+	public void removeMob(MobService mob);
+	public void removeRessource(RessourcesService ressource);
 	
 }

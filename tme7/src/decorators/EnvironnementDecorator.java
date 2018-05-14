@@ -5,6 +5,7 @@ import java.util.Optional;
 import services.EnvironnementService;
 import services.MapService;
 import services.MobService;
+import services.RessourcesService;
 
 public class EnvironnementDecorator extends /* include */ MapDecorateur implements EnvironnementService {
 
@@ -30,6 +31,34 @@ public class EnvironnementDecorator extends /* include */ MapDecorateur implemen
 	@Override
 	public void addMob(MobService mob) {
 		getDelegate().addMob(mob);
+	}
+
+	@Override
+	public Optional<RessourcesService> getCellRessources(int x, int y) {
+		return getDelegate().getCellRessources(x, y);
+	}
+
+	@Override
+	public RessourcesService getRessource(int x, int y) {
+		
+		return getDelegate().getRessource(x, y);
+	}
+
+	@Override
+	public void addRessource(RessourcesService ressource) {
+		getDelegate().addRessource(ressource);
+	}
+
+	@Override
+	public void removeMob(MobService mob) {
+		getDelegate().removeMob(mob);
+		
+	}
+
+	@Override
+	public void removeRessource(RessourcesService ressource) {
+		getDelegate().removeRessource(ressource);
+		
 	}
 
 }

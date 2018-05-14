@@ -14,6 +14,8 @@ public class MobDecorateur implements MobService {
 		this.delegate = delegate;
 	}
 	
+
+	
 	public MobService getDelegate() {
 		return delegate;
 	}

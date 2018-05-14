@@ -2,17 +2,20 @@ package contracts;
 
 import java.util.Optional;
 
+import decorators.PlayerDecorator;
 import exceptions.InvariantError;
 import services.Cell;
 import services.Command;
 import services.MobService;
 import services.PlayerService;
 
-public class PlayerContract extends EntityContract implements PlayerService {
+public class PlayerContract extends PlayerDecorator implements PlayerService {
 
 	public PlayerContract(PlayerService delegate) {
 		super(delegate);
 	}
+	
+	
 
 	public void checkInv() {
 		// TODO : a verifier
@@ -91,6 +94,7 @@ public class PlayerContract extends EntityContract implements PlayerService {
 
 	@Override
 	public void step() {
+		/**
 		switch (lastCom().get()) {
 		case FF:
 			this.forward();
@@ -110,20 +114,24 @@ public class PlayerContract extends EntityContract implements PlayerService {
 		case TR:
 			this.turnR();
 			break;
+		default:
+			break;
 		}
-
+*/
+		super.step();
 	}
 
+	/**
 	@Override
 	public Optional<Command> lastCom() {
 		// TODO Auto-generated method stub
-		return ((PlayerService) getDelegate()).lastCom();
+		return super.lastCom();
 	}
 
 	@Override
 	public Optional<MobService> content(int x, int y) {
 		// TODO Auto-generated method stub
-		return ((PlayerService) getDelegate()).content(x, y);
+		return super.content(x, y);
 	}
 
 	@Override
@@ -143,5 +151,6 @@ public class PlayerContract extends EntityContract implements PlayerService {
 		
 		((PlayerService) getDelegate()).setCommand(c);
 	}
-
+*/
+	
 }
