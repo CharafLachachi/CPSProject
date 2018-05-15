@@ -1,5 +1,6 @@
 package services;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface EnvironnementService extends /*include*/ MapService{
@@ -11,6 +12,8 @@ public interface EnvironnementService extends /*include*/ MapService{
 	//public Content getCellContent(int x, int y);
 	public MobService getMob(int x, int y);
 	public RessourcesService getRessource(int x, int y);
+	public List<MobService> getMobs();
+	
 	
 	
 	//Operators

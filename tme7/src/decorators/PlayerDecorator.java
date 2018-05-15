@@ -147,5 +147,20 @@ public class PlayerDecorator implements PlayerService{
 		// TODO Auto-generated method stub
 		return delegate.getKey();
 	}
+	@Override
+	public void openDoor() {
+		delegate.openDoor();
+		
+	}
+	@Override
+	public void closeDoor() {
+		// TODO Auto-generated method stub
+		delegate.closeDoor();
+	}
+	@Override
+	public void setHp(int hp) {
+		delegate.setHp(hp);
+		
+	}
 
 }

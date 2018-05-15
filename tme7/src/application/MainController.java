@@ -75,6 +75,35 @@ public class MainController {
 		// les valeurs son misent dans init de Key
 		keyService.init(env, 0, 0);
 
+		
+		paintAllCase();
+	    paintPlayer();
+		paintCow();
+		// lancer dans un thread le mouvement de la vache
+		Platform.runLater(() -> new Thread(() -> {
+			while (cow.getHp() > 0) {
+				cow.step();
+				paintCow();
+				
+				try {
+					Thread.sleep(300);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			labyrinthe.getEnv().removeMob(cow);
+			System.out.println("cow life death : " + cow.getHp());
+			comImg.stop();
+			comImg.getImageView().setVisible(false);
+			
+		}).start());
+		// afficher une cle
+		keyView = new ImageView(key);
+		paintKey(keyService.getRow(), keyService.getCol());
+	}
+
+	public void paintAllCase()
+	{
 		l = 1;
 		c = 1;
 		Insets in = mapGrid.getInsets();
@@ -89,26 +118,8 @@ public class MainController {
 			for (int cc = 0; cc < 15; cc++) {
 				paintCase(ll, cc);
 			}
-		paintPlayer();
-		paintCow();
-		// lancer dans un thread le mouvement de la vache
-		Platform.runLater(() -> new Thread(() -> {
-			while (cow.getHp() > 0) {
-				cow.step();
-				paintCow();
-
-				try {
-					Thread.sleep(300);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start());
-		// afficher une cle
-		keyView = new ImageView(key);
-		paintKey(keyService.getRow(), keyService.getCol());
 	}
-
+	
 	public void paintCase(int col, int row) {
 		Cell maCase = labyrinthe.getEnv().getCellNature(col, row);
 		Rectangle rect = new Rectangle();
@@ -238,7 +249,7 @@ public class MainController {
 				comImg.play();
 
 			}
-
+			GridPane.setColumnIndex(comImg.getImageView(), vc);
 			GridPane.setRowIndex(comImg.getImageView(), vl);
 			if (!mapGrid.getChildren().contains(comImg.getImageView())) {
 				mapGrid.getChildren().addAll(comImg.getImageView());
@@ -285,39 +296,23 @@ public class MainController {
 				mapGrid.getChildren().removeAll(keyView);
 			}
 			break;
+		case O:
+			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.OPEN);
+			break;
+		case C:
+			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.CLOSE);
+			break;
 		case A:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.C);
+			break;
 		default:
 			break;
 		}
 
 		player.step();
 		
-		
 		paintPlayer();
-		
 		playerImg.play();
-
-		/**
-		 * if (e.getCode().equals(KeyCode.UP)) { // System.out.println("je suis dans
-		 * up");
-		 * 
-		 * labyrinthe.getEntity(0).forward(); paintPlayer(); playerImg.play();
-		 * 
-		 * } if (e.getCode().equals(KeyCode.DOWN)) {
-		 * 
-		 * labyrinthe.getEntity(0).backward(); paintPlayer(); playerImg.play();
-		 * 
-		 * } if (e.getCode().equals(KeyCode.LEFT)) {
-		 * 
-		 * labyrinthe.getEntity(0).turnL(); //
-		 * polygon.setRotate(polygon.getRotate()-90); paintPlayer(); playerImg.play();
-		 * 
-		 * } if (e.getCode().equals(KeyCode.RIGHT)) {
-		 * 
-		 * labyrinthe.getEntity(0).turnR(); //
-		 * polygon.setRotate(polygon.getRotate()+90); paintPlayer(); playerImg.play(); }
-		 */
 
 	}
 

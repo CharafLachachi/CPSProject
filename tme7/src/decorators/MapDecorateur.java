@@ -4,7 +4,7 @@ import services.Cell;
 import services.MapService;
 
 public class MapDecorateur implements MapService{
-private final MapService delegate;
+    private MapService delegate;
 
 	public MapDecorateur(MapService delegate) {
 		this.delegate = delegate;

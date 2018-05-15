@@ -37,6 +37,38 @@ public interface PlayerService extends /* include */ EntityService {
 	public boolean viewable(int x, int y);
 
 	/**
+	 * 
+	 * pre face = N and key <> null ==> and getEnv().getCellNature(getRow() - 1 ,getCol()) in {DWC}
+	 * pre face = S and key <> null ==> and getEnv().getCellNature(getRow() + 1 ,getCol()) in {DWC}
+	 * pre face = E and key <> null ==> and getEnv().getCellNature(getRow()  ,getCol() + 1) in {DNC}
+	 * pre face = W and key <> null ==> and getEnv().getCellNature(getRow() ,getCol() - 1) in {DNC}
+	
+	 * post face@pre = N  ==> and getEnv().getCellNature(getRow() - 1 ,getCol()) in {DWO}
+	 * post face@pre = S  ==> and getEnv().getCellNature(getRow() + 1 ,getCol()) in {DWO}
+	 * post face@pre = E  ==> and getEnv().getCellNature(getRow()  ,getCol() + 1) in {DNO}
+	 * post face@pre = W  ==> and getEnv().getCellNature(getRow() ,getCol() - 1) in {DNO}
+	 * post key <> null
+	 */
+		public void openDoor();
+		
+	
+		/**
+		 * 
+		 * pre face = N and key <> null ==> and getEnv().getCellNature(getRow() - 1 ,getCol()) in {DWO}
+		 * pre face = S and key <> null ==> and getEnv().getCellNature(getRow() + 1 ,getCol()) in {DWO}
+		 * pre face = E and key <> null ==> and getEnv().getCellNature(getRow()  ,getCol() + 1) in {DNO}
+		 * pre face = W and key <> null ==> and getEnv().getCellNature(getRow() ,getCol() - 1) in {DNO}
+		
+		 * post face@pre = N  ==> and getEnv().getCellNature(getRow() - 1 ,getCol()) in {DWC}
+		 * post face@pre = S  ==> and getEnv().getCellNature(getRow() + 1 ,getCol()) in {DWC}
+		 * post face@pre = E  ==> and getEnv().getCellNature(getRow()  ,getCol() + 1) in {DNC}
+		 * post face@pre = W  ==> and getEnv().getCellNature(getRow() ,getCol() - 1) in {DNC}
+		 * key <> null
+		 */	
+		public void closeDoor();
+		
+	
+	/**
 	 * post LastCom(P)=FF implies step(P) = Forward(P)
 	 * post LastCom(P)=BB implies step(P) = Backward(P) 
 	 * post LastCom(P)=LL implies step(P) = StrafeLeft(P)

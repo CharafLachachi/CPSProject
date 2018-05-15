@@ -24,7 +24,7 @@ public class Player extends Entity implements PlayerService {
 
 		switch (getFace()) {
 		case N:
-			opt = getEnv().getCellContent(getRow() + x, getCol() + y);
+			opt = getEnv().getCellContent(getRow() + y, getCol() + x);
 			break;
 		case S:
 			opt = getEnv().getCellContent(getRow() - y, getCol()  - x);
@@ -138,96 +138,69 @@ public class Player extends Entity implements PlayerService {
 		this.key = key;
 	}
 	
-	@Override
-	public void forward()
-	{
-		switch(getFace())
-		{
-		case S:
-			if (getRow() + 1 < getEnv().getHeight() && key != null
-							&& getEnv().getCellNature(getRow() + 1, getCol()).equals(Cell.DWC) )
-				{
-				getEnv().openDoor(getRow() + 1, getCol());
-				System.out.println("row : "+ (getRow() + 1) + "," + "col : " + getCol() + " : " +  getEnv().getCellNature(getRow() + 1, getCol()));
-				}
-			break;
-		case E:
-			if (getRow() < getEnv().getWidth() && key != null
-					&& getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNC))
-		{
-				getEnv().openDoor(getRow(), getCol()+1);
-				System.out.println(getEnv().getCellNature(getRow(), getCol()+1));
-		}
-			break;
-		case N:
-			if (getRow() - 1  >= 0 && key != null
-					&& getEnv().getCellNature(getRow() - 1, getCol()).equals(Cell.DWC) )
-			{
-		getEnv().openDoor(getRow() - 1, getCol());
-			System.out.println(getEnv().getCellNature(getRow() - 1, getCol()));
-			}
-			break;
-		case W:
-			if (getRow() >= 0 && key != null
-			&& getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNC))
-		{
-				getEnv().openDoor(getRow(), getCol()-1);
-				System.out.println(getEnv().getCellNature(getRow() , getCol() -1 ));
-		}
-			break;
-		default:
-			break;
-		
-		}
-		super.forward();
-	}
-	
-	public void backward()
-	{
-		switch(getFace())
-		{
-		case N:
-			if (getRow() + 1 < getEnv().getHeight() && !key.equals(null)
-							&& getEnv().getCellNature(getRow() + 1, getCol()).equals(Cell.DWC) )
-			{
-				getEnv().openDoor(getRow() + 1, getCol());
-			
-			}
-			break;
-		case W:
-			if (getRow() < getEnv().getWidth() && !key.equals(null)
-					&& getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNC))
-			{
-				getEnv().openDoor(getRow(), getCol()+1);
-			}
-				break;
-		case S:
-			if (getRow() - 1  >= 0 && !key.equals(null)
-					&& getEnv().getCellNature(getRow() - 1, getCol()).equals(Cell.DWC) )
-			{
-				getEnv().openDoor(getRow() - 1, getCol());
-			
-			}
-			break;
-		case E:
-			if (getRow() >= 0 && !key.equals(null)
-					&& getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNC))
-			{
-				getEnv().openDoor(getRow(), getCol()-1);
-			
-			}
-			break;
-		default:
-			break;
-		
-		}
-		super.backward();
-	}
+
 
 	@Override
 	public KeyService getKey() {
 		
 		return this.key;
+	}
+
+	@Override
+	public void openDoor() {
+		if(key != null)
+		{
+			switch(getFace())
+			{
+			case E:
+				if(getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNC))
+					getEnv().openDoor(getRow(), getCol()+1);
+				break;
+			case N:
+				if(getEnv().getCellNature(getRow()-1, getCol()).equals(Cell.DWC))
+					getEnv().openDoor(getRow()-1, getCol());
+				break;
+			case S:
+				if(getEnv().getCellNature(getRow()+1, getCol()).equals(Cell.DWC))
+					getEnv().openDoor(getRow()+1, getCol());
+				break;
+			case W:
+				if(getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNC))
+					getEnv().openDoor(getRow(), getCol()-1);
+				break;
+			default:
+				break;
+				
+			}
+		}
+		
+	}
+
+	@Override
+	public void closeDoor() {
+		switch(getFace())
+		{
+		case E:
+			if(getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNO))
+				getEnv().closeDoor(getRow(), getCol()+1);
+			break;
+		case N:
+			if(getEnv().getCellNature(getRow()-1, getCol()).equals(Cell.DWO))
+				getEnv().closeDoor(getRow()-1, getCol());
+			break;
+		case S:
+			if(getEnv().getCellNature(getRow()+1, getCol()).equals(Cell.DWO))
+				getEnv().closeDoor(getRow()+1, getCol());
+			break;
+		case W:
+			if(getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNO))
+				getEnv().closeDoor(getRow(), getCol()-1);
+			break;
+		default:
+			break;
+			
+		}
+		
 	}
 	
 }

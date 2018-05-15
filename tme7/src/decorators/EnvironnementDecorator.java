@@ -1,5 +1,6 @@
 package decorators;
 
+import java.util.List;
 import java.util.Optional;
 
 import services.EnvironnementService;
@@ -59,6 +60,12 @@ public class EnvironnementDecorator extends /* include */ MapDecorateur implemen
 	public void removeRessource(RessourcesService ressource) {
 		getDelegate().removeRessource(ressource);
 		
+	}
+
+	@Override
+	public List<MobService> getMobs() {
+		
+		return getDelegate().getMobs();
 	}
 
 }

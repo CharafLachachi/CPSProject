@@ -39,7 +39,7 @@ public class Cow extends Entity implements CowService {
 			break;
 
 		}
-
+		
 	}
 
 }

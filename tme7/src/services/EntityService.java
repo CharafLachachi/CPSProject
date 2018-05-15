@@ -19,5 +19,6 @@ public interface EntityService extends /*include*/ MobService {
 	
 	//operators:
 	public void step();
+	public void setHp(int hp);
 	
 }

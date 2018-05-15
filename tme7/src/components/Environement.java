@@ -27,12 +27,6 @@ public class Environement extends EditMap implements EnvironnementService {
 		return Optional.empty();
 	}
 
-	@Override
-	public void closeDoor(int x, int y) {
-		if(!getCellContent(x, y).isPresent())
-			closeDoor(x, y);
-		
-	}
 
 	@Override
 	public MobService getMob(int x, int y) {
@@ -87,6 +81,12 @@ public class Environement extends EditMap implements EnvironnementService {
 	public void removeRessource(RessourcesService ressource) {
 		ressources.remove(ressource);
 		
+	}
+
+
+	@Override
+	public List<MobService> getMobs() {
+		return mobs;
 	}
 
 }

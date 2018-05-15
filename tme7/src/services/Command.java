@@ -7,5 +7,7 @@ public enum Command {
 	RR,
 	TL,
 	TR,
-	C
+	C,
+	OPEN,
+	CLOSE
 }

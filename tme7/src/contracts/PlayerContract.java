@@ -14,9 +14,11 @@ import exceptions.PreconditionError;
 import services.Cell;
 import services.Command;
 import services.Dir;
+import services.EntityService;
 import services.EnvironnementService;
 import services.KeyService;
 import services.MobService;
+import services.PlayerService;
 import services.PlayerService;
 
 public class PlayerContract extends PlayerDecorator  {
@@ -130,6 +132,15 @@ public class PlayerContract extends PlayerDecorator  {
 		case TR:
 			this.turnR();
 			break;
+		case OPEN:
+			this.openDoor();
+			break;
+		case CLOSE:
+			this.closeDoor();
+			break;
+		case C:
+			this.attack();
+			break;
 		default:
 			break;
 		}
@@ -200,11 +211,9 @@ public class PlayerContract extends PlayerDecorator  {
 		case N:
 			condForward = row_atPre - 1 >= 0 &&
 					(
-				    ( getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.EMP)
+				     getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.EMP)
 				    		|| getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.DWO)
 				    		|| getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.OUT)) 
-					||
-					(getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.DWC) && getKey() != null))
 					
 					&& getEnv().getCellContent(row_atPre - 1, col_atPre).equals(Optional.empty());
 					
@@ -212,12 +221,10 @@ public class PlayerContract extends PlayerDecorator  {
 
 		case S:
 			condForward = row_atPre + 1 < getEnv().getHeight() &&
-			(
+			
 					(getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.EMP)
 					|| getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.DWO)
 					|| getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.OUT))
-			||
-			(getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.DWC) && getKey() != null))
 			&& getEnv().getCellContent(row_atPre + 1, col_atPre).equals(Optional.empty());
 					
 
@@ -226,21 +233,19 @@ public class PlayerContract extends PlayerDecorator  {
 		case E:
 			condForward = col_atPre + 1 < getEnv().getWidth()
 			&& (
-					(getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.EMP)
+					getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.EMP)
 					|| getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.DNO)
 					|| getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.OUT))
-					|| (getEnv().getCellNature(row_atPre , col_atPre + 1).equals(Cell.DNC) && getKey() != null))
 					&& getEnv().getCellContent(row_atPre, col_atPre + 1).equals(Optional.empty());
 			break;
 
 		case W:
 
 			condForward = col_atPre - 1 >= 0 && (	
-					(getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.EMP
+					getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.EMP
 					|| getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.DNO
 					|| getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.OUT)
-				    || (getEnv().getCellNature(row_atPre , col_atPre - 1).equals(Cell.DNC) && getKey() != null))
-					&& getEnv().getCellContent( row_atPre, col_atPre - 1).equals(Optional.empty());
+				    && getEnv().getCellContent( row_atPre, col_atPre - 1).equals(Optional.empty());
 
 			break;
 
@@ -253,7 +258,7 @@ public class PlayerContract extends PlayerDecorator  {
 			switch (face_atPre) {
 			case S:
 				if (!(getRow() == row_atPre + 1 && getCol() == col_atPre)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face sud et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 				break;
@@ -261,7 +266,7 @@ public class PlayerContract extends PlayerDecorator  {
 			case N:
 
 				if (!(getRow() == row_atPre - 1 && getCol() == col_atPre)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face Nord et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 
@@ -270,7 +275,7 @@ public class PlayerContract extends PlayerDecorator  {
 			case E:
 
 				if (!(getRow() == row_atPre && getCol() == col_atPre + 1)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face est et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 				break;
@@ -278,14 +283,14 @@ public class PlayerContract extends PlayerDecorator  {
 			case W:
 
 				if (!(getRow() == row_atPre && getCol() == col_atPre - 1)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face West et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 
 				break;
 			}
 		} else if (!(getRow() == row_atPre && getCol() == col_atPre)) {
-			throw new PostconditionError("MobService", "forward",
+			throw new PostconditionError("PlayerService", "forward",
 					"le joueur a avance malgre l'insatifaction des conditions");
 		}
 
@@ -304,12 +309,9 @@ public class PlayerContract extends PlayerDecorator  {
 		switch (face_atPre) {
 		case S:
 			condbackward = row_atPre - 1 >= 0 &&
-					(
-				    ( getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.EMP)
+					(getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.EMP)
 				    		|| getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.DWO)
 				    		|| getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.OUT)) 
-					||
-					(getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.DWC) && getKey() != null))
 					
 					&& getEnv().getCellContent(row_atPre - 1, col_atPre).equals(Optional.empty());
 					
@@ -317,12 +319,9 @@ public class PlayerContract extends PlayerDecorator  {
 
 		case N:
 			condbackward = row_atPre + 1 < getEnv().getHeight() &&
-			(
-					(getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.EMP)
+			(getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.EMP)
 					|| getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.DWO)
 					|| getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.OUT))
-			||
-			(getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.DWC) && getKey() != null))
 			&& getEnv().getCellContent(row_atPre + 1, col_atPre).equals(Optional.empty());
 					
 
@@ -330,22 +329,20 @@ public class PlayerContract extends PlayerDecorator  {
 
 		case W:
 			condbackward = col_atPre + 1 < getEnv().getWidth()
-			&& (
+			&& 
 					(getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.EMP)
 					|| getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.DNO)
 					|| getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.OUT))
-					|| (getEnv().getCellNature(row_atPre , col_atPre + 1).equals(Cell.DNC) && getKey() != null))
 					&& getEnv().getCellContent(row_atPre, col_atPre + 1).equals(Optional.empty());
 			break;
 
 		case E:
 
 			condbackward = col_atPre - 1 >= 0 && (	
-					(getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.EMP
+				getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.EMP
 					|| getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.DNO
 					|| getEnv().getCellNature(row_atPre, col_atPre - 1) == Cell.OUT)
-				    || (getEnv().getCellNature(row_atPre , col_atPre - 1).equals(Cell.DNC) && getKey() != null))
-					&& getEnv().getCellContent( row_atPre, col_atPre - 1).equals(Optional.empty());
+				    && getEnv().getCellContent( row_atPre, col_atPre - 1).equals(Optional.empty());
 
 			break;
 
@@ -359,7 +356,7 @@ public class PlayerContract extends PlayerDecorator  {
 			switch (face_atPre) {
 			case N:
 				if (!(getRow() == row_atPre + 1 && getCol() == col_atPre)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face sud et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 				break;
@@ -367,7 +364,7 @@ public class PlayerContract extends PlayerDecorator  {
 			case S:
 
 				if (!(getRow() == row_atPre - 1 && getCol() == col_atPre)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face Nord et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 
@@ -376,7 +373,7 @@ public class PlayerContract extends PlayerDecorator  {
 			case W:
 
 				if (!(getRow() == row_atPre && getCol() == col_atPre + 1)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face est et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 				break;
@@ -384,14 +381,14 @@ public class PlayerContract extends PlayerDecorator  {
 			case E:
 
 				if (!(getRow() == row_atPre && getCol() == col_atPre - 1)) {
-					throw new PostconditionError("MobService", "forward",
+					throw new PostconditionError("PlayerService", "forward",
 							"Face West et le joueur n'a pas avance malgre la satifaction de toutes les conditions");
 				}
 
 				break;
 			}
 		} else if (!(getRow() == row_atPre && getCol() == col_atPre)) {
-			throw new PostconditionError("MobService", "forward",
+			throw new PostconditionError("PlayerService", "forward",
 					"le joueur a avance malgre l'insatifaction des conditions");
 		}
 	}
@@ -406,22 +403,22 @@ public class PlayerContract extends PlayerDecorator  {
 		switch (face_atPre) {
 		case N:
 			if (!(getFace().equals(Dir.W)))
-				throw new PostconditionError("mobService", "turnL", "turnL N");
+				throw new PostconditionError("PlayerService", "turnL", "turnL N");
 			break;
 
 		case E:
 			if (!(getFace().equals(Dir.N)))
-				throw new PostconditionError("mobService", "turnL", "turnL E");
+				throw new PostconditionError("PlayerService", "turnL", "turnL E");
 			break;
 
 		case W:
 			if (!(getFace().equals(Dir.S)))
-				throw new PostconditionError("mobService", "turnL", "turnL W");
+				throw new PostconditionError("PlayerService", "turnL", "turnL W");
 			break;
 
 		case S:
 			if (!(getFace().equals(Dir.E)))
-				throw new PostconditionError("mobService", "turnL", "turnL S");
+				throw new PostconditionError("PlayerService", "turnL", "turnL S");
 			break;
 		}
 	}
@@ -435,22 +432,22 @@ public class PlayerContract extends PlayerDecorator  {
 		switch (face_atPre) {
 		case S:
 			if (!(getFace().equals(Dir.W)))
-				throw new PostconditionError("mobService", "turnR", "turnL S");
+				throw new PostconditionError("PlayerService", "turnR", "turnL S");
 			break;
 
 		case W:
 			if (!(getFace().equals(Dir.N)))
-				throw new PostconditionError("mobService", "turnR", "turnL W");
+				throw new PostconditionError("PlayerService", "turnR", "turnL W");
 			break;
 
 		case E:
 			if (!(getFace().equals(Dir.S)))
-				throw new PostconditionError("mobService", "turnR", "turnL E");
+				throw new PostconditionError("PlayerService", "turnR", "turnL E");
 			break;
 
 		case N:
 			if (!(getFace().equals(Dir.E)))
-				throw new PostconditionError("mobService", "turnR", "turnL N");
+				throw new PostconditionError("PlayerService", "turnR", "turnL N");
 			break;
 		}
 	}
@@ -469,7 +466,7 @@ public class PlayerContract extends PlayerDecorator  {
 						|| getEnv().getCellNature(row_atPre, col_atPre + 1).equals(Cell.DNO))
 				&& getEnv().getCellContent(row_atPre, col_atPre + 1).equals(Optional.empty())) {
 			if (!(getCol() == col_atPre + 1))
-				throw new PostconditionError("MobService", "strafR", "");
+				throw new PostconditionError("PlayerService", "strafR", "");
 		}
 
 		if (row_atPre + 1 < getEnv().getHeight() && (face.equals(Dir.E) || face.equals(Dir.W))
@@ -477,7 +474,7 @@ public class PlayerContract extends PlayerDecorator  {
 						|| getEnv().getCellNature(row_atPre + 1, col_atPre).equals(Cell.DNO))
 				&& getEnv().getCellContent(row_atPre + 1, col_atPre).equals(Optional.empty())) {
 			if (!(getRow() == row_atPre + 1))
-				throw new PostconditionError("MobService", "strafR", "");
+				throw new PostconditionError("PlayerService", "strafR", "");
 		}
 
 	}
@@ -496,7 +493,7 @@ public class PlayerContract extends PlayerDecorator  {
 						|| getEnv().getCellNature(row_atPre, col_atPre - 1).equals(Cell.DNO))
 				&& getEnv().getCellContent(row_atPre, col_atPre - 1).equals(Optional.empty())) {
 			if (!(getCol() == col_atPre - 1))
-				throw new PostconditionError("MobService", "strafL", "");
+				throw new PostconditionError("PlayerService", "strafL", "");
 		}
 
 		if (row_atPre - 1 < getEnv().getHeight() && (face.equals(Dir.E) || face.equals(Dir.W))
@@ -504,7 +501,7 @@ public class PlayerContract extends PlayerDecorator  {
 						|| getEnv().getCellNature(row_atPre - 1, col_atPre).equals(Cell.DNO))
 				&& getEnv().getCellContent(row_atPre - 1, col_atPre).equals(Optional.empty())) {
 			if (!(getRow() == row_atPre - 1))
-				throw new PostconditionError("MobService", "strafL", "");
+				throw new PostconditionError("PlayerService", "strafL", "");
 		}
 	}
 
@@ -514,7 +511,7 @@ public class PlayerContract extends PlayerDecorator  {
 		
 		checkInv();
 		// capture
-		List<MobService> mobs = new ArrayList<>(((Environement)getEnv()).mobs);
+		List<MobService> mobs = new ArrayList<>(((EnvironnementService)getEnv()).getMobs());
 		List<Integer> lifes = new ArrayList<>();
 	
 		int row = 0;
@@ -550,37 +547,122 @@ public class PlayerContract extends PlayerDecorator  {
 		Optional<MobService> cow = getEnv().getCellContent(row, col);
 		if(row != 0 && col != 0 && !cow.equals(Optional.empty()))
 		{
-			int hp = ((Entity) cow.get()).getHp();
+			int hp = ((EntityService) cow.get()).getHp();
 			mobs.remove(cow.get());
 			
 			for (MobService mob : mobs)
-				lifes.add(((Entity) mob).getHp());
+				lifes.add(((EntityService) mob).getHp());
 			
 			super.attack();
 			
 			
 			
-			if(((Entity) cow.get()).getHp() != hp - 1)
-				throw new PostconditionError("MobService", "attack", "cow is hit but life is same");
+			if(((EntityService) cow.get()).getHp() != hp - 1)
+				throw new PostconditionError("PlayerService", "attack", "cow is hit but life is same");
 			
 			for (int i = 0; i < mobs.size(); i++)
-				if(((Entity) mobs.get(i)).getHp() != lifes.get(i))
-					throw new PostconditionError("MobService", "attack", "others is attacked");
+				if(((EntityService) mobs.get(i)).getHp() != lifes.get(i))
+					throw new PostconditionError("PlayerService", "attack", "others is attacked");
 		}
-		
-		
-		
-		
 	}
 	
-
-
-
-
+	public void openDoor()
+	{
+		if(getKey() == null)
+			throw new PreconditionError("PlayerService", "openDoor", "try to open door without key");
+		
+		switch(getFace())
+		{
+		case E:
+			if(!getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNC))
+				throw new PreconditionError("PlayerService", "openDoor", "try to open opened door");
+			break;
+		case N:
+			if(!getEnv().getCellNature(getRow()-1, getCol()).equals(Cell.DWC))
+				throw new PreconditionError("PlayerService", "openDoor", "try to open opened door");
+			break;
+		case S:
+			if(!getEnv().getCellNature(getRow()+1, getCol()).equals(Cell.DWC))
+				throw new PreconditionError("PlayerService", "openDoor", "try to open opened door");
+			break;
+		case W:
+			if(!getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNC))
+				throw new PreconditionError("PlayerService", "openDoor", "try to open opened door");
+			break;
+		
+		}
+		checkInv();
+		super.openDoor();
+		checkInv();
+	switch(getFace())
+	{
+	case E:
+		if(!getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNO))
+			throw new PostconditionError("PlayerService", "openDoor", "door still close");
+		break;
+	case N:
+		if(!getEnv().getCellNature(getRow()-1, getCol()).equals(Cell.DWO))
+			throw new PostconditionError("PlayerService", "openDoor", "door still close");
+		break;
+	case S:
+		if(!getEnv().getCellNature(getRow()+1, getCol()).equals(Cell.DWO))
+			throw new PostconditionError("PlayerService", "openDoor", "door still close");
+		break;
+	case W:
+		if(!getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNO))
+			throw new PostconditionError("PlayerService", "openDoor", "door still close");
+		break;
+	}
+	if(getKey() == null)
+		throw new PostconditionError("PlayerService", "openDoor", "player lose his key");
+	}
 	
-
-
-
-
-	
+	public void closeDoor()
+	{
+		switch(getFace())
+		{
+		case E:
+			if(!getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNO))
+				throw new PreconditionError("PlayerService", "closeDoor", "try to close closed door");
+			break;
+		case N:
+			if(!getEnv().getCellNature(getRow()-1, getCol()).equals(Cell.DWO))
+				throw new PreconditionError("PlayerService", "closeDoor", "try to close closed door");
+			break;
+		case S:
+			if(!getEnv().getCellNature(getRow()+1, getCol()).equals(Cell.DWO))
+				throw new PreconditionError("PlayerService", "closeDoor", "try to close closed door");
+			break;
+		case W:
+			if(!getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNO))
+				throw new PreconditionError("PlayerService", "closeDoor", "try to close closed door");
+			break;
+		}
+		
+		checkInv();
+		super.closeDoor();
+		checkInv();
+	switch(getFace())
+	{
+	case E:
+		if(!getEnv().getCellNature(getRow(), getCol()+1).equals(Cell.DNC))
+			throw new PostconditionError("PlayerService", "closeDoor", "door still open");
+		break;
+	case N:
+		if(!getEnv().getCellNature(getRow()-1, getCol()).equals(Cell.DWC))
+			throw new PostconditionError("PlayerService", "closeDoor", "door still open");
+		break;
+	case S:
+		if(!getEnv().getCellNature(getRow()+1, getCol()).equals(Cell.DWC))
+			throw new PostconditionError("PlayerService", "closeDoor", "door still open");
+		break;
+	case W:
+		if(!getEnv().getCellNature(getRow(), getCol()-1).equals(Cell.DNC))
+			throw new PostconditionError("PlayerService", "closeDoor", "door still open");
+		break;
+	}
+	if(getKey() == null)
+		throw new PostconditionError("PlayerService", "closeDoor", "player lose his key");
+	}
+		
 }
