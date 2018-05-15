@@ -25,10 +25,9 @@ public class Ressources implements RessourcesService{
 	}
 
 	@Override
-	public void init(EnvironnementService env, int x, int y) {
+	public void init(EnvironnementService env) {
 		this.env = env;
-		this.col = x;
-		this.row = y;	
+		
 	}
 
 	public void setCol(int col) {

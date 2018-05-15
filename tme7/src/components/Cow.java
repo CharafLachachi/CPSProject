@@ -49,7 +49,7 @@ public class Cow extends Entity implements CowService {
 		 
 		}
 		chase();
-		attack();
+		
 	}
 
 	public Integer[] findPlayer()
@@ -81,8 +81,6 @@ public class Cow extends Entity implements CowService {
 			
 		if(distance <= distanceChase)
 			{
-				
-				System.out.println("enemy dans : row " + r + "," + " col " + c);
 				switch(getFace())
 				{
 				case E:
@@ -129,6 +127,8 @@ public class Cow extends Entity implements CowService {
 					break;
 				
 				}
+				if(distance <= 1)
+					attack();
 			}		
 	}
 

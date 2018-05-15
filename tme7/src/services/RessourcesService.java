@@ -12,7 +12,7 @@ public interface RessourcesService {
 	// post : getCol(init(e,x,y)) = x
 	// post : getRow(init(e,x,y)) = y
 	// post : getEnv(init(e,x,y)) = e
-	public void init(EnvironnementService env, int x, int y);
+	public void init(EnvironnementService env);
 	
 	// Invariants:
 	// inv : Environnement::CellNature(getEnv(K), getCol(K), getRow(K)) in {EMP}

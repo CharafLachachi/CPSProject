@@ -11,9 +11,10 @@ public class Key extends Ressources implements KeyService {
 	
 
 	@Override
-	public void init(EnvironnementService env, int x, int y) {
-		super.init(env, x, y);
+	public void init(EnvironnementService env) {
+		super.init(env);
 		findCellForKey();
+		
 		System.out.println("key : row " + getRow() + "col " + getCol());
 		env.addRessource(this);
 
@@ -28,8 +29,8 @@ public class Key extends Ressources implements KeyService {
 			int j = ThreadLocalRandom.current().nextInt(1, super.getEnv().getWidth() - 1);
 			
 			if (tr.isReachableKey(0, 0, i, j)) {
-				super.setRow(i);
-				super.setCol(j);
+				setRow(i);
+				setCol(j);
 				trouve = false;
 			}
 		}

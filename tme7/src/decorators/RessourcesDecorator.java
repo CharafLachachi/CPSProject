@@ -35,9 +35,9 @@ public class RessourcesDecorator implements RessourcesService{
 	}
 
 	@Override
-	public void init(EnvironnementService env, int x, int y) {
+	public void init(EnvironnementService env) {
 		// TODO Auto-generated method stub
-		delegate.init(env, x, y);
+		delegate.init(env);
 	}
 
 }
