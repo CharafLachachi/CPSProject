@@ -3,7 +3,7 @@ package services;
 import java.util.List;
 import java.util.Optional;
 
-public interface EnvironnementService extends /*include*/ MapService{
+public interface EnvironnementService extends /*include*/ EditMapService{
 	
 	//Obeservators
 	 

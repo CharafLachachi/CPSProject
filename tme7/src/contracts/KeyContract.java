@@ -20,17 +20,18 @@ public class KeyContract extends RessourcesDecorator implements KeyService {
 	
 	public void checkInvariants() {
 		
-		if(!getEnv().getCellNature(getCol(), getRow()).equals(Cell.EMP))
+		if(!(getEnv().getCellNature(getRow(), getCol()).equals(Cell.EMP)))
 			throw new InvariantError("RessourcesService", "Invariant", "cell <> empty");
 		
 		
-		if(!((EditMapService) getEnv()).isReachable(0,0,getRow(),getCol()))
+		if(!((getEnv().isReachable(0,0,getRow(),getCol())) == true))
 			throw new InvariantError("RessourcesService", "Invariant", "key is not reachable");
 			
-		if (!(getEnv().getCellNature(getCol(), getRow()).equals(Cell.DWC)
+		/**
+		if (!(getEnv().getCellNature(getRow(), get()).equals(Cell.DWC)
 				|| getEnv().getCellNature(getCol(), getRow()).equals(Cell.DNC)))
 			throw new InvariantError("keyService", "checkInv", "key for something else then DOOR CLOSED");
-
+*/
 	}
 
 	

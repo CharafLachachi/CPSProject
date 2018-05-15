@@ -1,6 +1,7 @@
 package contracts;
 
 import decorators.EnvironnementDecorator;
+import decorators.MapDecorateur;
 import exceptions.PreconditionError;
 import services.EnvironnementService;
 
@@ -16,6 +17,8 @@ public class EnvironnementContract extends EnvironnementDecorator {
 		// comme MapService n'a pas d'invvariants donc rien a refaire
 	}
 
+	
+	
 	@Override
 	public void closeDoor(int x, int y) {
 		//pre getCellContent(M,x,y) = No

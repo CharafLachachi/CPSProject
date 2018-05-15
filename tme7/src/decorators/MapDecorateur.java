@@ -50,4 +50,9 @@ public class MapDecorateur implements MapService{
 	public Cell[][] getCells() {
 		return delegate.getCells();
 	}
+
+	public boolean isReachable(int x1, int y1, int x2, int y2) {
+		// TODO Auto-generated method stub
+		return ((MapDecorateur) delegate).isReachable(x1,y1,x2,y2);
+	}
 }

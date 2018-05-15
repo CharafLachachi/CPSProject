@@ -167,7 +167,7 @@ public class PlayerContract extends PlayerDecorator  {
 		
 		// pre 0<= x < env.getWidth() && 0<= x < env.getHeight()
 				if (!((x >= 0 && x < env.getWidth()) && (y >= 0 && y < env.getHeight()))) {
-					throw new PreconditionError("EditMapService", "init", "0<= x < env.getWidth() && 0<= x < env.getHeight()");
+					throw new PreconditionError("PlayerService", "init", "0<= x < env.getWidth() && 0<= x < env.getHeight()");
 				}
 		if(!(h>0))
 			throw new PreconditionError("entity Service", "init", "h <= 0");
@@ -176,19 +176,19 @@ public class PlayerContract extends PlayerDecorator  {
 		
 		// post getCol() == x
 				if (!(getCol() == x)) {
-					throw new PostconditionError("EditMapService", "init", " getCol() == x");
+					throw new PostconditionError("PlayerService", "init", " getCol() == x");
 				}
 				// post getRow() == y
 				if (!(getRow() == y)) {
-					throw new PostconditionError("EditMapService", "init", " getRow() == y");
+					throw new PostconditionError("PlayerService", "init", " getRow() == y");
 				}
 				// post getFace() == d
 				if (!(getFace() == face)) {
-					throw new PostconditionError("EditMapService", "init", " getFace() == d");
+					throw new PostconditionError("PlayerService", "init", " getFace() == d");
 				}
 				// post getCol() == x
 				if (!(getEnv() == env)) {
-					throw new PostconditionError("EditMapService", "init", " getEnv() == env");
+					throw new PostconditionError("PlayerService", "init", " getEnv() == env");
 				}
 		
 		if(!(getHp() == h))

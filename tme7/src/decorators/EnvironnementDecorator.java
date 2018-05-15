@@ -3,21 +3,23 @@ package decorators;
 import java.util.List;
 import java.util.Optional;
 
+import services.Cell;
 import services.EnvironnementService;
 import services.MapService;
 import services.MobService;
 import services.RessourcesService;
 
-public class EnvironnementDecorator extends /* include */ MapDecorateur implements EnvironnementService {
+public class EnvironnementDecorator extends MapDecorateur implements EnvironnementService {
 
 	public EnvironnementDecorator(MapService delegate) {
 		super(delegate);
+		
 	}
 
-	@Override
-	protected EnvironnementService getDelegate() {
+	public EnvironnementService getDelegate() {
 		return (EnvironnementService) super.getDelegate();
 	}
+	
 
 	@Override
 	public Optional<MobService> getCellContent(int x, int y) {
@@ -29,6 +31,8 @@ public class EnvironnementDecorator extends /* include */ MapDecorateur implemen
 		return getDelegate().getMob(x, y);
 	}
 
+	
+	
 	@Override
 	public void addMob(MobService mob) {
 		getDelegate().addMob(mob);
@@ -63,9 +67,27 @@ public class EnvironnementDecorator extends /* include */ MapDecorateur implemen
 	}
 
 	@Override
+	public boolean isReachable(int x1, int y1, int x2, int y2) {
+		return getDelegate().isReachable(x1, y1, x2, y2);
+	}
+	
+	@Override
 	public List<MobService> getMobs() {
 		
 		return getDelegate().getMobs();
 	}
 
+	@Override
+	public boolean isReady() {
+		
+		return getDelegate().isReady();
+	}
+
+	@Override
+	public void setNature(int x, int y, Cell Na) {
+		// TODO Auto-generated method stub
+		getDelegate().setNature(x, y, Na);
+	}
+
+	
 }
