@@ -11,6 +11,9 @@ public interface CowService extends /*include*/ EntityService{
 	/**
 	 * post getCol()@pre -1 <= getCol() <= getCol()@pre + 1
 	 * post getRow()@pre -1 <= getRow() <= getRow()@pre + 1
+	 *
 	 */
 	public void step();
+	
+	public void chase();
 }

@@ -61,8 +61,8 @@ public class MainController {
 
 		key = new Image(getClass().getResource("images/key.png").toExternalForm());
 		labyrinthe.init(env);
-		cow.init(env, 3, 3, Dir.S, 4);
-		player.init(env, 0, 0, Dir.N);
+		cow.init(env, 3, 3, Dir.N, 4);
+		player.init(env, 0, 0, Dir.N, 100);
 
 		labyrinthe.addEntity(player);
 		labyrinthe.addEntity(cow);
@@ -85,8 +85,9 @@ public class MainController {
 				cow.step();
 				paintCow();
 				
+				
 				try {
-					Thread.sleep(300);
+					Thread.sleep(500);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -231,32 +232,35 @@ public class MainController {
 		int vc = voyageur.getCol();
 		// System.out.println("row " + vl);
 
-		try {
-			if (voyageur.getFace() == Dir.N) {
-				comImg.play();
+		if (voyageur.getFace() == Dir.N) {
+			comImg.setOffsetY(58 * 3);
+		}
+		if (voyageur.getFace() == Dir.W) {
+			comImg.setOffsetY(58);
+			
 
-			}
-			if (voyageur.getFace() == Dir.W) {
-				comImg.play();
+		}
+		if (voyageur.getFace() == Dir.S) {
+			comImg.setOffsetY(0);
+		
 
-			}
-			if (voyageur.getFace() == Dir.S) {
-				comImg.play();
+		}
+		if (voyageur.getFace() == Dir.E) {
+			comImg.setOffsetY(58*2);
+		
+		}
+		comImg.play();
+		
+		
+	   
 
-			}
-			if (voyageur.getFace() == Dir.E) {
-				comImg.setOffsetY(58 * 2);
-				comImg.play();
-
-			}
+			
 			GridPane.setColumnIndex(comImg.getImageView(), vc);
 			GridPane.setRowIndex(comImg.getImageView(), vl);
 			if (!mapGrid.getChildren().contains(comImg.getImageView())) {
 				mapGrid.getChildren().addAll(comImg.getImageView());
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 
 	// Listner pour les direction sur le clavier permettant le deplcaement du joueur
