@@ -6,6 +6,7 @@ import services.Cell;
 import services.Command;
 import services.Dir;
 import services.EnvironnementService;
+import services.KeyService;
 import services.MobService;
 import services.PlayerService;
 
@@ -135,6 +136,16 @@ public class PlayerDecorator implements PlayerService{
 	public void setCommand(Command c) {
 		delegate.setCommand(c);
 		
+	}
+	@Override
+	public void setKey(KeyService key) {
+		delegate.setKey(key);
+		
+	}
+	@Override
+	public KeyService getKey() {
+		// TODO Auto-generated method stub
+		return delegate.getKey();
 	}
 
 }

@@ -5,6 +5,8 @@ import java.util.Optional;
 public interface PlayerService extends /* include */ EntityService {
 
 	public void setCommand(Command c);
+	public void setKey(KeyService key);
+	public KeyService getKey();
 	// observators
 
 	public Optional<Command> lastCom();

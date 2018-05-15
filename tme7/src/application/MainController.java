@@ -292,7 +292,10 @@ public class MainController {
 		}
 
 		player.step();
+		
+		
 		paintPlayer();
+		
 		playerImg.play();
 
 		/**

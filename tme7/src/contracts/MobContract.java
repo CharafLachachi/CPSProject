@@ -48,7 +48,7 @@ public class MobContract extends MobDecorateur implements MobService {
 			throw new PreconditionError("EditMapService", "init", "0<= x < env.getWidth() && 0<= x < env.getHeight()");
 		}
 		// checkInvariants();
-		super.init(env, x, y, d);
+		getDelegate().init(env, x, y, d);
 		checkInvariants();
 
 		// post getCol() == x
@@ -117,7 +117,7 @@ public class MobContract extends MobDecorateur implements MobService {
 
 		}
 		checkInvariants();
-		super.forward();
+		getDelegate().forward();
 		checkInvariants();
 
 		if (condForward == true) {
@@ -212,7 +212,7 @@ public class MobContract extends MobDecorateur implements MobService {
 		}
 
 		checkInvariants();
-		super.backward();
+		getDelegate().backward();
 		checkInvariants();
 
 		if (condbackward == true) {
@@ -291,7 +291,7 @@ public class MobContract extends MobDecorateur implements MobService {
 		checkInvariants();
 		// capture
 		Dir face_atPre = getFace();
-		super.turnR();
+		getDelegate().turnR();
 		switch (face_atPre) {
 		case S:
 			if (!(getFace().equals(Dir.W)))
@@ -416,7 +416,7 @@ public class MobContract extends MobDecorateur implements MobService {
 			for (MobService mob : mobs)
 				lifes.add(((Entity) mob).getHp());
 			
-			super.attack();
+			getDelegate().attack();
 			
 			checkInvariants();
 			
