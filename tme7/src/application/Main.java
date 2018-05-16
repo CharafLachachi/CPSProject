@@ -28,13 +28,15 @@ public class Main extends Application {
 				}
 				
 			});
+			
 			 scene.setOnKeyReleased(event -> {
 		            controller.stopPlayer();
 		        });
+		        
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch(Exception e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 	}
 	

@@ -16,7 +16,7 @@ public class Key extends Ressources implements KeyService {
 		findCellForKey();
 		
 		System.out.println("key : row " + getRow() + "col " + getCol());
-		env.addRessource(this);
+	//	env.addRessource(this);
 
 	}
 

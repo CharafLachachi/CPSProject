@@ -20,11 +20,11 @@ public class TestRechabel {
 
 	public boolean accessible(int x, int y) {
 
-		if (x < 0 || x >= cells.length || y < 0 || y >= cells[0].length)
+		if (x < 0 || x >= cells.length || y < 0 || y >= cells[0].length )
 			return false;
 
 		Cell c = cells[x][y];
-
+		
 		if (c.equals(Cell.WLL))
 			return false;
 		return true;

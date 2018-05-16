@@ -96,6 +96,8 @@ public class Player extends Entity implements PlayerService {
 
 		return false;
 	}
+	
+	
 
 	@Override
 	public void step() {
@@ -215,6 +217,27 @@ public class Player extends Entity implements PlayerService {
 			
 		}
 		
+	}
+
+	@Override
+	public boolean isWin() {
+		boolean win = false;
+		
+		if(getRessources() != null && getEnv().getCellNature(getRow(), getCol()).equals(Cell.OUT))
+		{
+			System.out.println("you win");
+			win = true;
+		}
+	
+		return win;
+	}
+
+
+
+	@Override
+	public boolean isDead() {
+		
+		return getHp() <= 0;
 	}
 	
 }

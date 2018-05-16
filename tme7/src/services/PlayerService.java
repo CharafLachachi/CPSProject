@@ -4,14 +4,21 @@ import java.util.Optional;
 
 public interface PlayerService extends /* include */ EntityService {
 
+	// observators
 	public void setCommand(Command c);
 	public void setKey(KeyService key);
 	public KeyService getKey();
 	public RessourcesService getRessources();
 	public void setRessources(RessourcesService gold);
 	
+	//pre getRessources() = TREASOR
+	public boolean isWin();
+
+	// pre getHp() <= 0
+	public boolean isDead();
 	
-	// observators
+	
+	
 
 	public Optional<Command> lastCom();
 

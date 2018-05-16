@@ -1,20 +1,23 @@
 package application;
 
-import java.util.Optional;
 
-import components.Cow;
+
+import Threads.CowThread;
+
+import Threads.PlayerThread;
+import Threads.RessourcesThread;
 import components.Engine;
 import components.Environement;
 import components.Key;
-import components.Player;
+
 import components.Ressources;
 import contracts.EngineContract;
 import contracts.EnvironnementContract;
 import contracts.KeyContract;
-import contracts.PlayerContract;
-import javafx.application.Platform;
+import contracts.RessourcesContract;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -23,13 +26,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import services.Cell;
-import services.Command;
-import services.Dir;
 import services.EngineService;
-import services.EntityService;
 import services.EnvironnementService;
 import services.KeyService;
-import services.PlayerService;
 import services.RessourcesService;
 
 public class MainController {
@@ -44,75 +43,72 @@ public class MainController {
 	private Polygon polygonCow;
 	private Image key;
 	private Image gold;
-	private EntityService player;
-	private AnimatedImage comImg;
-	private AnimatedImage playerImg;
+//	private EntityService player;
+	
+//	private AnimatedImage playerImg;
 	private ImageView keyView;
 	private ImageView goldView;
 	private KeyService keyService;
 	private RessourcesService goldService;
-
+	
+	private PlayerThread playerThread;	
+	private CowThread cowThread;
+	private RessourcesThread keyThread;
+	private RessourcesThread goldThread;
+	
 	public void init() {
 		polygon = new Polygon();
 		polygon.setFill(Color.BLUE);
-
 		polygonCow = new Polygon();
 		polygonCow.setFill(Color.RED);
 
-		// EntityService cow = new CowContract(new Cow());
-		EntityService cow = new Cow();
-		player = new PlayerContract(new Player());
+		
 		EnvironnementService env = new EnvironnementContract(new Environement());
 		env.init(15, 15);
 
 		key = new Image(getClass().getResource("images/key.png").toExternalForm());
 		gold = new Image(getClass().getResource("images/Gold_Ore.png").toExternalForm());
-		labyrinthe.init(env);
-		cow.init(env, 3, 3, Dir.N, 4);
-		player.init(env, 0, 0, Dir.N, 100);
-
-		labyrinthe.addEntity(player);
-		labyrinthe.addEntity(cow);
-		cow.step();
-
-		playerImg = new AnimatedImage(new Image("/application/images/heros1.png"), 3, 3, 0, 48, 35, 48);
-		comImg = new AnimatedImage(new Image("/application/images/test.png"), 3, 3, 12, 58, 55, 58);
-		keyService = new KeyContract(new Key());
 		
-		goldService = new Ressources();
-
-		// les valeurs son misent dans init de Key
-		keyService.init(env);
-		goldService.init(env);
-
-		paintAllCase();
-		paintPlayer();
-		paintCow();
-		// lancer dans un thread le mouvement de la vache
-		Platform.runLater(() -> new Thread(() -> {
-			while (cow.getHp() > 0) {
-				cow.step();
-				paintCow();
-
-				try {
-					Thread.sleep(500);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-			// labyrinthe.getEnv().removeMob(cow);
-			System.out.println("cow life death : " + cow.getHp());
-			comImg.stop();
-			comImg.getImageView().setVisible(false);
-			labyrinthe.removeEntity(1);
-
-		}).start());
 		// afficher une cle
 		keyView = new ImageView(key);
-		paintKey(keyService.getRow(), keyService.getCol());
-		
 		goldView = new ImageView(gold);
-		paintGold(goldService.getRow(), goldService.getCol());
+		
+		labyrinthe.init(env);
+		
+		
+		playerThread = new PlayerThread(mapGrid, labyrinthe);
+		cowThread = new CowThread(mapGrid, labyrinthe);
+		
+		keyService = new KeyContract(new Key());
+		goldService = new RessourcesContract(new Ressources());
+	//	goldService.init(env);
+		
+		keyThread = new RessourcesThread(keyService, keyView, mapGrid, labyrinthe);
+		goldThread = new RessourcesThread(goldService, goldView, mapGrid, labyrinthe);
+
+		
+		
+
+		// les valeurs son misent dans init de Key
+	//	keyService.init(env);
+		
+
+		
+		paintAllCase();
+		
+		
+		
+		
+	//	paintGold(goldService.getRow(), goldService.getCol());
+		
+	
+		keyThread.init();
+		goldThread.init();
+		
+		new Thread(playerThread).start();
+		new Thread(cowThread).start();
+		new Thread(keyThread).start();
+		new Thread(goldThread).start();
 	}
 
 	public void paintAllCase() {
@@ -147,10 +143,7 @@ public class MainController {
 
 		}
 		if (maCase == Cell.IN) {
-			// rect.setFill(Color.GRAY);
-			// GridPane.setColumnIndex(rect, row);
-			// GridPane.setRowIndex(rect, col);
-			// mapGrid.getChildren().addAll(rect);
+			
 			Image wall = new Image(getClass().getResource("images/start.jpg").toExternalForm());
 			ImageView iv = new ImageView(wall);
 			GridPane.setColumnIndex(iv, row);
@@ -204,134 +197,25 @@ public class MainController {
 
 	}
 
-	// methode pour dessiner le joueur au debut et a l'appel des fonction de
-	// direction
-	private void paintPlayer() {
-		EntityService voyageur = labyrinthe.getEntity(0);
-		int vl = voyageur.getRow();
-		int vc = voyageur.getCol();
-		// System.out.println("row " + vl);
+	
 
-		if (voyageur.getFace() == Dir.N) {
-			playerImg.setOffsetY(0);
-		}
-		if (voyageur.getFace() == Dir.W) {
-			playerImg.setOffsetY(48 * 3);
-
-		}
-		if (voyageur.getFace() == Dir.S) {
-			playerImg.setOffsetY(48 * 2);
-
-		}
-		if (voyageur.getFace() == Dir.E) {
-			playerImg.setOffsetY(48);
-		}
-
-		GridPane.setColumnIndex(playerImg.getImageView(), vc);
-		GridPane.setRowIndex(playerImg.getImageView(), vl);
-		if (!mapGrid.getChildren().contains(playerImg.getImageView())) {
-			mapGrid.getChildren().addAll(playerImg.getImageView());
-		}
-
-	}
-
-	// methode pour dessiner le joueur au debut et a l'appel des fonction de
-	// direction
-	private void paintCow() {
-		EntityService voyageur = labyrinthe.getEntity(1);
-		int vl = voyageur.getRow();
-		int vc = voyageur.getCol();
-		// System.out.println("row " + vl);
-
-		if (voyageur.getFace() == Dir.N) {
-			comImg.setOffsetY(58 * 3);
-		}
-		if (voyageur.getFace() == Dir.W) {
-			comImg.setOffsetY(58);
-
-		}
-		if (voyageur.getFace() == Dir.S) {
-			comImg.setOffsetY(0);
-
-		}
-		if (voyageur.getFace() == Dir.E) {
-			comImg.setOffsetY(58 * 2);
-
-		}
-		comImg.play();
-
-		GridPane.setColumnIndex(comImg.getImageView(), vc);
-		GridPane.setRowIndex(comImg.getImageView(), vl);
-		if (!mapGrid.getChildren().contains(comImg.getImageView())) {
-			mapGrid.getChildren().addAll(comImg.getImageView());
-		}
-
-	}
+	
 
 	// Listner pour les direction sur le clavier permettant le deplcaement du joueur
 	public void movePlayer(KeyEvent e) {
 
-		switch (e.getCode()) {
-		case UP:
-			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.FF);
-			removeRessourcefromMap(keyService, keyView);
-			removeRessourcefromMap(goldService, goldView);
-			break;
-
-		case DOWN:
-			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.BB);
-			removeRessourcefromMap(keyService, keyView);
-			removeRessourcefromMap(goldService, goldView);
-			break;
-		case LEFT:
-			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TL);
-			removeRessourcefromMap(keyService, keyView);
-			removeRessourcefromMap(goldService, goldView);
-			break;
-		case RIGHT:
-			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TR);
-			removeRessourcefromMap(keyService, keyView);
-			removeRessourcefromMap(goldService, goldView);
-			break;
-		case O:
-			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.OPEN);
-			break;
-		case C:
-			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.CLOSE);
-			break;
-		case A:
-			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.C);
-			break;
-		default:
-			break;
-		}
-
-		player.step();
-
-		paintPlayer();
-		playerImg.play();
-
+		playerThread.movePlayer(e);
+		
 	}
 
-	public void removeRessourcefromMap(RessourcesService src, ImageView img)
-	{
-		if (labyrinthe.getEnv().getCellRessources(src.getRow(), src.getCol())
-				.equals(Optional.empty())) {
-			mapGrid.getChildren().removeAll(img);
-		}
-	}
+	
+	
 	
 	public void stopPlayer() {
-		playerImg.stop();
+	  playerThread.stopPlayer();
 	}
 
-	public void paintKey(int row, int col) {
-
-		GridPane.setColumnIndex(keyView, col);
-		GridPane.setRowIndex(keyView, row);
-		mapGrid.getChildren().addAll(keyView);
-
-	}
+	
 	
 	public void paintGold(int row, int col)
 	{

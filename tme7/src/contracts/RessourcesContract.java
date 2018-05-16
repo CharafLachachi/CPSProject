@@ -22,7 +22,9 @@ public class RessourcesContract extends RessourcesDecorator implements Ressource
 	
 	public void checkInvariants()
 	{	
-		if(!getEnv().getCellNature(getRow(), getCol()).equals(Cell.EMP))
+		if(!(getEnv().getCellNature(getRow(), getCol()).equals(Cell.EMP) ||  
+				getEnv().getCellNature(getRow(), getCol()).equals(Cell.DNO) ||
+				getEnv().getCellNature(getRow(), getCol()).equals(Cell.DWO)))
 			throw new InvariantError("RessourcesService", "Invariant", "cell <> empty");
 		
 		

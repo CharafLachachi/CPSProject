@@ -171,5 +171,13 @@ public class PlayerDecorator implements PlayerService{
 	public void setRessources(RessourcesService gold) {
 		delegate.setRessources(gold);
 	}
+	@Override
+	public boolean isWin() {
+		return delegate.isWin();
+	}
+	@Override
+	public boolean isDead() {
+		return delegate.isDead();
+	}
 
 }

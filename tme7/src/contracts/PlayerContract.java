@@ -157,15 +157,9 @@ public class PlayerContract extends PlayerDecorator  {
 					this.setRessources(ressources);
 				
 			getEnv().removeRessource(ressources);
-			/**
-			if(key == null)
-				System.out.println("Key NULL");
-			else
-				System.out.println("yep j'ai la clé");
-			*/
 		}
 
-	//	super.step();
+	
 	}
 
 	
