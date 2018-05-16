@@ -7,6 +7,10 @@ public interface PlayerService extends /* include */ EntityService {
 	public void setCommand(Command c);
 	public void setKey(KeyService key);
 	public KeyService getKey();
+	public RessourcesService getRessources();
+	public void setRessources(RessourcesService gold);
+	
+	
 	// observators
 
 	public Optional<Command> lastCom();

@@ -22,11 +22,11 @@ public class RessourcesContract extends RessourcesDecorator implements Ressource
 	
 	public void checkInvariants()
 	{	
-		if(!getEnv().getCellNature(getCol(), getRow()).equals(Cell.EMP))
+		if(!getEnv().getCellNature(getRow(), getCol()).equals(Cell.EMP))
 			throw new InvariantError("RessourcesService", "Invariant", "cell <> empty");
 		
 		
-		if(!((EditMapService) getEnv()).isReachable(0,0,getCol(),getRow()))
+		if(! getEnv().isReachable(0,0,getRow(),getCol()))
 			throw new InvariantError("RessourcesService", "Invariant", "key is not reachable");
 				
 		

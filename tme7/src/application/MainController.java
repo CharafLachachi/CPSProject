@@ -7,6 +7,7 @@ import components.Engine;
 import components.Environement;
 import components.Key;
 import components.Player;
+import components.Ressources;
 import contracts.EngineContract;
 import contracts.EnvironnementContract;
 import contracts.KeyContract;
@@ -29,6 +30,7 @@ import services.EntityService;
 import services.EnvironnementService;
 import services.KeyService;
 import services.PlayerService;
+import services.RessourcesService;
 
 public class MainController {
 
@@ -41,11 +43,14 @@ public class MainController {
 	private Polygon polygon;
 	private Polygon polygonCow;
 	private Image key;
+	private Image gold;
 	private EntityService player;
 	private AnimatedImage comImg;
 	private AnimatedImage playerImg;
 	private ImageView keyView;
+	private ImageView goldView;
 	private KeyService keyService;
+	private RessourcesService goldService;
 
 	public void init() {
 		polygon = new Polygon();
@@ -61,6 +66,7 @@ public class MainController {
 		env.init(15, 15);
 
 		key = new Image(getClass().getResource("images/key.png").toExternalForm());
+		gold = new Image(getClass().getResource("images/Gold_Ore.png").toExternalForm());
 		labyrinthe.init(env);
 		cow.init(env, 3, 3, Dir.N, 4);
 		player.init(env, 0, 0, Dir.N, 100);
@@ -72,9 +78,12 @@ public class MainController {
 		playerImg = new AnimatedImage(new Image("/application/images/heros1.png"), 3, 3, 0, 48, 35, 48);
 		comImg = new AnimatedImage(new Image("/application/images/test.png"), 3, 3, 12, 58, 55, 58);
 		keyService = new KeyContract(new Key());
+		
+		goldService = new Ressources();
 
 		// les valeurs son misent dans init de Key
 		keyService.init(env);
+		goldService.init(env);
 
 		paintAllCase();
 		paintPlayer();
@@ -91,15 +100,19 @@ public class MainController {
 					e.printStackTrace();
 				}
 			}
-			labyrinthe.getEnv().removeMob(cow);
+			// labyrinthe.getEnv().removeMob(cow);
 			System.out.println("cow life death : " + cow.getHp());
 			comImg.stop();
 			comImg.getImageView().setVisible(false);
+			labyrinthe.removeEntity(1);
 
 		}).start());
 		// afficher une cle
 		keyView = new ImageView(key);
 		paintKey(keyService.getRow(), keyService.getCol());
+		
+		goldView = new ImageView(gold);
+		paintGold(goldService.getRow(), goldService.getCol());
 	}
 
 	public void paintAllCase() {
@@ -261,32 +274,24 @@ public class MainController {
 		switch (e.getCode()) {
 		case UP:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.FF);
-			if (labyrinthe.getEnv().getCellRessources(keyService.getRow(), keyService.getCol())
-					.equals(Optional.empty())) {
-				mapGrid.getChildren().removeAll(keyView);
-			}
+			removeRessourcefromMap(keyService, keyView);
+			removeRessourcefromMap(goldService, goldView);
 			break;
 
 		case DOWN:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.BB);
-			if (labyrinthe.getEnv().getCellRessources(keyService.getRow(), keyService.getCol())
-					.equals(Optional.empty())) {
-				mapGrid.getChildren().removeAll(keyView);
-			}
+			removeRessourcefromMap(keyService, keyView);
+			removeRessourcefromMap(goldService, goldView);
 			break;
 		case LEFT:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TL);
-			if (labyrinthe.getEnv().getCellRessources(keyService.getRow(), keyService.getCol())
-					.equals(Optional.empty())) {
-				mapGrid.getChildren().removeAll(keyView);
-			}
+			removeRessourcefromMap(keyService, keyView);
+			removeRessourcefromMap(goldService, goldView);
 			break;
 		case RIGHT:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.TR);
-			if (labyrinthe.getEnv().getCellRessources(keyService.getRow(), keyService.getCol())
-					.equals(Optional.empty())) {
-				mapGrid.getChildren().removeAll(keyView);
-			}
+			removeRessourcefromMap(keyService, keyView);
+			removeRessourcefromMap(goldService, goldView);
 			break;
 		case O:
 			((PlayerService) labyrinthe.getEntity(0)).setCommand(Command.OPEN);
@@ -308,6 +313,14 @@ public class MainController {
 
 	}
 
+	public void removeRessourcefromMap(RessourcesService src, ImageView img)
+	{
+		if (labyrinthe.getEnv().getCellRessources(src.getRow(), src.getCol())
+				.equals(Optional.empty())) {
+			mapGrid.getChildren().removeAll(img);
+		}
+	}
+	
 	public void stopPlayer() {
 		playerImg.stop();
 	}
@@ -318,6 +331,13 @@ public class MainController {
 		GridPane.setRowIndex(keyView, row);
 		mapGrid.getChildren().addAll(keyView);
 
+	}
+	
+	public void paintGold(int row, int col)
+	{
+		GridPane.setColumnIndex(goldView, col);
+		GridPane.setRowIndex(goldView, row);
+		mapGrid.getChildren().addAll(goldView);
 	}
 
 }

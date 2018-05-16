@@ -9,6 +9,7 @@ import services.EnvironnementService;
 import services.KeyService;
 import services.MobService;
 import services.PlayerService;
+import services.RessourcesService;
 
 public class PlayerDecorator implements PlayerService{
 
@@ -161,6 +162,14 @@ public class PlayerDecorator implements PlayerService{
 	public void setHp(int hp) {
 		delegate.setHp(hp);
 		
+	}
+	@Override
+	public RessourcesService getRessources() {
+		return delegate.getRessources();
+	}
+	@Override
+	public void setRessources(RessourcesService gold) {
+		delegate.setRessources(gold);
 	}
 
 }

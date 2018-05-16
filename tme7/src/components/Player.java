@@ -7,11 +7,14 @@ import services.Command;
 import services.KeyService;
 import services.MobService;
 import services.PlayerService;
+import services.RessourcesService;
 
 public class Player extends Entity implements PlayerService {
 
 	private Command command;
 	private KeyService key = null;
+	private RessourcesService gold = null;
+	
 	@Override
 	public Optional<Command> lastCom() {
 		return Optional.ofNullable(command);
@@ -138,7 +141,18 @@ public class Player extends Entity implements PlayerService {
 		this.key = key;
 	}
 	
-
+	
+	@Override
+	public RessourcesService getRessources()
+	{
+		return this.gold;
+	}
+	
+	@Override
+	public void setRessources(RessourcesService gold)
+	{
+		this.gold = gold;
+	}
 
 	@Override
 	public KeyService getKey() {

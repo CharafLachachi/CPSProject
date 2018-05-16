@@ -19,6 +19,7 @@ import services.EnvironnementService;
 import services.KeyService;
 import services.MobService;
 import services.PlayerService;
+import services.RessourcesService;
 import services.PlayerService;
 
 public class PlayerContract extends PlayerDecorator  {
@@ -147,14 +148,21 @@ public class PlayerContract extends PlayerDecorator  {
 		
 		if(	!getEnv().getCellRessources(getRow(), getCol()).equals(Optional.empty()))
 		{
-			KeyService key = (KeyService) getEnv().getCellRessources(getRow(), getCol()).get();
-			this.setKey(key);
-			getEnv().removeRessource(key);
+			RessourcesService ressources = (RessourcesService) getEnv().getCellRessources(getRow(), getCol()).get();
+			
+			if( ressources instanceof KeyService)
+				this.setKey((KeyService) ressources);
+			else
+				if( ressources instanceof RessourcesService)
+					this.setRessources(ressources);
+				
+			getEnv().removeRessource(ressources);
+			/**
 			if(key == null)
 				System.out.println("Key NULL");
 			else
 				System.out.println("yep j'ai la clé");
-			
+			*/
 		}
 
 	//	super.step();
@@ -554,7 +562,7 @@ public class PlayerContract extends PlayerDecorator  {
 				lifes.add(((EntityService) mob).getHp());
 			
 			super.attack();
-			
+			checkInv();
 			
 			
 			if(((EntityService) cow.get()).getHp() != hp - 1)

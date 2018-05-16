@@ -24,7 +24,8 @@ public class EngineContract extends EngineDecorator implements EngineService {
 				throw new InvariantError("engine", "checkInvariant", "different Environement");
 
 		for (int i = 0; i < getEntities().size(); i++)
-			if (!(getEnv().getCellContent(getEntity(i).getCol(), getEntity(i).getRow()).get().equals(getEntity(i))))
+		
+			if (!(getEnv().getCellContent(getEntity(i).getRow(), getEntity(i).getCol()).get().equals(getEntity(i))))
 				throw new InvariantError("engine", "checkInvariant", "different entity");
 	}
 
