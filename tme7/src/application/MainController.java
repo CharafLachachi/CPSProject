@@ -2,6 +2,8 @@ package application;
 
 
 
+import java.util.concurrent.ExecutorService;
+
 import Threads.CowThread;
 
 import Threads.PlayerThread;
@@ -43,9 +45,7 @@ public class MainController {
 	private Polygon polygonCow;
 	private Image key;
 	private Image gold;
-//	private EntityService player;
-	
-//	private AnimatedImage playerImg;
+
 	private ImageView keyView;
 	private ImageView goldView;
 	private KeyService keyService;
@@ -53,6 +53,8 @@ public class MainController {
 	
 	private PlayerThread playerThread;	
 	private CowThread cowThread;
+//	private CowThread cowThread1;
+	
 	private RessourcesThread keyThread;
 	private RessourcesThread goldThread;
 	
@@ -78,37 +80,33 @@ public class MainController {
 		
 		playerThread = new PlayerThread(mapGrid, labyrinthe);
 		cowThread = new CowThread(mapGrid, labyrinthe);
+	//	cowThread1 = new CowThread(mapGrid, labyrinthe);
 		
 		keyService = new KeyContract(new Key());
 		goldService = new RessourcesContract(new Ressources());
-	//	goldService.init(env);
-		
+			
 		keyThread = new RessourcesThread(keyService, keyView, mapGrid, labyrinthe);
 		goldThread = new RessourcesThread(goldService, goldView, mapGrid, labyrinthe);
 
-		
-		
-
-		// les valeurs son misent dans init de Key
-	//	keyService.init(env);
-		
-
-		
-		paintAllCase();
-		
-		
-		
-		
-	//	paintGold(goldService.getRow(), goldService.getCol());
-		
-	
+	   	paintAllCase();
+			
 		keyThread.init();
 		goldThread.init();
+		playerThread.init();
+		cowThread.init();
+	//	cowThread1.init();
+		
+		
 		
 		new Thread(playerThread).start();
+		
 		new Thread(cowThread).start();
+		
+		
 		new Thread(keyThread).start();
 		new Thread(goldThread).start();
+		
+//		new Thread(cowThread1).start();
 	}
 
 	public void paintAllCase() {

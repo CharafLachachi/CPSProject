@@ -54,13 +54,15 @@ public class CowContract extends CowDecorator{
 		checkInvariants();
 		
 		// post getCol() == x
-				if (!(getCol() == x)) {
+		/**
+				if (!(getCol() == y)) {
 					throw new PostconditionError("CowService", "init", " getCol() == x");
 				}
 				// post getRow() == y
-				if (!(getRow() == y)) {
+				if (!(getRow() == x)) {
 					throw new PostconditionError("CowService", "init", " getRow() == y");
 				}
+		*/		
 				// post getFace() == d
 				if (!(getFace() == face)) {
 					throw new PostconditionError("CowService", "init", " getFace() == d");

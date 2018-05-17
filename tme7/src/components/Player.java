@@ -223,9 +223,11 @@ public class Player extends Entity implements PlayerService {
 	public boolean isWin() {
 		boolean win = false;
 		
-		if(getRessources() != null && getEnv().getCellNature(getRow(), getCol()).equals(Cell.OUT))
+		if(this.getRessources() != null)
+			
+		
+		if(this.getRessources() != null && getEnv().getCellNature(getRow(), getCol()).equals(Cell.OUT))
 		{
-			System.out.println("you win");
 			win = true;
 		}
 	
@@ -236,8 +238,10 @@ public class Player extends Entity implements PlayerService {
 
 	@Override
 	public boolean isDead() {
+		if(getHp() <= 0)
+			return true;
 		
-		return getHp() <= 0;
+		return false;
 	}
 	
 }

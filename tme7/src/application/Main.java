@@ -17,6 +17,7 @@ public class Main extends Application {
 			SplitPane root = fxml.load();
 			MainController controller = fxml.getController();
 			controller.init();
+			
 			Scene scene = new Scene(root,1024,768);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			
@@ -33,10 +34,12 @@ public class Main extends Application {
 		            controller.stopPlayer();
 		        });
 		        
+			 
 			primaryStage.setScene(scene);
 			primaryStage.show();
+			
 		} catch(Exception e) {
-			// e.printStackTrace();
+			 e.printStackTrace();
 		}
 	}
 	
