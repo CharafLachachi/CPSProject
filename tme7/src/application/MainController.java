@@ -138,6 +138,7 @@ public class MainController {
 			GridPane.setColumnIndex(iv, row);
 			GridPane.setRowIndex(iv, col);
 			mapGrid.getChildren().addAll(iv);
+			
 
 		}
 		if (maCase == Cell.IN) {

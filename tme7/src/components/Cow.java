@@ -1,6 +1,6 @@
 package components;
 
-import java.util.Optional;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 import services.Cell;
@@ -20,13 +20,14 @@ public class Cow extends Entity implements CowService {
 			setEnv(env);
 			while (env.getCellNature(x, y).equals(Cell.WLL) || env.getCellNature(x, y).equals(Cell.DWC)
 					|| env.getCellNature(x, y).equals(Cell.DNC)
-					|| !env.getCellContent(x, y).equals(Optional.empty())) {
+				  ) {
 				y = ThreadLocalRandom.current().nextInt(1, env.getHeight() - 1);
 				x = ThreadLocalRandom.current().nextInt(1, env.getWidth() - 1);
 
 			}
-			setCol(y);
+			
 			setRow(x);
+			setCol(y);
 			setFace(d);
 			setHp(h);
 
