@@ -9,7 +9,6 @@ public interface EnvironnementService extends /*include*/ EditMapService{
 	 
 	public Optional<MobService> getCellContent(int x, int y);
 	public Optional<RessourcesService> getCellRessources(int x, int y);
-	//public Content getCellContent(int x, int y);
 	public MobService getMob(int x, int y);
 	public RessourcesService getRessource(int x, int y);
 	public List<MobService> getMobs();

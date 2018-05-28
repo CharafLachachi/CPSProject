@@ -33,6 +33,7 @@ public class CowThread extends Task {
 	{
 		cow.init(labyrinthe.getEnv(), 3, 3, Dir.N, 4);
 		labyrinthe.addEntity(cow);
+		cowImg.play();
 
 	}
 	

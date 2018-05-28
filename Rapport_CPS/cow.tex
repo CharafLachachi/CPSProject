@@ -1,0 +1,34 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+
+\usepackage[margin=0.5in]{geometry}
+
+
+\begin{document}
+
+\begin{tabular}{rl}
+\textbf{Service}: & \quad Cow \textbf{include} Entity\\
+
+\textbf{Constructors:}  & 
+init: Environment $\times$ int $\times$ int $\times$ Dir $\times$ int $\rightarrow$ [Entity] \\
+& 
+\quad pre init(E,x,y,D,h) requires 4 $\geq$ h $\geq$ 3\\
+\textbf{Opertators:}  & 
+Chase: [Cow] $\rightarrow$ [Cow]\\
+\textbf{Observations:} \\
+
+[\textbf{step:}] &
+Col(M) - 1 $\leq$ Col(step(M)) $\leq$ Col(M) + 1 \\
+&
+Row(M) - 1 $\leq$ Row(step(M)) $\leq$ Row(M) + 1
+
+\end{tabular}
+
+\end{document}

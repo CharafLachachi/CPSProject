@@ -1,0 +1,41 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\usepackage[margin=0.5in]{geometry}
+
+\begin{document}
+\begin{tabular}{rl}
+\textbf{Service}: & Ressources\\
+\textbf{Observators} : & 
+Col : [Ressources] $\rightarrow$ int\\
+&
+Row : [Ressources] $\rightarrow$ int\\
+&
+Row : [Ressources] $\rightarrow$ Environement\\
+\textbf{Constructors}:& init : Environement $\rightarrow$ [Ressources] \\
+& \quad \textbf{pre} init(e) \textbf{requires}  0<Col(S)<EnvironnementService::Width(K,getEnv(K))\\
+&
+0<Row(S)<EnvironnementService::Height(K,getEnv(K))\\
+
+\textbf{Observations}\\
+\textbf{Invariants:} & Environnement::CellNature(getEnv(K),Col(S), Row(K)) in {EMP}\\
+&
+Environemment::CellNature(Envi(S),u,v) in {IN}\\ &
+\quad \textbf{implies} Environnement::isReachable(Envi(S),u,v, Col(S), Row(S))\\
+
+[init]: & Envi(init(e)) = e\\
+& Environnement::CellNature(Envi(S), Col(s), Row(S) in $\{EMP,DNC,DWC\}$
+\end{tabular}
+
+\vspace{5mm}\hrule\vspace{5mm}
+\begin{tabular}{rl}
+\textbf{Service:} & \quad Key refine Ressources
+\end{tabular}
+
+\end{document}

@@ -1,0 +1,169 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+\usepackage[margin=0.7in]{geometry}
+
+
+
+\begin{document}
+
+\begin{tabular}{rl}
+
+\textbf{Service:}& \quad Player \textbf{include} Entity\\
+\textbf{Observators:} &
+\quad LastCom: [Player] $\rightarrow$ Option[Command]\\
+& \quad Content: [Player] $\times$ int $\times$ int $\rightarrow$ Option[Mob]\\
+& 
+\textbf{pre} Content(P,x,y) \textbf{requires} x $\in$ $\{-1,0,1\}$ and y $\in \{-1,+3\}$\\
+& \quad Nature: [Player] $\times$ int $\times$ int $\rightarrow$ Cell\\
+& \textbf{pre} Nature(P,x,y) \textbf{requires} x $\in$ $\{-1,0,1\}$ and y $\in \{-1,+3\}$\\
+& \quad Viewable: [Player] $\times$ int $\times$ int $\rightarrow$ Cell\\
+
+& \textbf{pre} Nature(P,x,y) \textbf{requires} x $\in$ $\{-1,0,1\}$ and y $\in \{-1,+3\}$\\
+& \quad Ressource : [Player] $\rightarrow$ Ressource\\
+& \quad Key: [Player] $\rightarrow$ boolean\\
+& \quad Win: [Player] $\rightarrow$ boolean\\
+& \textbf{pre} Win(P) \textbf{requires}  Ressource(P) = TREASOR\\
+& \quad Dead: [Player] $\rightarrow$ boolean\\
+& \textbf{pre} Dead(P) \textbf{requires} Hp(P) $\leq$ 0\\
+
+\textbf{Operators:}
+\end{tabular}
+
+\begin{tabular}{rl}
+& \quad openDoor:[Player] $\rightarrow$ [Player]\\
+& 
+\quad\quad \textbf{pre} OpenDoor(P) \textbf{require} Key(P) = true \textbf{and}\\
+& 
+\quad\quad\quad 
+Face(P) = N  \textbf{implies}  Environement::CellNature(Envi(P), Col(p), Row(p) - 1) $\in$ $\{ DWC\}$ \\
+& \quad\quad \textbf{and}  Environement::CellContent(Envi(P), Col(p), Row(p) - 1) = NO\\
+[0.2cm]
+& 
+\quad\quad\quad Face(P) = E \textbf{implies} Environement::CellNature(Envi(P), Col(p) + 1, Row(p)) $\in$ $\{ DNC\}$ \\
+& \quad\quad  \textbf{and}  Environement::CellContent(Envi(P), Col(p) + 1, Row(p)) = NO\\
+[0.2cm]
+& \quad\quad\quad Face(P) = S \textbf{implies} Environement::CellNature(Envi(P), Col(p), Row(p) + 1) $\in$ $\{ DWC\}$\\
+&
+\quad\quad \textbf{and}  Environement::CellContent(Envi(P), Col(p), Row(p) + 1) = NO\\
+[0.2cm]
+& 
+\quad\quad\quad Face(P) = W \textbf{implies} Environement::CellNature(Envi(P), Col(p) - 1, Row(p)) $\in$ $\{ DNC\}$ \\
+&
+\quad\quad \textbf{and}  Environement::CellContent(Envi(P), Col(p) - 1, Row(p)) = NO\\
+[0.5cm]
+& \quad CloseDoor:[Player] $\rightarrow$ [Player]\\
+&
+\quad\quad \textbf{pre} CloseDoor(P) \textbf{require} \\
+[0.2cm]
+&
+\quad\quad Face(P) = N \textbf{implies} Environement::CellNature(Envi(P), Col(p), Row(p) - 1) $\in$ $\{ DWO\}$ \\
+&
+\textbf{and}  Environement::CellContent(Envi(P), Col(p), Row(p) - 1) = NO\\
+[0.2cm]
+&
+\quad\quad\quad Face(P) = E \textbf{implies} Environement::CellNature(Envi(P), Col(p) + 1, Row(p)) $\in$ $\{ DNO\}$ \\
+&
+\quad\quad \textbf{and}  Environement::CellContent(Envi(P), Col(p) + 1, Row(p)) = NO\\
+[0.2cm]
+&
+\quad\quad\quad Face(P) = S \textbf{implies} Environement::CellNature(Envi(P), Col(p), Row(p) + 1) $\in$ $\{ DWC\}$ 
+\\&
+\quad\quad \textbf{and}  Environement::CellContent(Envi(P), Col(p), Row(p) + 1) = NO\\
+[0.2cm]
+&
+\quad\quad\quad Face(P) = W \textbf{implies} Environement::CellNature(Envi(P), Col(p) - 1, Row(p)) $\in$ $\{DNC\}$ \\
+&
+\quad\quad\textbf{and}  Environement::CellContent(Envi(P), Col(p) - 1, Row(p)) = NO
+
+\end{tabular}\\
+[0.5cm]
+\begin{tabular}{rl}
+\textbf{Observations:} \\ 
+
+[\textbf{Invariants}]: & Face(P) = N \\
+& \quad \textbf{implies} Content(P,u,v) = Environment:CellContent(Envi(P),Col(P)+u,Row(P)+v)\\
+&
+Face(P) = N \\
+& \quad \textbf{implies} Nature(P,u,v) = Environment:CellNature(Envi(P),Col(P)+u,Row(P)+v)\\
+& 
+Face(P) = S \\
+ & \quad \textbf{implies} Content(P,u,v) = Environment:CellContent(Envi(P),Col(P)-u,Row(P)-v)\\
+ &
+Face(P) = S \\ 
+& \quad \textbf{implies} Nature(P,u,v) = Environment:CellNature(Envi(P),Col(P)-u,Row(P)-v)\\
+&
+Face(P) = E\\ 
+& \quad \textbf{implies} Content(P,u,v) = Environment:CellContent(Envi(P),Col(P)+v,Row(P)-u)\\
+&
+Face(P) = E \\
+& \quad \textbf{implies} Nature(P,u,v) = Environment:CellNature(Envi(P),Col(P)+v,Row(P)-u)\\
+&
+Face(P) = W \\
+& \quad \textbf{implies} Content(P,u,v) = Environment:CellContent(Envi(P),Col(P)-v,Row(P)+u)\\
+& 
+Face(P) = W \\
+& \quad \textbf{implies} Nature(P,u,v) = Environment:CellNature(Envi(P),Col(P)-v,Row(P)+u)\\
+&
+forall u,v  in [-1,1] $\times$ [-1,1], not Viewable(P,u,v)\\
+& Viewable(P,-1,2)= Nature(P,-1,1) $\not\in$ $\{WALL,DWC,DNC\}$\\
+& Viewable(P,0,2)= Nature(P,0,1) $\not\in \{WALL, DWC, DNC \}$\\
+& Viewable(P,1,2)= Nature(P,1,1) $\not\in \{WALL, DWC, DNC \}$\\
+& Viewable(P,-1,3)= Nature(P,-1,2) $\not\in \{WALL, DWC, DNC \}$ and Viewable(P,-1,2)\\
+& Viewable(P,0,3)= Nature(P,0,2) $\not\in \{WALL, DWC, DNC \}$ and Viewable(P,0,2)\\
+& Viewable(P,1,3)= Nature(P,1,2) $\not\in\{WALL, DWC, DNC \}$ and Viewable(P,1,2)
+\end{tabular}\\
+[0.5cm]
+\begin{tabular}{rl} 
+[\textbf{openDoor}]: & Key(OpenDoor(P)) = true\\
+&
+Face(P) = N \textbf{implies} Environement::CellNature(Envi(P), Col(p), Row(p) - 1) $\in$ $\{ DWO\}$ \\
+&
+Face(P) = E \textbf{implies} Environement::CellNature(Envi(P), Col(p) + 1, Row(p)) $\in$ $\{ DNO\}$ \\
+&
+Face(P) = S \textbf{implies} Environement::CellNature(Envi(P), Col(p), Row(p) + 1) $\in$ $\{ DWO\}$ \\
+&
+
+Face(P) = W \textbf{implies} Environement::CellNature(Envi(P), Col(p) - 1, Row(p)) $\in$ $\{ DNO\}$
+\end{tabular}\\
+[0.5cm]
+\begin{tabular}{rl}
+[\textbf{ClooseDoor}]: & Key(OpenDoor(P)) = Key(p) \\
+&
+Face(P) = N \textbf{implies} Environement::CellNature(Envi(P), Col(p), Row(p) - 1) $\in$ $\{ DWC\}$ \\
+&
+Face(P) = E \textbf{implies} Environement::CellNature(Envi(P), Col(p) + 1, Row(p)) $\in$ $\{ DNC\}$ \\
+&
+Face(P) = S \textbf{implies} Environement::CellNature(Envi(P), Col(p), Row(p) + 1) $\in$ $\{ DWC\}$ \\
+&
+Face(P) = W \textbf{implies} Environement::CellNature(Envi(P), Col(p) - 1, Row(p)) $\in$ $\{ DNC\}$
+\end{tabular}\\
+[0.5cm]
+\begin{tabular}{rl}
+[\textbf{step}]: &
+\quad LastCom(P)=FF \textbf{implies} step(P) = Forward(P) \\
+& 
+\quad LastCom(P)=BB \textbf{implies} step(P) = Backward(P)\\
+&
+\quad LastCom(P)=LL \textbf{implies} step(P) = StrafeLeft(P)\\
+&
+\quad LastCom(P)=RR \textbf{implies} step(P) = StrafeRight(P)\\
+&
+\quad LastCom(P)=TL \textbf{implies} step(P) = TurnLeft(P)\\
+&
+\quad LastCom(P)=TR \textbf{implies} step(P) = TurnRight(P)\\
+&
+\quad LastCom(P)=C \textbf{implies} step(P) = Attack(P) \\
+&
+\quad LastCom(P)=CLOSE \textbf{implies} step(P) = ColseDoor(P)\\
+&
+\quad LastCom(P)=OPEN \textbf{implies} step(P) = OpenDoor(P)
+\end{tabular}
+
+\end{document}

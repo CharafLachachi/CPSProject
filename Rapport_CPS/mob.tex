@@ -1,0 +1,295 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+
+
+
+
+\begin{document}
+
+\vspace*{0.5cm}
+\begin{huge}
+\textbf{Service:}	Mob
+\end{huge}\\
+
+
+\begin{large}
+\textbf{Types:	bool, int, Cell} 
+\end{large}\\
+
+\begin{large}
+\textbf{Observators:} 
+\end{large}
+
+Env: [Mob] $\rightarrow$ Environment
+Col: [Mob] $\rightarrow$ \textbf{in}t
+Row: [Mob] $\rightarrow$ \textbf{in}t
+Face: [Mob] $\rightarrow$ Dir\\
+
+\begin{large}
+\textbf{Constructors:} 
+\end{large}
+
+init: Environment $\times$ \textbf{in}t $\times$ \textbf{in}t $\times$ Dir $\rightarrow$ [Mob]
+\textbf{pre} \textbf{in}it(E,x,y,D) \textbf{require}s 0 $\leq$ x < Environment::Width(E)
+\textbf{and} 0 $\leq$ y < Environment::Height(E)\\
+
+\begin{large}
+\textbf{Operators:} 
+\end{large}
+
+Forward: [Mob] $\rightarrow$ [Mob]
+
+Backward: [Mob] $\rightarrow$ [Mob]
+
+TurnL: [Mob] $\rightarrow$ [Mob]
+
+TurnR: [Mob] $\rightarrow$ [Mob]
+
+StrafeL: [Mob] $\rightarrow$ [Mob]
+
+StrafeR: [Mob] $\rightarrow$ [Mob]
+
+Attack: [Mob] $\rightarrow$ [Mob]
+
+
+
+\begin{large}
+\textbf{[invariant] :} 
+\end{large}
+
+0 $\leq$ Col(M) < Environment::Width(Envi(M))
+0 $\leq$ Row(M) < Environment::Height(Envi(M))
+Environment::CellNature(Envi(M),Col(M),Row(M)) $\not\textbf{in}$
+$\{WLL, DNC, DWC\}$\\
+
+[\textbf{init}] :
+
+Col(init(E,x,y,D)) = x
+Row(init(E,x,y,D)) = y
+Face(init(E,x,y,D)) = D
+Envi(init(E,x,y,D)) = E\\
+
+[Forward]:
+
+Face(M)=S \textbf{implies} Environment::CellNature(Envi(M),Col(M),Row(M)+1) $\in$ $\{EMP, DWO\}$
+
+\textbf{and} Row(M)+1 < Environment::Width(Envi(M))
+
+\textbf{and} Environment::CellContent(Envi(M),Col(M),Row(M)+1) = No
+
+\textbf{implies} Row(Forward(M)) = Row(M) + 1
+
+\textbf{and} Col(Forward(M)) = Col(M) 
+
+Face(M)=S \textbf{implies}
+Environment::CellNature(Envi(M),Col(M),Row(M)+1) $\in$  $\{EMP, DWO\}$
+or Row(M)+1 $\geq$ Environment::Width(Envi(M)) or Environment::CellContent(Envi(M),Col(M),Row(M)+1) $\neq$ No \textbf{implies} Row(Forward(M)) = Row(M) \textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=E \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DNO\}$
+
+\textbf{and} Col(M)+1 < Environment::Height(Envi(M))
+
+\textbf{and} Environment::CellContent(Envi(M),Col(M)+1,Row(M)) = No
+
+\textbf{implies} Row(Forward(M)) = Row(M) \textbf{and} Col(Forward(M)) = Col(M) + 1
+
+Face(M)=E \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DWO\}$
+or Row(M) $\geq$ Environment::Width(Envi(M))
+or Environment::CellContent(Envi(M),Col(M)+1,Row(M)) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=N \textbf{implies} Environment::CellNature(Envi(M),Col(M),Row(M)-1) $\in$ $\{EMP, DWO\}$
+\textbf{and} Col(M)-1 $\geq$ 0
+\textbf{and} Environment::CellContent(Envi(M),Col(M),Row(M)+1) = No
+\textbf{implies} Row(Forward(M)) = Row(M) - 1
+\textbf{and} Col(Forward(M)) = Col(M)
+
+
+Face(M)=N \textbf{implies}
+Environment::CellNature(Envi(M),Col(M),Row(M)-1) $\in$
+$\{EMP, DWO\}$ or Col(M)-1 < 0 or Environment::CellContent(Envi(M),Col(M),Row(M)-1) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=W \textbf{implies} Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$ $\{EMP, DNO\}$
+\textbf{and} Row(M)-1 $\geq$ 0
+\textbf{and} Environment::CellContent(Envi(M),Col(M)-1,Row(M)) = No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M) - 1
+
+Face(M)=W \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$
+$\{EMP, DNO\}$
+or Row(M)-1 < 0
+or Environment::CellContent(Envi(M),Col(M),Row(M)-1) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)\\
+
+
+
+
+
+
+
+
+
+
+[Backward]:
+
+Face(M)=N \textbf{implies} Environment::CellNature(Envi(M),Col(M),Row(M)+1) $\in$ $\{EMP, DWO\}$
+
+\textbf{and} Row(M)+1 < Environment::Width(Envi(M))
+
+\textbf{and} Environment::CellContent(Envi(M),Col(M),Row(M)+1) = No
+
+\textbf{implies} Row(Forward(M)) = Row(M) + 1
+
+\textbf{and} Col(Forward(M)) = Col(M) 
+
+Face(M)=N \textbf{implies}
+Environment::CellNature(Envi(M),Col(M),Row(M)+1) $\in$  $\{EMP, DWO\}$
+or Row(M)+1 $\geq$ Environment::Width(Envi(M)) or Environment::CellContent(Envi(M),Col(M),Row(M)+1) $\neq$ No \textbf{implies} Row(Forward(M)) = Row(M) \textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=W \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DNO\}$
+
+\textbf{and} Col(M)+1 < Environment::Height(Envi(M))
+
+\textbf{and} Environment::CellContent(Envi(M),Col(M)+1,Row(M)) = No
+
+\textbf{implies} Row(Forward(M)) = Row(M) \textbf{and} Col(Forward(M)) = Col(M) + 1
+
+Face(M)=W \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DWO\}$
+or Row(M) $\geq$ Environment::Width(Envi(M))
+or Environment::CellContent(Envi(M),Col(M)+1,Row(M)) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=S \textbf{implies} Environment::CellNature(Envi(M),Col(M),Row(M)-1) $\in$ $\{EMP, DWO\}$
+\textbf{and} Col(M)-1 $\geq$ 0
+\textbf{and} Environment::CellContent(Envi(M),Col(M),Row(M)+1) = No
+\textbf{implies} Row(Forward(M)) = Row(M) - 1
+\textbf{and} Col(Forward(M)) = Col(M)
+
+
+Face(M)=S \textbf{implies}
+Environment::CellNature(Envi(M),Col(M),Row(M)-1) $\in$
+$\{EMP, DWO\}$ or Col(M)-1 < 0 or Environment::CellContent(Envi(M),Col(M),Row(M)-1) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=E \textbf{implies} Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$ $\{EMP, DNO\}$
+\textbf{and} Row(M)-1 $\geq$ 0
+\textbf{and} Environment::CellContent(Envi(M),Col(M)-1,Row(M)) = No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M) - 1
+
+Face(M)=E \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$
+$\{EMP, DNO\}$
+or Row(M)-1 < 0
+or Environment::CellContent(Envi(M),Col(M),Row(M)-1) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)\\
+
+
+
+
+[StrafeR]:
+
+Face(M)=N \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DNO\}$
+
+\textbf{and} Col(M)+1 < Environment::Height(Envi(M))
+
+\textbf{and} Environment::CellContent(Envi(M),Col(M)+1,Row(M)) = No
+
+\textbf{implies} Row(Forward(M)) = Row(M) \textbf{and} Col(Forward(M)) = Col(M) + 1
+
+Face(M)=N \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DWO\}$
+or Row(M) $\geq$ Environment::Width(Envi(M))
+or Environment::CellContent(Envi(M),Col(M)+1,Row(M)) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=S \textbf{implies} Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$ $\{EMP, DNO\}$
+\textbf{and} Row(M)-1 $\geq$ 0
+\textbf{and} Environment::CellContent(Envi(M),Col(M)-1,Row(M)) = No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M) - 1
+
+Face(M)=S \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$
+$\{EMP, DNO\}$
+or Row(M)-1 $\geq$ 0
+or Environment::CellContent(Envi(M),Col(M),Row(M)-1) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)\\
+
+[StrafeL]:
+
+Face(M)=S \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DNO\}$
+
+\textbf{and} Col(M)+1 < Environment::Height(Envi(M))
+
+\textbf{and} Environment::CellContent(Envi(M),Col(M)+1,Row(M)) = No
+
+\textbf{implies} Row(Forward(M)) = Row(M) \textbf{and} Col(Forward(M)) = Col(M) + 1
+
+Face(M)=S \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)+1,Row(M)) $\in$ $\{EMP, DWO\}$
+or Row(M) $\leq$ Environment::Width(Envi(M))
+or Environment::CellContent(Envi(M),Col(M)+1,Row(M)) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)
+
+Face(M)=N \textbf{implies} Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$ $\{EMP, DNO\}$
+\textbf{and} Row(M)-1 $\geq$ 0
+\textbf{and} Environment::CellContent(Envi(M),Col(M)-1,Row(M)) = No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M) - 1
+
+Face(M)=N \textbf{implies}
+Environment::CellNature(Envi(M),Col(M)-1,Row(M)) $\in$
+$\{EMP, DNO\}$
+or Row(M)-1 $\geq$ 0
+or Environment::CellContent(Envi(M),Col(M),Row(M)-1) $\neq$ No
+\textbf{implies} Row(Forward(M)) = Row(M)
+\textbf{and} Col(Forward(M)) = Col(M)\\
+
+[TurnLeft]:
+
+Face(M)=N \textbf{implies} Face(TurnLeft(M))=W
+
+Face(M)=W \textbf{implies} Face(TurnLeft(M))=S
+
+Face(M)=S \textbf{implies} Face(TurnLeft(M))=E
+
+Face(M)=E \textbf{implies} Face(TurnLeft(M))=N\\
+
+[TurnRight]:
+
+Face(M)=S \textbf{implies} Face(TurnRight(M))=W
+
+Face(M)=E \textbf{implies} Face(TurnRight(M))=S
+
+Face(M)=N \textbf{implies} Face(TurnRight(M))=E
+
+Face(M)=W \textbf{implies} Face(TurnRight(M))=N\\
+
+
+
+\end{document}

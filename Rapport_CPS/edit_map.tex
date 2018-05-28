@@ -1,0 +1,79 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+
+
+
+
+
+\begin{document}
+
+\vspace*{0.5cm}
+\begin{huge}
+\textbf{Service:}	EditMap \textbf{refine} Map
+\end{huge}\\
+
+\begin{large}
+\textbf{Types:	bool, int, Cell} 
+\end{large}\\
+ 
+\begin{large}
+\textbf{Observators:} 
+\end{large}
+
+isReachable: $[EditMap] \times int \times int \times int \times int \rightarrow bool$
+\textbf{pre} isReachable(M,x1,y1,x2,y2) \textbf{requires} CellNature(M,x1,y1) $\neq$ WLL \textbf{and} CellNature(M,x2,y2) $\neq$ WLL
+
+isReady: [EditMap] $\rightarrow$ bool\\
+
+\begin{large}
+\textbf{Constructors:}  $\emptyset$
+\end{large}\\
+
+\begin{large}
+\textbf{Operators:}
+\end{large}
+
+SetNature: [EditMap]$\times$int$\times$int$\times$Cell $\rightarrow$ [EditMap] \textbf{pre} SetNature(M,x,y) \textbf{requires} 0$\leq$x<Width(M) \textbf{and} 0$\leq$y< Height(M)\\
+
+\begin{large}
+\textbf{Observations:}
+\end{large}
+
+[\textbf{Invariants}]:
+
+isReachable(M,x1,y1,x2,y2) = \textbf{exists} P \textbf{in} Array[int,int], P[0] = (x1,y1)
+
+\textbf{and} P[size(P)-1] = (x2,y2)
+
+\textbf{and} \textbf{forall} i \textbf{in} [1;size(P)-1], (P[i-1]=(u,v) \textbf{and} P[i]=(s,t)) \textbf{implies} (u-s$ )^2$ + (v-t$)^2$ = 1
+
+\textbf{and} \textbf{forall} i in [1;size(P)-2], P[i-1]=(u,v) \textbf{implies} CellNature(M,u,v) $\neq$ WLL
+
+isReady(M) = \textbf{exists} xi,yi,xo,yo \textbf{in} $int^4$ ,
+CellNature(M,xi,yi) = IN 
+
+\textbf{and} CellNature(M,xi,yi) = OUT
+
+\textbf{and} isReachable(M,xi,yi,xo,yo)
+
+\textbf{and} forall x,y in int 2 , x $\neq$ xi or y $\neq$ yi \textbf{implies} CellNature(M,x,y) $\neq$ IN
+
+\textbf{and} \textbf{forall} x,y in int 2 , x $\neq$ xo or y $\neq$ yo \textbf{implies} CellNature(M,x,y) $\neq$ OUT
+
+\textbf{forall} x,y in int, CellNature(M,x,y) $\in \{ DNO, DNC\}$ \textbf{implies} CellNature(M,x+1,y) = CellNature(M,x-1,y) = EMP \textbf{and} CellNature(M,x,y-1) = CellNature(M,x,y+1) = WLL
+
+\textbf{forall} x,y in int, CellNature(M,x,y) $\in \{ DWO, DWC\}$ \textbf{implies} CellNature(M,x+1,y) = CellNature(M,x-1,y) = WLL \textbf{and} CellNature(M,x,y-1) = CellNature(M,x,y+1) = EMP
+
+[\textbf{SetNature}]:
+
+CellNature(SetNature(M,x,y,Na),x,y) = Na \textbf{forall} u,v in $int^2$ , u $\neq$ x or v $\neq$ y \textbf{implies} CellNature(SetNature(M,x,y),u,v) = CellNature(M,u,v)
+
+\end{document}
+
+
