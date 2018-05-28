@@ -256,7 +256,7 @@ public class Mob implements MobService {
 				if (env.getCellContent(row - 1, col).get() instanceof EntityService) {
 					EntityService entity = (EntityService) env.getCellContent(row - 1, col).get();
 					((EntityService) entity).setHp(entity.getHp() - 1);
-					
+					System.out.println("point de vie reduit" + entity.getHp());
 				}
 				
 			}
@@ -267,7 +267,7 @@ public class Mob implements MobService {
 				if (env.getCellContent(row, col + 1).get() instanceof EntityService) {
 					EntityService entity = (EntityService) env.getCellContent(row, col + 1).get();
 					((EntityService) entity).setHp(entity.getHp() - 1);
-					
+					System.out.println("point de vie reduit" + entity.getHp());
 				}
 			}
 			break;
@@ -282,7 +282,7 @@ public class Mob implements MobService {
 			}
 			break;
 		case W:
-			if (col - 1 > 0
+			if (col - 1 >= 0
 					&& !env.getCellContent(row , col - 1).equals(Optional.empty())) {
 				if (env.getCellContent(row, col - 1).get() instanceof EntityService) {
 					EntityService entity = (EntityService) env.getCellContent(row, col - 1).get();

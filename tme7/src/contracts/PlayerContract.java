@@ -541,7 +541,7 @@ public class PlayerContract extends PlayerDecorator  {
 			break;
 		case W:
 			if (getCol() - 1 > 0) {
-				row = getRow() - 1;
+				row = getRow();
 				col = getCol() - 1;
 			}
 			break;
@@ -564,7 +564,7 @@ public class PlayerContract extends PlayerDecorator  {
 			
 			for (int i = 0; i < mobs.size(); i++)
 				if(((EntityService) mobs.get(i)).getHp() != lifes.get(i))
-					throw new PostconditionError("PlayerService", "attack", "others is attacked");
+					throw new PostconditionError("PlayerService", "attack", "others are attacked");
 		}
 	}
 	
