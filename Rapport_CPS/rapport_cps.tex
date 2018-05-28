@@ -1,0 +1,49 @@
+\documentclass[11pt]{article}
+
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{soul}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{import}
+
+
+\usepackage[margin=0.5in]{geometry}
+
+\title{Projet CPS 2018}
+\author{Naim CHOULLIT, Charaf LACHACHI}
+\date{18 avril 2014}
+
+\begin{document}
+\maketitle
+\newpage
+\setcounter{tocdepth}{3}
+\tableofcontents
+\newpage
+\section{Services}
+\subsection{Map Service}
+	\import{}{map}
+	\newpage
+\subsection{EditMap Service}
+	\import{}{edit_map}
+	\newpage
+\subsection{Environement Service}
+	\import{}{environement}
+	\newpage
+\subsection{Mob Service}
+	\import{}{mob}
+	\newpage
+\subsection{Entity Service}
+	\import{}{entity}
+\subsection{Cow Service}
+	\import{}{cow}
+	\newpage
+\subsection{Player Service}
+	\import{}{player}
+	\newpage
+\subsection{Engine Service}
+	\import{}{engine}
+	\newpage
+\subsection{Ressources Service}
+	\import{}{ressource}
+\end{document}
