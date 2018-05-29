@@ -103,7 +103,6 @@ public abstract class AbstarctEngineTest {
 				engine.addEntity(null);
 				engine.removeEntity(2);
 			} catch (PreconditionError e) {
-				System.out.println(e.getMessage());
 			
 				assertTrue(e.getMessage().equals("Precondition failed: message: entity null method addEntity service engine"));
 			}

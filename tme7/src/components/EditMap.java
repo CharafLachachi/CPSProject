@@ -39,7 +39,7 @@ public class EditMap implements EditMapService {
 			initCells();
 		}
         initDoors();
-		printCells();
+		//printCells();
 	}
 
 	@Override

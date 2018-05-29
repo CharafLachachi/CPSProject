@@ -75,7 +75,6 @@ public abstract class AbstarctCowTest {
 				env.init(15, 15);
 				cow.init(env, x, y, dir,1);
 			} catch (PreconditionError e) {
-				System.out.println(e.getMessage());
 				assertTrue(e.getMessage().equals("Precondition failed: message: ! 3 <= h <= 4 method init service CowService"));
 			}
 	}
@@ -112,28 +111,5 @@ public abstract class AbstarctCowTest {
 		assertTrue(cow.getRow() == row_atPre && cow.getCol() == col_atPre + 1);	
 	}
 	
-//	@Test
-//	public void attackTestPost1Pos(){
-//		EngineService labyrinthe = new EngineContract(new Engine());
-//		Dir dir = Dir.E;
-//		int x = 5;
-//		int y = 5;
-//		int h = 4;
-//		PlayerService player = new PlayerContract(new Player());
-//		EnvironnementService env = new EnvironnementContract(new Environement());
-//		env.init(15, 15);
-//		labyrinthe.init(env);
-//		cow.init(env, x, y, dir,h);
-//		labyrinthe.addEntity(cow);
-//		int row = cow.getRow();
-//		int col = cow.getCol()  + 1;
-//		player.init(env, row, col, Dir.W, 10);
-//		labyrinthe.addEntity(player);
-//		System.err.println(cow.getRow() +" " + cow.getCol());
-//		Optional<MobService> coww = env.getCellContent(row, col);
-//		System.out.println(coww);
-//		int hp = ((EntityService) coww.get()).getHp();
-//		cow.attack();
-//		assertTrue(((EntityService) coww.get()).getHp() != hp - 1);	
-//	}
+
 }

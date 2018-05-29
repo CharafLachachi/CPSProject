@@ -129,9 +129,7 @@ public abstract class AbstarctPlayerTest {
 		int col = player.getCol()  + 1;
 		cow.init(env, row, col, Dir.W, 4);
 		labyrinthe.addEntity(cow);
-		System.err.println(cow.getRow() +" " + cow.getCol());
 		Optional<MobService> coww = env.getCellContent(row, col);
-		System.out.println(coww);
 		int hp = ((EntityService) coww.get()).getHp();
 		player.attack();
 		assertTrue(((EntityService) coww.get()).getHp() != hp - 1);	
