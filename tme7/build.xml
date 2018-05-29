@@ -46,7 +46,22 @@
 		<jar basedir=".." jarfile="../TME7-${nom1}-${nom2}-${DSTAMP}.jar"
     includes="TME7/**/*" excludes="**/CVS"/>
 	</target>
+	<target name="runMain" depends="compile"
+	          description="run application in release mode">
+		<echo>================ Run Object Main ================</echo>
+		<java classname="application.Main"
+	          classpath="${build}">
+		</java>
+	</target>
 
+	<target name="runEdit" depends="compile"
+		          description="run application in release mode">
+		<echo>================ Run Object Main ================</echo>
+		<java classname="application.MainEditMap"
+		          classpath="${build}">
+		</java>
+	</target>
+	
 	<target name="clean"
         description="clean up" >
 		<echo>================ Removing temporary files... ================</echo>

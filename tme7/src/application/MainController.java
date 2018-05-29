@@ -2,24 +2,22 @@ package application;
 
 
 
-import java.util.concurrent.ExecutorService;
-
 import Threads.CowThread;
-
 import Threads.PlayerThread;
 import Threads.RessourcesThread;
 import components.Engine;
 import components.Environement;
 import components.Key;
-
 import components.Ressources;
 import contracts.EngineContract;
 import contracts.EnvironnementContract;
 import contracts.KeyContract;
 import contracts.RessourcesContract;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -37,7 +35,13 @@ public class MainController {
 
 	@FXML
 	private GridPane mapGrid;
-
+	@FXML
+	private TextField width;
+	@FXML
+	private TextField height;
+	@FXML
+	private Button run;
+	private int hi , wi; 
 	private double l, c, lc, w, w0, h, h0;
 
 	private EngineService labyrinthe = new EngineContract(new Engine());
@@ -108,7 +112,15 @@ public class MainController {
 		
 //		new Thread(cowThread1).start();
 	}
-
+	public void run(ActionEvent e) {
+//		if (height.getText().equals("") && width.getText().equals("") ) {
+//			hi = 10;
+//			wi = 10;
+//		}
+//		 hi = Integer.valueOf(height.getText());
+//		 wi = Integer.valueOf(width.getText());
+//		 init();
+	}
 	public void paintAllCase() {
 		l = 1;
 		c = 1;

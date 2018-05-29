@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -25,13 +26,17 @@ public class Main extends Application {
 
 				@Override
 				public void handle(KeyEvent event) {
+					//if (event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.DOWN) || event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.RIGHT)) {
 					controller.movePlayer(event);
+					//}
 				}
 				
 			});
 			
 			 scene.setOnKeyReleased(event -> {
+					//if (event.getCode().equals(KeyCode.UP) || event.getCode().equals(KeyCode.DOWN) || event.getCode().equals(KeyCode.LEFT) || event.getCode().equals(KeyCode.RIGHT)) {
 		            controller.stopPlayer();
+					//}
 		        });
 		        
 			 

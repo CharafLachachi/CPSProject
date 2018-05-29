@@ -90,8 +90,8 @@ public class EditMap implements EditMapService {
 			return false;
 		if (tr.isReachable(xIn, yIn, xOut, yOut) == false)
 			return false;
-		for (int i = 0; i < this.getWidth(); i++) {
-			for (int j = 0; j < this.getHeight(); j++) {
+		for (int i = 0; i < this.getHeight(); i++) {
+			for (int j = 0; j < this.getWidth(); j++) {
 				if (cells[i][j] == Cell.DNC || cells[i][j] == Cell.DNO) {
 					if (!(getCellNature(i + 1, j) == Cell.EMP && getCellNature(i - 1, j) == Cell.EMP))
 						return false;
@@ -135,7 +135,7 @@ public class EditMap implements EditMapService {
 			}
 		}
 		cells[0][0] = Cell.IN;
-		cells[this.getWidth() - 1][this.getHeight() - 1] = Cell.OUT;
+		cells[this.getHeight() - 1][this.getWidth() - 1] = Cell.OUT;
 	}
 
 	public void initDoors() {
