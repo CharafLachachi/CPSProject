@@ -6,8 +6,12 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ TestPlayer.class, 
-        TestEditMap.class 
+        TestEditMap.class,
+        TestCow.class,
+        TestEngine.class,
+        TestRessources.class
         })
 public class RunTests  {
-
+ public RunTests() {
+}
 }

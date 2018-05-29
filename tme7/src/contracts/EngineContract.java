@@ -35,7 +35,7 @@ public class EngineContract extends EngineDecorator implements EngineService {
 	@Override
 	public void init(EnvironnementService env) {
 		// preCond
-		if (!(!env.equals(null)))
+		if (env == null)
 			throw new PreconditionError("engine", "init", "Environement is null");
 		// checkInvariant();
 		// traitement
@@ -73,7 +73,7 @@ public class EngineContract extends EngineDecorator implements EngineService {
 	public void addEntity(EntityService e) {
 
 		// preCond
-		if (!(!e.equals(null)))
+		if (e == null)
 			throw new PreconditionError("engine", "addEntity", "entity null");
 		checkInvariant();
 		// capture

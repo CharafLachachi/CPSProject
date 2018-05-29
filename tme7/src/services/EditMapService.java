@@ -25,7 +25,7 @@ public interface EditMapService extends /*refine*/ MapService{
 	// inv isReachable(x1,y1,x2,y2) = exists P in Array[int,int], P[0] = (x1,y1) and P[size(P)-1] = (x2,y2)
 	//		and forall i in [1;size(P)-1], (P[i-1]=(u,v) and P[i]=(s,t)) implies (u-s)² + (v-t)² = 1
 	//		and forall i in [1;size(P)-2], P[i-1]=(u,v) implies getCellNature(u,v) != WLL
-	// inv		isReady(M) = exists xi,yi,xo,yo in int�,
+	// inv		isReady(M) = exists xi,yi,xo,yo in int,
 	//		getCellNature(xi,yi) = IN and getCellNature(xi,yi) = OUT
 	//		and isReachable(M,xi,yi,xo,yo)
 	//		and forall x,y in int², x != xi or y != yi implies getCellNature(x,y) != IN
