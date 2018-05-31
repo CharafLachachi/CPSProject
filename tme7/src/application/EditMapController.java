@@ -1,5 +1,11 @@
 package application;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +21,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import services.Cell;
 
 public class EditMapController {
@@ -26,6 +33,10 @@ public class EditMapController {
 
 	@FXML
 	private Button generateButton;
+	
+	@FXML
+	private Button saveBtn;
+
 
 	@FXML
 	private GridPane mapGrid;
@@ -207,5 +218,28 @@ public class EditMapController {
 		GridPane.setRowIndex(iv1, h - 1);
 		mapGrid.getChildren().addAll(iv1);
 	}
+	
+	public void save(ActionEvent ev)
+	{
+		try {
+			 FileChooser fileChooser = new FileChooser();
+			 
+             //Set extension filter
+             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.dat)", "*.dat");
+             fileChooser.getExtensionFilters().add(extFilter);
+             File file = fileChooser.showSaveDialog(saveBtn.getScene().getWindow());
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+			oos.writeObject(cells);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 
 }

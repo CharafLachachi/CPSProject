@@ -63,6 +63,9 @@
 							text="DWC" GridPane.rowIndex="7" />
 						<RadioButton fx:id="dwoRadio" mnemonicParsing="false"
 							text="DWO" GridPane.rowIndex="6" />
+						<Button fx:id="saveBtn" mnemonicParsing="false"
+							onAction="#save" prefHeight="31.0" prefWidth="123.0"
+							text="SAVE" GridPane.rowIndex="8" />
 					</children>
 				</GridPane>
 			</children>
